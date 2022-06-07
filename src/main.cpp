@@ -19,11 +19,16 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName(QStringLiteral("HeadsetKontrol"));
 
     KAboutData aboutData(QStringLiteral("headsetkontrol"),
-                         i18nc("@title", "HeadsetKontrol"),
+                         QStringLiteral("HeadsetKontrol"),
                          QStringLiteral(HEADSETKONTROL_VERSION_STRING),
                          i18n("Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework"),
                          KAboutLicense::GPL_V3,
-                         i18n("(c) 2022"));
+                         QStringLiteral("Trần Nam Tuấn (c) 2022"),
+                         QString(),
+                         QStringLiteral("https://github.com/tuantran1632001/HeadsetKontrol"),
+                         QStringLiteral("https://github.com/tuantran1632001/HeadsetKontrol/issues"));
+    aboutData.addAuthor(i18n("Trần Nam Tuấn"), i18n("Developer\nMaintainer"), QStringLiteral("tuantran1632001@gmail.com"), QStringLiteral("https://github.com/tuantran1632001"));
+
     KAboutData::setApplicationData(aboutData);
 
     QQmlApplicationEngine engine;
