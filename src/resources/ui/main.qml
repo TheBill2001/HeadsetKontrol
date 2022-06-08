@@ -3,7 +3,8 @@ import QtQuick.Controls 2.15 as Controls
 import QtQuick.Layouts 1.2
 import org.kde.kirigami 2.19 as Kirigami
 
-// Base element, provides basic features needed for all kirigami applications
+import headsetkontrol 1.0
+
 Kirigami.ApplicationWindow {
     id: root
 

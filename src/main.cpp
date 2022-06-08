@@ -7,7 +7,8 @@
 #include <KLocalizedString>
 #include <KAboutData>
 
-#include "config-headsetkontrol.h"
+#include "headsetkontrolversion.h"
+#include "headsetkontrolconfig.h"
 #include "about.h"
 
 int main(int argc, char *argv[])
@@ -32,6 +33,10 @@ int main(int argc, char *argv[])
     KAboutData::setApplicationData(aboutData);
 
     QQmlApplicationEngine engine;
+
+    // Register qml type
+    auto config = HeadsetKontrolConfig::self();
+    qmlRegisterSingletonInstance("headsetkontrol", 1, 0, "Config", config);
 
     qmlRegisterSingletonType<AboutType>("headsetkontrol", 1, 0, "AboutType", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
         Q_UNUSED(engine)

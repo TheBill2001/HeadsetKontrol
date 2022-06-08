@@ -5,6 +5,8 @@ add_executable(${PROJECT_NAME}
     resources.qrc
 )
 
+kconfig_add_kcfg_files(${PROJECT_NAME} GENERATE_MOC headsetkontrolconfig.kcfgc)
+
 target_link_libraries(${PROJECT_NAME}
     # Qt stuffs
     Qt5::Quick
@@ -17,4 +19,6 @@ target_link_libraries(${PROJECT_NAME}
     KF5::Kirigami2
     KF5::I18n
     KF5::CoreAddons
+    KF5::ConfigCore
+    KF5::ConfigGui
 )

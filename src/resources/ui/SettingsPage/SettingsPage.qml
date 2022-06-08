@@ -1,4 +1,7 @@
+import QtQuick 2.15
 import org.kde.kirigami 2.19 as Kirigami
+
+import headsetkontrol 1.0
 
 Kirigami.CategorizedSettings {
     id: settingPage
@@ -19,4 +22,6 @@ Kirigami.CategorizedSettings {
             page: Qt.resolvedUrl("AboutSettingsPage.qml")
         }
     ]
+
+    Component.onDestruction: Config.save()
 }
