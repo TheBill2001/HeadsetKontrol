@@ -7,9 +7,9 @@
 #include <KLocalizedString>
 #include <KAboutData>
 
-#include "headsetkontrolversion.h"
-#include "headsetkontrolconfig.h"
 #include "about.h"
+#include "headsetkontrolconfig.h"
+#include "headsetkontrolversion.h"
 
 int main(int argc, char *argv[])
 {

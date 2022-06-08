@@ -5,5 +5,6 @@
         <file>resources/ui/SettingsPage/SettingsPage.qml</file>
         <file>resources/ui/SettingsPage/NotificationSettingsPage.qml</file>
         <file>resources/ui/SettingsPage/AboutSettingsPage.qml</file>
+        <file>resources/ui/HeadsetKontrol/GroupBox.qml</file>
     </qresource>
 </RCC>

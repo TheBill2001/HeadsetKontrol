@@ -32,19 +32,27 @@ Kirigami.ScrollablePage {
             }
         }
 
-        Controls.SpinBox {
-            id: updateRateSpinBox
-
+        RowLayout {
             Kirigami.FormData.label: i18n("Update rate (seconds)") + ":"
 
-            from: 0
-            to: 3600
-            value: Config.updateRate / 1000
+            Controls.SpinBox {
+                id: updateRateSpinBox
 
-            onValueModified: {
-                Config.updateRate = updateRateSpinBox.value * 1000
+                from: 0
+                to: 3600
+                value: Config.updateRate / 1000
+
+                onValueModified: {
+                    Config.updateRate = updateRateSpinBox.value * 1000
+                }
+            }
+
+            Controls.Label {
+                text: i18n("From 0 to 3600, 0 means disable")
+                font.italic: true
             }
         }
+
     }
 
     FileDialog {
