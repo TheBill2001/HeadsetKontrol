@@ -13,4 +13,21 @@
       <default>60000</default>
     </entry>
   </group>
+  <group name="HeadsetSetting">
+    <entry name="RotateToMute" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="VoicePrompt" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="Led" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="Sidetone" type="UInt">
+      <default>0</default>
+    </entry>
+    <entry name="InactiveTime" type="UInt">
+      <default>10</default>
+    </entry>
+  </group>
 </kcfg>

@@ -17,7 +17,7 @@ Rectangle {
     Kirigami.Theme.inherit: false
 
     color: Kirigami.Theme.alternateBackgroundColor
-    border.color: Kirigami.ColorUtils.linearInterpolation(Kirigami.Theme.backgroundColor, Kirigami.Theme.textColor, 0.07)
+    border.color: Kirigami.ColorUtils.linearInterpolation(Kirigami.Theme.backgroundColor, Kirigami.Theme.textColor, 0.15)
     radius: 5
 
     ColumnLayout {
@@ -41,29 +41,3 @@ Rectangle {
         }
     }
 }
-
-
-//Controls.GroupBox {
-    //id: control
-
-    //Kirigami.Theme.colorSet: Kirigami.Theme.View
-    //Kirigami.Theme.inherit: false
-
-    //background: Rectangle {
-        //y: control.topPadding - control.bottomPadding
-        //width: parent.width
-        //height: parent.height - control.topPadding + control.bottomPadding
-
-        //color: Kirigami.Theme.alternateBackgroundColor
-
-        //radius: 5
-    //}
-
-    //label: Kirigami.Heading {
-        //text: control.title
-        //x: control.leftPadding
-        //width: control.availableWidth
-
-        //level: 2
-    //}
-//}
