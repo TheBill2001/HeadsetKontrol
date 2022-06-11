@@ -3,6 +3,10 @@ add_executable(${PROJECT_NAME}
     about.h
     about.cpp
     resources.qrc
+    headsetcontrol.h
+    headsetcontrol.cpp
+    processqueue.h
+    processqueue.cpp
 )
 
 kconfig_add_kcfg_files(${PROJECT_NAME} GENERATE_MOC headsetkontrolconfig.kcfgc)
