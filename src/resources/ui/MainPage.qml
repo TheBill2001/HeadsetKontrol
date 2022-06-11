@@ -31,6 +31,16 @@ Kirigami.ScrollablePage {
         leftPadding: 5
     }
 
+    Timer {
+        id: timer
+        interval: Config.updateRate
+        running: true
+        repeat: true
+        onTriggered: {
+            Instance.queryAll()
+        }
+    }
+
     ColumnLayout {
         spacing: 20
 
@@ -38,36 +48,72 @@ Kirigami.ScrollablePage {
             id: generalInfoBox
             title: i18n("General information")
 
-            Layout.fillWidth: true
-
-            contentItem: RowLayout {
+            RowLayout {
                 Kirigami.FormLayout {
-                    Layout.preferredWidth: parent.width / 2
+                    Layout.preferredWidth: (generalInfoBox.availableWidth) / 2
 
                     Controls.Label {
                         Kirigami.FormData.label: i18n("Device name") + ":"
-                        text: "A Very very very long name!"
+                        text: Instance.name !== "" ? Instance.name : i18n("Unavailable")
                     }
+
                     Controls.Label {
                         Kirigami.FormData.label: i18n("Chat-mix level") + ":"
-                        text: "Blah"
+                        text: Instance.chatMix > -1 ? Instance.chatMix : i18n("Unavailable")
                     }
-                    Controls.Label {
+
+                    RowLayout {
                         Kirigami.FormData.label: i18n("Battery") + ":"
-                        text: "Blah"
+                        Controls.ProgressBar {
+                            implicitWidth: Kirigami.Units.gridUnit * 5
+                            from: 0
+                            to: 100
+                            value: Instance.battery
+                            indeterminate: Instance.battery < 0
+                        }
+                        Controls.Label {
+                            text: {
+                                if (Instance.battery === -1)
+                                    return i18n("Charging");
+                                if (Instance.battery === -2)
+                                    return i18n("Unavailable");
+                                return Instance.battery + "%"
+                            }
+                        }
                     }
                 }
 
                 Kirigami.Separator {
-                    Layout.fillHeight:true
+                    Layout.fillHeight: true
                 }
 
                 Kirigami.FormLayout {
-                    Layout.preferredWidth: parent.width / 2
+                    Layout.preferredWidth: (generalInfoBox.availableWidth) / 2
 
                     Controls.Label {
                         Kirigami.FormData.label: i18n("Capabilities") + ":"
-                        text: "Capabilities\nCapabilities\nCapabilities\nCapabilities"
+                        text: {
+                            var capStr = "";
+                            if (Instance.hasSidetoneCapability)
+                                capStr += i18n("Sidetone") + "\n";
+                            if (Instance.hasBatteryCapability)
+                                capStr += i18n("Battery") + "\n";
+                            if (Instance.hasNotificationSoundCapability)
+                                capStr += i18n("Play notification sound") + "\n";
+                            if (Instance.hasLedCapability)
+                                capStr += i18n("Set LED mode") + "\n";
+                            if (Instance.hasInactiveTimeCapabilities)
+                                capStr += i18n("Set inactive time") + "\n";
+                            if (Instance.hasChatMixCapabilitiy)
+                                capStr += i18n("Chat-Mix") + "\n";
+                            if (Instance.hasVoicePromptCapabilitiy)
+                                capStr += i18n("Set voice prompt mode") + "\n";
+                            if (Instance.hasRotateToMuteCapabilitiy)
+                                capStr += i18n("Rotate-To-Mute") + "\n";
+                            if (Instance.hasEqualizerPresetCapability)
+                                capStr += i18n("Set equalizer preset") + "\n";
+                            return capStr.trim();
+                        }
                     }
                 }
             }
@@ -77,9 +123,7 @@ Kirigami.ScrollablePage {
             id: actionBox
             title: i18n("Actions")
 
-            Layout.fillWidth: true
-
-            contentItem: Kirigami.FormLayout {
+            contentItem: Kirigami.FormLayout { // If use a layout, remove it from contentItem
                 RowLayout {
                     Kirigami.FormData.label: i18n("Notification sound:")
                     Controls.ComboBox {
@@ -96,11 +140,9 @@ Kirigami.ScrollablePage {
             id: settingsBox
             title: i18n("Settings")
 
-            Layout.fillWidth: true
-
-            contentItem: RowLayout{
+            RowLayout{
                 Kirigami.FormLayout {
-                    Layout.preferredWidth: parent.width / 2
+                    Layout.preferredWidth: (settingsBox.availableWidth) / 2
 
                     Controls.CheckBox {
                         id: rotateToMuteCheckBox
@@ -141,7 +183,7 @@ Kirigami.ScrollablePage {
                 }
 
                 Kirigami.FormLayout {
-                    Layout.preferredWidth: parent.width / 2
+                    Layout.preferredWidth: (settingsBox.availableWidth) / 2
 
                     Controls.SpinBox {
                         id: sidetoneSpinBox
@@ -164,7 +206,7 @@ Kirigami.ScrollablePage {
                         to: 90
                         value: Config.inactiveTime
                         textFromValue: function(value, locale) {
-                            if (value == 1)
+                            if (value === 1)
                                 return Number(value).toLocaleString(locale, 'f', 0) + " " +i18n("minute");
                             return Number(value).toLocaleString(locale, 'f', 0) + " " + i18n("minutes");
                         }

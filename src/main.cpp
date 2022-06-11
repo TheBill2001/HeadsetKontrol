@@ -1,13 +1,15 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
-#include <QtQml>
+#include <QScopedPointer>
 #include <QUrl>
+#include <QtQml>
 
+#include <KAboutData>
 #include <KLocalizedContext>
 #include <KLocalizedString>
-#include <KAboutData>
 
 #include "about.h"
+#include "headsetcontrol.h"
 #include "headsetkontrolconfig.h"
 #include "headsetkontrolversion.h"
 
@@ -15,6 +17,12 @@ int main(int argc, char *argv[])
 {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
+
+#ifdef QT_DEBUG
+    qSetMessagePattern(QStringLiteral("[%{time yyyy-MM-dd h:mm:ss}] [%{type}] [%{file}:%{line}] %{message}"));
+#else
+    qSetMessagePattern(QStringLiteral("[%{time yyyy-MM-dd h:mm:ss}] [%{type}] %{message}"));
+#endif
 
     KLocalizedString::setApplicationDomain("HeadsetKontrol");
     QCoreApplication::setApplicationName(QStringLiteral("HeadsetKontrol"));
@@ -28,15 +36,21 @@ int main(int argc, char *argv[])
                          QString(),
                          QStringLiteral("https://github.com/tuantran1632001/HeadsetKontrol"),
                          QStringLiteral("https://github.com/tuantran1632001/HeadsetKontrol/issues"));
-    aboutData.addAuthor(i18n("Trần Nam Tuấn"), i18n("Developer\nMaintainer"), QStringLiteral("tuantran1632001@gmail.com"), QStringLiteral("https://github.com/tuantran1632001"));
+    aboutData.addAuthor(i18n("Trần Nam Tuấn"),
+                        i18n("Developer\nMaintainer"),
+                        QStringLiteral("tuantran1632001@gmail.com"),
+                        QStringLiteral("https://github.com/tuantran1632001"));
 
     KAboutData::setApplicationData(aboutData);
+
+    auto config = HeadsetKontrolConfig::self();
+    QScopedPointer headsetControlPointer(new HeadsetControl(config->binPath(), &app));
 
     QQmlApplicationEngine engine;
 
     // Register qml type
-    auto config = HeadsetKontrolConfig::self();
     qmlRegisterSingletonInstance("headsetkontrol", 1, 0, "Config", config);
+    qmlRegisterSingletonInstance("headsetkontrol", 1, 0, "Instance", headsetControlPointer.get());
 
     qmlRegisterSingletonType<AboutType>("headsetkontrol", 1, 0, "AboutType", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
         Q_UNUSED(engine)
@@ -53,4 +67,3 @@ int main(int argc, char *argv[])
 
     return app.exec();
 }
-
