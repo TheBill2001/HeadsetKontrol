@@ -12,6 +12,10 @@
       <label>How often should HeadsetKontrol run HeadsetControl.</label>
       <default>60000</default>
     </entry>
+    <entry name="ShowTrayIcon" type="Bool">
+      <label>Show tray icon.</label>
+      <default>true</default>
+    </entry>
   </group>
   <group name="HeadsetSetting">
     <entry name="RotateToMute" type="Bool">
