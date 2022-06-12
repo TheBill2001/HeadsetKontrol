@@ -5,7 +5,7 @@ import org.kde.kirigami 2.19 as Kirigami
 
 import headsetkontrol 1.0
 
-import "HeadsetKontrol" as HeadsetKontrol
+import "AppComponents" as AppComponents
 
 Kirigami.ScrollablePage {
     id: mainPage
@@ -41,7 +41,7 @@ Kirigami.ScrollablePage {
     ColumnLayout {
         spacing: 20
 
-        HeadsetKontrol.GroupBox {
+        AppComponents.GroupBox {
             id: generalInfoBox
             title: i18n("General information")
 
@@ -116,7 +116,7 @@ Kirigami.ScrollablePage {
             }
         }
 
-        HeadsetKontrol.GroupBox {
+        AppComponents.GroupBox {
             id: actionBox
             title: i18n("Actions")
 
@@ -133,7 +133,7 @@ Kirigami.ScrollablePage {
             }
         }
 
-        HeadsetKontrol.GroupBox {
+        AppComponents.GroupBox {
             id: settingsBox
             title: i18n("Settings")
 
