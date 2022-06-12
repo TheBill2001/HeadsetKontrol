@@ -7,6 +7,10 @@ add_executable(${PROJECT_NAME}
     headsetcontrol.cpp
     processqueue.h
     processqueue.cpp
+    trayicon.h
+    trayicon.cpp
+    appcontroller.h
+    appcontroller.cpp
 )
 
 kconfig_add_kcfg_files(${PROJECT_NAME} GENERATE_MOC headsetkontrolconfig.kcfgc)
