@@ -15,7 +15,14 @@ Kirigami.ScrollablePage {
                 id: settingsAction
                 icon.name: "settings"
                 text: i18nc("@action:button", "Settings")
-                onTriggered: root.pageStack.pushDialogLayer("qrc:/resources/ui/SettingsPage/SettingsPage.qml")
+                onTriggered: root.pageStack.pushDialogLayer(settingsPageComponent, {}, {
+                                                                "minimumWidth": Kirigami.Units.gridUnit * 30,
+                                                                "minimumHeight": Kirigami.Units.gridUnit * 20,
+                                                                "maximumWidth": Kirigami.Units.gridUnit * 50,
+                                                                "maximumHeight": Kirigami.Units.gridUnit * 40,
+                                                                "width": Kirigami.Units.gridUnit * 40,
+                                                                "height": Kirigami.Units.gridUnit * 30
+                                                            })
             },
             Kirigami.Action {
                 id: quitAction
@@ -27,18 +34,8 @@ Kirigami.ScrollablePage {
     }
 
     titleDelegate: Kirigami.Heading {
-        text: "Headset controls"
+        text: i18n("Headset controls")
         leftPadding: 5
-    }
-
-    Timer {
-        id: timer
-        interval: Config.updateRate
-        running: true
-        repeat: true
-        onTriggered: {
-            Instance.queryAll()
-        }
     }
 
     ColumnLayout {
