@@ -10,7 +10,7 @@
     </entry>
     <entry name="UpdateRate" type="UInt">
       <label>How often should HeadsetKontrol run HeadsetControl.</label>
-      <default>60000</default>
+      <default>1000</default>
     </entry>
     <entry name="ShowTrayIcon" type="Bool">
       <label>Show tray icon.</label>
