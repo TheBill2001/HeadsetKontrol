@@ -30,6 +30,18 @@ AppController::AppController(QObject *parent)
         QGuiApplication::setQuitOnLastWindowClosed(!HeadsetKontrolConfig::self()->showTrayIcon());
     });
 
+    // Init timer
+    m_timer.setParent(this);
+    m_timer.setInterval(config()->updateRate());
+    connect(&m_timer, &QTimer::timeout, headsetControl(), &HeadsetControl::queryAll);
+    connect(config(), &HeadsetKontrolConfig::UpdateRateChanged, &m_timer, [=]() {
+        m_timer.setInterval(config()->updateRate());
+        m_timer.start();
+        headsetControl()->queryAll();
+    });
+    m_timer.start();
+    headsetControl()->queryAll();
+
     qDebug() << "App controller created: " << this;
 }
 

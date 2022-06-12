@@ -4,7 +4,6 @@
 #include <QUrl>
 #include <QtQml>
 
-#include <KAboutData>
 #include <KLocalizedContext>
 #include <KLocalizedString>
 

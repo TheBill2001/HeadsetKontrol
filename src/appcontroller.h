@@ -2,6 +2,7 @@
 #define APPCONTROLLER_H
 
 #include <QObject>
+#include <QTimer>
 
 #include <KAboutData>
 
@@ -29,6 +30,7 @@ Q_SIGNALS:
 private:
     TrayIcon *m_trayIcon;
     HeadsetControl *m_headsetControl;
+    QTimer m_timer;
 };
 
 #endif // APPCONTROLLER_H
