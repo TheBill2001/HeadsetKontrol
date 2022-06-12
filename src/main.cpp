@@ -9,8 +9,7 @@
 #include <KLocalizedString>
 
 #include "about.h"
-#include "headsetcontrol.h"
-#include "headsetkontrolconfig.h"
+#include "appcontroller.h"
 #include "headsetkontrolversion.h"
 
 int main(int argc, char *argv[])
@@ -43,20 +42,15 @@ int main(int argc, char *argv[])
 
     KAboutData::setApplicationData(aboutData);
 
-    auto config = HeadsetKontrolConfig::self();
-    QScopedPointer headsetControlPointer(new HeadsetControl(config->binPath(), &app));
+    QScopedPointer appControllerPointer(new AppController(&app));
 
     QQmlApplicationEngine engine;
 
     // Register qml type
-    qmlRegisterSingletonInstance("headsetkontrol", 1, 0, "Config", config);
-    qmlRegisterSingletonInstance("headsetkontrol", 1, 0, "Instance", headsetControlPointer.get());
+    qmlRegisterUncreatableType<HeadsetControl>("headsetkontrol", 1, 0, "HeadsetControl", QStringLiteral("SINGLETON"));
+    qmlRegisterUncreatableType<HeadsetKontrolConfig>("headsetkontrol", 1, 0, "Config", QStringLiteral("Type is singleton"));
 
-    qmlRegisterSingletonType<AboutType>("headsetkontrol", 1, 0, "AboutType", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
-        Q_UNUSED(engine)
-        Q_UNUSED(scriptEngine)
-        return new AboutType();
-    });
+    qmlRegisterSingletonInstance("headsetkontrol", 1, 0, "AppController", appControllerPointer.get());
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.load(QUrl(QStringLiteral("qrc:/resources/ui/main.qml")));

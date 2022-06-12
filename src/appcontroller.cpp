@@ -5,7 +5,9 @@
 
 AppController::AppController(QObject *parent)
     : QObject{parent}
+    , m_headsetControl{new HeadsetControl(HeadsetKontrolConfig::self()->binPath(), this)}
 {
+    // Init tray icon
     if (HeadsetKontrolConfig::self()->showTrayIcon()) {
         m_trayIcon = new TrayIcon(this);
         m_trayIcon->show();
@@ -29,4 +31,19 @@ AppController::AppController(QObject *parent)
     });
 
     qDebug() << "App controller created: " << this;
+}
+
+HeadsetControl *AppController::headsetControl() const
+{
+    return m_headsetControl;
+}
+
+HeadsetKontrolConfig *AppController::config() const
+{
+    return HeadsetKontrolConfig::self();
+}
+
+KAboutData AppController::aboutData() const
+{
+    return KAboutData::applicationData();
 }

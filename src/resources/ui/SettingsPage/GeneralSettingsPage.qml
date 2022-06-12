@@ -17,7 +17,7 @@ Kirigami.ScrollablePage {
 
             Kirigami.FormData.label: i18n("HeadsetControl path") + ":"
             placeholderText: i18n("Path to HeadsetControl") + "..."
-            text: Config.binPath
+            text: AppController.config.binPath
 
             rightActions: [
                 Kirigami.Action {
@@ -28,7 +28,7 @@ Kirigami.ScrollablePage {
             ]
 
             onAccepted: {
-                Config.binPath = binPathTextField.text
+                AppController.config.binPath = binPathTextField.text
             }
         }
 
@@ -40,10 +40,10 @@ Kirigami.ScrollablePage {
 
                 from: 0
                 to: 3600
-                value: Config.updateRate / 1000
+                value: AppController.config.updateRate / 1000
 
                 onValueModified: {
-                    Config.updateRate = updateRateSpinBox.value * 1000
+                    AppController.config.updateRate = updateRateSpinBox.value * 1000
                 }
             }
 

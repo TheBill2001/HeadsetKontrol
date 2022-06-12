@@ -51,12 +51,12 @@ Kirigami.ScrollablePage {
 
                     Controls.Label {
                         Kirigami.FormData.label: i18n("Device name") + ":"
-                        text: Instance.name !== "" ? Instance.name : i18n("Unavailable")
+                        text: AppController.headsetControl.name !== "" ? AppController.headsetControl.name : i18n("Unavailable")
                     }
 
                     Controls.Label {
                         Kirigami.FormData.label: i18n("Chat-mix level") + ":"
-                        text: Instance.chatMix > -1 ? Instance.chatMix : i18n("Unavailable")
+                        text: AppController.headsetControl.chatMix > -1 ? AppController.headsetControl.chatMix : i18n("Unavailable")
                     }
 
                     RowLayout {
@@ -65,16 +65,16 @@ Kirigami.ScrollablePage {
                             implicitWidth: Kirigami.Units.gridUnit * 5
                             from: 0
                             to: 100
-                            value: Instance.battery
-                            indeterminate: Instance.battery < 0
+                            value: AppController.headsetControl.battery
+                            indeterminate: AppController.headsetControl.battery < 0
                         }
                         Controls.Label {
                             text: {
-                                if (Instance.battery === -1)
+                                if (AppController.headsetControl.battery === -1)
                                     return i18n("Charging");
-                                if (Instance.battery === -2)
+                                if (AppController.headsetControl.battery === -2)
                                     return i18n("Unavailable");
-                                return Instance.battery + "%"
+                                return AppController.headsetControl.battery + "%"
                             }
                         }
                     }
@@ -91,23 +91,23 @@ Kirigami.ScrollablePage {
                         Kirigami.FormData.label: i18n("Capabilities") + ":"
                         text: {
                             var capStr = "";
-                            if (Instance.hasSidetoneCapability)
+                            if (AppController.headsetControl.hasSidetoneCapability)
                                 capStr += i18n("Sidetone") + "\n";
-                            if (Instance.hasBatteryCapability)
+                            if (AppController.headsetControl.hasBatteryCapability)
                                 capStr += i18n("Battery") + "\n";
-                            if (Instance.hasNotificationSoundCapability)
+                            if (AppController.headsetControl.hasNotificationSoundCapability)
                                 capStr += i18n("Play notification sound") + "\n";
-                            if (Instance.hasLedCapability)
+                            if (AppController.headsetControl.hasLedCapability)
                                 capStr += i18n("Set LED mode") + "\n";
-                            if (Instance.hasInactiveTimeCapabilities)
+                            if (AppController.headsetControl.hasInactiveTimeCapabilities)
                                 capStr += i18n("Set inactive time") + "\n";
-                            if (Instance.hasChatMixCapabilitiy)
+                            if (AppController.headsetControl.hasChatMixCapabilitiy)
                                 capStr += i18n("Chat-Mix") + "\n";
-                            if (Instance.hasVoicePromptCapabilitiy)
+                            if (AppController.headsetControl.hasVoicePromptCapabilitiy)
                                 capStr += i18n("Set voice prompt mode") + "\n";
-                            if (Instance.hasRotateToMuteCapabilitiy)
+                            if (AppController.headsetControl.hasRotateToMuteCapabilitiy)
                                 capStr += i18n("Rotate-To-Mute") + "\n";
-                            if (Instance.hasEqualizerPresetCapability)
+                            if (AppController.headsetControl.hasEqualizerPresetCapability)
                                 capStr += i18n("Set equalizer preset") + "\n";
                             return capStr.trim();
                         }
@@ -144,33 +144,33 @@ Kirigami.ScrollablePage {
                     Controls.CheckBox {
                         id: rotateToMuteCheckBox
                         text: i18n("Rotate to mute")
-                        checked: Config.rotateToMute
+                        checked: AppController.config.rotateToMute
 
                         onClicked: {
-                            Config.rotateToMute = rotateToMuteCheckBox.checked;
-                            Config.save();
+                            AppController.config.rotateToMute = rotateToMuteCheckBox.checked;
+                            AppController.config.save();
                         }
                     }
 
                     Controls.CheckBox {
                         id: voicePromptCheckBox
                         text: i18n("Voice prompt")
-                        checked: Config.voicePrompt
+                        checked: AppController.config.voicePrompt
 
                         onClicked: {
-                            Config.voicePrompt = voicePromptCheckBox.checked;
-                            Config.save();
+                            AppController.config.voicePrompt = voicePromptCheckBox.checked;
+                            AppController.config.save();
                         }
                     }
 
                     Controls.CheckBox {
                         id: ledCheckBox
                         text: i18n("LED")
-                        checked: Config.led
+                        checked: AppController.config.led
 
                         onClicked: {
-                            Config.led = ledCheckBox.checked;
-                            Config.save();
+                            AppController.config.led = ledCheckBox.checked;
+                            AppController.config.save();
                         }
                     }
                 }
@@ -188,11 +188,11 @@ Kirigami.ScrollablePage {
 
                         from: 0
                         to: 128
-                        value: Config.sidetone
+                        value: AppController.config.sidetone
 
                         onValueModified: {
-                            Config.sidetone = sidetoneSpinBox.value;
-                            Config.save();
+                            AppController.config.sidetone = sidetoneSpinBox.value;
+                            AppController.config.save();
                         }
                     }
 
@@ -201,7 +201,7 @@ Kirigami.ScrollablePage {
                         Kirigami.FormData.label: i18n("Inactive time") + ":"
                         from: 0
                         to: 90
-                        value: Config.inactiveTime
+                        value: AppController.config.inactiveTime
                         textFromValue: function(value, locale) {
                             if (value === 1)
                                 return Number(value).toLocaleString(locale, 'f', 0) + " " +i18n("minute");
@@ -209,8 +209,8 @@ Kirigami.ScrollablePage {
                         }
 
                         onValueModified: {
-                            Config.inactiveTime = inactiveTimeSpinBox.value;
-                            Config.save();
+                            AppController.config.inactiveTime = inactiveTimeSpinBox.value;
+                            AppController.config.save();
                         }
                     }
                 }
