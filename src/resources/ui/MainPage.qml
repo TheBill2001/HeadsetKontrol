@@ -47,7 +47,7 @@ Kirigami.ScrollablePage {
 
             RowLayout {
                 Kirigami.FormLayout {
-                    Layout.preferredWidth: (generalInfoBox.availableWidth) / 2
+                    Layout.preferredWidth: generalInfoBox.availableWidth / 2
 
                     Controls.Label {
                         Kirigami.FormData.label: i18n("Device name") + ":"
@@ -85,7 +85,7 @@ Kirigami.ScrollablePage {
                 }
 
                 Kirigami.FormLayout {
-                    Layout.preferredWidth: (generalInfoBox.availableWidth) / 2
+                    Layout.preferredWidth: generalInfoBox.availableWidth / 2
 
                     Controls.Label {
                         Kirigami.FormData.label: i18n("Capabilities") + ":"
@@ -120,14 +120,20 @@ Kirigami.ScrollablePage {
             id: actionBox
             title: i18n("Actions")
 
-            contentItem: Kirigami.FormLayout { // If use a layout, remove it from contentItem
-                RowLayout {
-                    Kirigami.FormData.label: i18n("Notification sound:")
-                    Controls.ComboBox {
-                        model: ["Sound 1", "Sound 2"]
-                    }
-                    Controls.Button {
+            contentItem: Kirigami.FormLayout {
+                enabled: AppController.headsetControl.hasNotificationSoundCapability
+
+                Controls.ComboBox {
+                    Kirigami.FormData.label: i18n("Notification sound") + ":"
+                    model: ["Sound 1", "Sound 2"]
+
+                    Controls.Button {   // workaround weird polish loop
+                        x: parent.width + 5
+                        height: parent.height
                         text: i18n("Play")
+                        onClicked: {
+                            AppController.headsetControl.setNotificationSound(parent.currentIndex);
+                        }
                     }
                 }
             }
@@ -145,6 +151,7 @@ Kirigami.ScrollablePage {
                         id: rotateToMuteCheckBox
                         text: i18n("Rotate to mute")
                         checked: AppController.config.rotateToMute
+                        enabled: AppController.headsetControl.hasRotateToMuteCapabilitiy
 
                         onClicked: {
                             AppController.config.rotateToMute = rotateToMuteCheckBox.checked;
@@ -156,6 +163,7 @@ Kirigami.ScrollablePage {
                         id: voicePromptCheckBox
                         text: i18n("Voice prompt")
                         checked: AppController.config.voicePrompt
+                        enabled: AppController.headsetControl.hasVoicePromptCapabilitiy
 
                         onClicked: {
                             AppController.config.voicePrompt = voicePromptCheckBox.checked;
@@ -185,6 +193,7 @@ Kirigami.ScrollablePage {
                     Controls.SpinBox {
                         id: sidetoneSpinBox
                         Kirigami.FormData.label: i18n("Sidetone level") + ":"
+                        enabled: AppController.headsetControl.hasSidetoneCapability
 
                         from: 0
                         to: 128
@@ -202,6 +211,8 @@ Kirigami.ScrollablePage {
                         from: 0
                         to: 90
                         value: AppController.config.inactiveTime
+                        enabled: AppController.headsetControl.hasInactiveTimeCapabilities
+
                         textFromValue: function(value, locale) {
                             if (value === 1)
                                 return Number(value).toLocaleString(locale, 'f', 0) + " " +i18n("minute");
