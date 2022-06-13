@@ -8,5 +8,5 @@ import headsetkontrol 1.0
 Kirigami.AboutPage {
     id: aboutSettingsPage
     title: i18nc('@title:window', 'About')
-    aboutData: AboutType.aboutData
+    aboutData: AppController.aboutData
 }
