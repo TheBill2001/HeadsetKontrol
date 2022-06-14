@@ -28,7 +28,7 @@ Kirigami.ScrollablePage {
                 id: quitAction
                 icon.name: "gtk-quit"
                 text: i18nc("@action:button", "Quit")
-                onTriggered: Qt.callLater(Qt.quit())
+                onTriggered: Qt.quit()
             }
         ]
     }
@@ -155,6 +155,7 @@ Kirigami.ScrollablePage {
 
                         onClicked: {
                             AppController.config.rotateToMute = rotateToMuteCheckBox.checked;
+                            AppController.headsetControl.setRotateToMute(rotateToMuteCheckBox.checked);
                             AppController.config.save();
                         }
                     }
@@ -167,6 +168,7 @@ Kirigami.ScrollablePage {
 
                         onClicked: {
                             AppController.config.voicePrompt = voicePromptCheckBox.checked;
+                            AppController.headsetControl.setVoicePromp(voicePromptCheckBox.checked);
                             AppController.config.save();
                         }
                     }
@@ -178,6 +180,7 @@ Kirigami.ScrollablePage {
 
                         onClicked: {
                             AppController.config.led = ledCheckBox.checked;
+                            AppController.headsetControl.setLed(ledCheckBox.checked);
                             AppController.config.save();
                         }
                     }
@@ -201,27 +204,30 @@ Kirigami.ScrollablePage {
 
                         onValueModified: {
                             AppController.config.sidetone = sidetoneSpinBox.value;
+                            AppController.headsetControl.setSidetone(sidetoneSpinBox.value);
                             AppController.config.save();
                         }
                     }
 
-                    Controls.SpinBox {
-                        id: inactiveTimeSpinBox
+                    RowLayout {
                         Kirigami.FormData.label: i18n("Inactive time") + ":"
-                        from: 0
-                        to: 90
-                        value: AppController.config.inactiveTime
-                        enabled: AppController.headsetControl.hasInactiveTimeCapabilities
 
-                        textFromValue: function(value, locale) {
-                            if (value === 1)
-                                return Number(value).toLocaleString(locale, 'f', 0) + " " +i18n("minute");
-                            return Number(value).toLocaleString(locale, 'f', 0) + " " + i18n("minutes");
+                        Controls.SpinBox {
+                            id: inactiveTimeSpinBox
+                            from: 0
+                            to: 90
+                            value: AppController.config.inactiveTime
+                            enabled: AppController.headsetControl.hasInactiveTimeCapabilities
+
+                            onValueModified: {
+                                AppController.config.inactiveTime = inactiveTimeSpinBox.value;
+                                AppController.headsetControl.setInactiveTime(inactiveTimeSpinBox.value);
+                                AppController.config.save();
+                            }
                         }
 
-                        onValueModified: {
-                            AppController.config.inactiveTime = inactiveTimeSpinBox.value;
-                            AppController.config.save();
+                        Controls.Label {    // Use spin box textFromValue sometime reset the value to 0 after confirm. BUG?
+                            text: i18np("minute", "minutes", inactiveTimeSpinBox.value)
                         }
                     }
                 }
