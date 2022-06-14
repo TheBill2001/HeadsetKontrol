@@ -40,11 +40,6 @@ QList<HeadsetControl::Capabilities> HeadsetControl::getCapabilities() const
     return m_capabilities;
 }
 
-// QVariantList HeadsetControl::getCapabilitiesVariantList()
-//{
-//     return QVariantList(getCapabilities());
-// }
-
 void HeadsetControl::setPath(const QString &path)
 {
     if (path != m_path) {
@@ -110,8 +105,7 @@ bool HeadsetControl::hasEqualizerPresetCapability() const
 
 void HeadsetControl::checkPath()
 {
-    m_queue.addProcess(m_path, {QStringLiteral("-h")});
-    m_queue.start();
+    enqueue({QStringLiteral("-h")});
 }
 
 void HeadsetControl::queryAll()
@@ -122,68 +116,57 @@ void HeadsetControl::queryAll()
 
 void HeadsetControl::queryName()
 {
-    m_queue.addProcess(m_path, {});
-    m_queue.start();
+    enqueue({});
 }
 
 void HeadsetControl::queryBattery()
 {
-    m_queue.addProcess(m_path, {QStringLiteral("-cb")});
-    m_queue.start();
+    enqueue({QStringLiteral("-cb")});
 }
 
 void HeadsetControl::queryChatMix()
 {
-    m_queue.addProcess(m_path, {QStringLiteral("-cm")});
-    m_queue.start();
+    enqueue({QStringLiteral("-cm")});
 }
 
 void HeadsetControl::queryCapabilities()
 {
-    m_queue.addProcess(m_path, {QStringLiteral("-?c")});
-    m_queue.start();
+    enqueue({QStringLiteral("-?c")});
 }
 
 void HeadsetControl::setSidetone(int sidetone)
 {
-    m_queue.addProcess(m_path, {QStringLiteral("-s ").append(QString::number(sidetone))});
-    m_queue.start();
+    enqueue({QStringLiteral("-s ").append(QString::number(sidetone))});
 }
 
 void HeadsetControl::setNotificationSound(int sound)
 {
-    m_queue.addProcess(m_path, {QStringLiteral("-n ").append(QString::number(sound))});
-    m_queue.start();
+    enqueue({QStringLiteral("-n ").append(QString::number(sound))});
 }
 
 void HeadsetControl::setLed(bool enable)
 {
-    m_queue.addProcess(m_path, {QStringLiteral("-l ").append(enable ? QString::number(1) : QString::number(0))});
-    m_queue.start();
+    enqueue({QStringLiteral("-l ").append(enable ? QString::number(1) : QString::number(0))});
 }
 
 void HeadsetControl::setInactiveTime(int time)
 {
-    m_queue.addProcess(m_path, {QStringLiteral("-i ").append(QString::number(time))});
-    m_queue.start();
+    enqueue({QStringLiteral("-i ").append(QString::number(time))});
 }
 
 void HeadsetControl::setVoicePrompt(bool enable)
 {
-    m_queue.addProcess(m_path, {QStringLiteral("-v ").append(enable ? QString::number(1) : QString::number(0))});
-    m_queue.start();
+    enqueue({QStringLiteral("-v ").append(enable ? QString::number(1) : QString::number(0))});
 }
 
 void HeadsetControl::setRotateToMute(bool enable)
 {
-    m_queue.addProcess(m_path, {QStringLiteral("-r ").append(enable ? QString::number(1) : QString::number(0))});
-    m_queue.start();
+    enqueue({QStringLiteral("-r ").append(enable ? QString::number(1) : QString::number(0))});
 }
 
 void HeadsetControl::setEqualizerPreset(int preset)
 {
-    m_queue.addProcess(m_path, {QStringLiteral("-p ").append(QString::number(preset))});
-    m_queue.start();
+    enqueue({QStringLiteral("-p ").append(QString::number(preset))});
 }
 
 void HeadsetControl::outputReady(const QString &output, const QStringList &arguments)
@@ -404,4 +387,10 @@ void HeadsetControl::setCapabilities(const QList<Capabilities> &capabilities)
         Q_EMIT capabilitiesChanged(m_capabilities);
     }
     Q_EMIT capabilitiesQueried(m_capabilities);
+}
+
+void HeadsetControl::enqueue(const QStringList &arguments)
+{
+    m_queue.addProcess(m_path, arguments);
+    m_queue.start();
 }

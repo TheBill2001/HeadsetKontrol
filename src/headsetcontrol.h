@@ -114,6 +114,7 @@ private:
     void setBattery(int battery);
     void setChatMix(int chatMix);
     void setCapabilities(const QList<Capabilities> &capabilities);
+    void enqueue(const QStringList &arguments);
 };
 
 #endif
