@@ -76,7 +76,6 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void outputReady(const QString &output, const QStringList &arguments);
-    void onPathChecked();
     void onCapabilitiesUpdated();
 
 Q_SIGNALS:

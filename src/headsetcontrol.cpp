@@ -11,7 +11,7 @@ HeadsetControl::HeadsetControl(const QString &path, QObject *parent)
     , m_queue{this}
 {
     connect(&m_queue, &ProcessQueue::outputReady, this, &HeadsetControl::outputReady);
-    connect(this, &HeadsetControl::pathChecked, this, &HeadsetControl::onPathChecked);
+    connect(this, &HeadsetControl::pathChecked, this, &HeadsetControl::queryAll);
     connect(this, &HeadsetControl::capabilitiesQueried, this, &HeadsetControl::onCapabilitiesUpdated);
 
     if (!m_path.isEmpty())
@@ -27,11 +27,17 @@ QString HeadsetControl::getName() const
 
 int HeadsetControl::getBattery() const
 {
+    if (!hasBatteryCapability())
+        return -2;
+
     return m_battery;
 }
 
 int HeadsetControl::getChatMix() const
 {
+    if (!hasChatMixCapabilitiy())
+        return -1;
+
     return m_chatMix;
 }
 
@@ -110,8 +116,10 @@ void HeadsetControl::checkPath()
 
 void HeadsetControl::queryAll()
 {
-    queryName();
-    queryCapabilities();
+    if (isPathValid()) {
+        queryName();
+        queryCapabilities();
+    }
 }
 
 void HeadsetControl::queryName()
@@ -136,36 +144,57 @@ void HeadsetControl::queryCapabilities()
 
 void HeadsetControl::setSidetone(int sidetone)
 {
+    if (!hasSidetoneCapability())
+        return;
+
     enqueue({QStringLiteral("-s ").append(QString::number(sidetone))});
 }
 
 void HeadsetControl::setNotificationSound(int sound)
 {
+    if (!hasNotificationSoundCapability())
+        return;
+
     enqueue({QStringLiteral("-n ").append(QString::number(sound))});
 }
 
 void HeadsetControl::setLed(bool enable)
 {
+    if (!hasLedCapability())
+        return;
+
     enqueue({QStringLiteral("-l ").append(enable ? QString::number(1) : QString::number(0))});
 }
 
 void HeadsetControl::setInactiveTime(int time)
 {
+    if (!hasInactiveTimeCapabilities())
+        return;
+
     enqueue({QStringLiteral("-i ").append(QString::number(time))});
 }
 
 void HeadsetControl::setVoicePrompt(bool enable)
 {
+    if (!hasVoicePromptCapabilitiy())
+        return;
+
     enqueue({QStringLiteral("-v ").append(enable ? QString::number(1) : QString::number(0))});
 }
 
 void HeadsetControl::setRotateToMute(bool enable)
 {
+    if (!hasRotateToMuteCapabilitiy())
+        return;
+
     enqueue({QStringLiteral("-r ").append(enable ? QString::number(1) : QString::number(0))});
 }
 
 void HeadsetControl::setEqualizerPreset(int preset)
 {
+    if (!hasEqualizerPresetCapability())
+        return;
+
     enqueue({QStringLiteral("-p ").append(QString::number(preset))});
 }
 
@@ -326,14 +355,6 @@ void HeadsetControl::outputReady(const QString &output, const QStringList &argum
         }
 
         return;
-    }
-}
-
-void HeadsetControl::onPathChecked()
-{
-    if (isPathValid()) {
-        queryName();
-        queryCapabilities();
     }
 }
 
