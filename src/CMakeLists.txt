@@ -11,6 +11,7 @@ add_executable(${PROJECT_NAME}
     trayicon.cpp
     appcontroller.h
     appcontroller.cpp
+    ../res/resources.qrc
 )
 
 kconfig_add_kcfg_files(${PROJECT_NAME} GENERATE_MOC headsetkontrolconfig.kcfgc)

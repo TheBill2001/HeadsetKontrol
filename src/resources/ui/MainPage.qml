@@ -45,6 +45,30 @@ Kirigami.ScrollablePage {
             id: generalInfoBox
             title: i18n("General information")
 
+            actions: [
+                Controls.Label{
+                    visible: AppController.config.showCountdownTimer
+                    text: {
+                        var pad = (n, z = 2) => ('00' + n).slice(-z);
+                        return pad(AppController.remainingTime/3.6e6|0) + ':' + pad((AppController.remainingTime%3.6e6)/6e4 | 0) + ':' + pad((AppController.remainingTime%6e4)/1000|0) + '.' + pad(AppController.remainingTime%1000, 3);
+                    }
+                },
+                Controls.Button {
+                    text: AppController.isPaused ? i18n("Resume") : i18n("Pause")
+                    icon.name: AppController.isPaused ? "media-playback-start" : "media-playback-pause"
+                    onClicked: {
+                        AppController.pauseToggle();
+                    }
+                },
+                Controls.Button {
+                    text: i18n("Refresh")
+                    icon.name: "view-refresh"
+                    onClicked: {
+                        AppController.headsetControl.queryAll();
+                    }
+                }
+            ]
+
             RowLayout {
                 Kirigami.FormLayout {
                     Layout.preferredWidth: generalInfoBox.availableWidth / 2
@@ -143,6 +167,47 @@ Kirigami.ScrollablePage {
             id: settingsBox
             title: i18n("Settings")
 
+            actions: [
+                Controls.Button {
+                    text: i18n("Default")
+                    icon.name: "kt-restore-defaults"
+                    onClicked: {
+                        AppController.resetHeadsetSettings();
+
+                        rotateToMuteCheckBox.checked = AppController.config.rotateToMute;
+                        voicePromptCheckBox.checked = AppController.config.voicePrompt;
+                        ledCheckBox.checked = AppController.config.led;
+                        sidetoneSpinBox.value = AppController.config.sidetone;
+                        inactiveTimeSpinBox.value = AppController.config.inactiveTime;
+
+                        AppController.headsetControl.setRotateToMute(rotateToMuteCheckBox.checked);
+                        AppController.headsetControl.setVoicePrompt(voicePromptCheckBox.checked);
+                        AppController.headsetControl.setLed(ledCheckBox.checked);
+                        AppController.headsetControl.setSidetone(sidetoneSpinBox.value);
+                        AppController.headsetControl.setInactiveTime(inactiveTimeSpinBox.value);
+                    }
+                },
+                Controls.Button {
+                    text: i18n("Apply")
+                    icon.name: "dialog-ok-apply"
+                    onClicked: {
+                        AppController.config.rotateToMute = rotateToMuteCheckBox.checked;
+                        AppController.config.voicePrompt = voicePromptCheckBox.checked;
+                        AppController.config.led = ledCheckBox.checked;
+                        AppController.config.sidetone = sidetoneSpinBox.value;
+                        AppController.config.inactiveTime = inactiveTimeSpinBox.value;
+
+                        AppController.headsetControl.setRotateToMute(rotateToMuteCheckBox.checked);
+                        AppController.headsetControl.setVoicePrompt(voicePromptCheckBox.checked);
+                        AppController.headsetControl.setLed(ledCheckBox.checked);
+                        AppController.headsetControl.setSidetone(sidetoneSpinBox.value);
+                        AppController.headsetControl.setInactiveTime(inactiveTimeSpinBox.value);
+
+                        AppController.saveSettings();
+                    }
+                }
+            ]
+
             RowLayout{
                 Kirigami.FormLayout {
                     Layout.preferredWidth: (settingsBox.availableWidth) / 2
@@ -152,12 +217,6 @@ Kirigami.ScrollablePage {
                         text: i18n("Rotate to mute")
                         checked: AppController.config.rotateToMute
                         enabled: AppController.headsetControl.hasRotateToMuteCapabilitiy
-
-                        onClicked: {
-                            AppController.config.rotateToMute = rotateToMuteCheckBox.checked;
-                            AppController.headsetControl.setRotateToMute(rotateToMuteCheckBox.checked);
-                            AppController.config.save();
-                        }
                     }
 
                     Controls.CheckBox {
@@ -165,24 +224,12 @@ Kirigami.ScrollablePage {
                         text: i18n("Voice prompt")
                         checked: AppController.config.voicePrompt
                         enabled: AppController.headsetControl.hasVoicePromptCapabilitiy
-
-                        onClicked: {
-                            AppController.config.voicePrompt = voicePromptCheckBox.checked;
-                            AppController.headsetControl.setVoicePromp(voicePromptCheckBox.checked);
-                            AppController.config.save();
-                        }
                     }
 
                     Controls.CheckBox {
                         id: ledCheckBox
                         text: i18n("LED")
                         checked: AppController.config.led
-
-                        onClicked: {
-                            AppController.config.led = ledCheckBox.checked;
-                            AppController.headsetControl.setLed(ledCheckBox.checked);
-                            AppController.config.save();
-                        }
                     }
                 }
 
@@ -201,12 +248,6 @@ Kirigami.ScrollablePage {
                         from: 0
                         to: 128
                         value: AppController.config.sidetone
-
-                        onValueModified: {
-                            AppController.config.sidetone = sidetoneSpinBox.value;
-                            AppController.headsetControl.setSidetone(sidetoneSpinBox.value);
-                            AppController.config.save();
-                        }
                     }
 
                     RowLayout {
@@ -218,12 +259,6 @@ Kirigami.ScrollablePage {
                             to: 90
                             value: AppController.config.inactiveTime
                             enabled: AppController.headsetControl.hasInactiveTimeCapabilities
-
-                            onValueModified: {
-                                AppController.config.inactiveTime = inactiveTimeSpinBox.value;
-                                AppController.headsetControl.setInactiveTime(inactiveTimeSpinBox.value);
-                                AppController.config.save();
-                            }
                         }
 
                         Controls.Label {    // Use spin box textFromValue sometime reset the value to 0 after confirm. BUG?

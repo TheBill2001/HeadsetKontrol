@@ -22,4 +22,8 @@ Kirigami.CategorizedSettings {
             page: Qt.resolvedUrl("AboutSettingsPage.qml")
         }
     ]
+
+    Component.onDestruction: {
+        AppController.config.save()
+    }
 }

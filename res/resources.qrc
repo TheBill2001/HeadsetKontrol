@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/hicolor/scalable/apps/headsetkontrol.svg</file>
+        <file>icons/hicolor/scalable/status/headsetkontrol-battery-empty.svg</file>
+        <file>icons/hicolor/scalable/status/headsetkontrol-battery-full.svg</file>
+        <file>icons/hicolor/scalable/status/headsetkontrol-battery-high.svg</file>
+        <file>icons/hicolor/scalable/status/headsetkontrol-battery-low.svg</file>
+        <file>icons/hicolor/scalable/status/headsetkontrol-battery-medium.svg</file>
+        <file>icons/hicolor/1024x1024/apps/headsetkontrol.png</file>
+        <file>icons/hicolor/1024x1024/status/headsetkontrol_battery_empty.png</file>
+        <file>icons/hicolor/1024x1024/status/headsetkontrol_battery_full.png</file>
+        <file>icons/hicolor/1024x1024/status/headsetkontrol_battery_high.png</file>
+        <file>icons/hicolor/1024x1024/status/headsetkontrol_battery_low.png</file>
+        <file>icons/hicolor/1024x1024/status/headsetkontrol_battery_medium.png</file>
+    </qresource>
+</RCC>

@@ -10,14 +10,22 @@
     </entry>
     <entry name="UpdateRate" type="UInt">
       <label>How often should HeadsetKontrol run HeadsetControl.</label>
-      <default>1000</default>
+      <default>5000</default>
     </entry>
-    <entry name="ShowTrayIcon" type="Bool">
-      <label>Show tray icon.</label>
+    <entry name="RunInBackground" type="Bool">
+      <label>Run application in background.</label>
+      <default>true</default>
+    </entry>
+    <entry name="AutoStart" type="Bool">
+      <label>Run application on start up.</label>
+      <default>false</default>
+    </entry>
+    <entry name="ShowCountdownTimer" type="Bool">
+      <label>Show countdown timer until the next query.</label>
       <default>true</default>
     </entry>
   </group>
-  <group name="HeadsetSetting">
+  <group name="HeadsetSettings">
     <entry name="RotateToMute" type="Bool">
       <default>true</default>
     </entry>

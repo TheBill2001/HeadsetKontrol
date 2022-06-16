@@ -13,14 +13,16 @@
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication app(argc, argv);
-
 #ifdef QT_DEBUG
     qSetMessagePattern(QStringLiteral("[%{time yyyy-MM-dd h:mm:ss}] [%{type}] [%{file}:%{line}] %{message}"));
 #else
     qSetMessagePattern(QStringLiteral("[%{time yyyy-MM-dd h:mm:ss}] [%{type}] %{message}"));
 #endif
+
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication app(argc, argv);
+
+    app.setWindowIcon(QIcon(QStringLiteral(":/icons/hicolor/scalable/apps/headsetkontrol.svg")));
 
     KLocalizedString::setApplicationDomain("HeadsetKontrol");
     QCoreApplication::setApplicationName(QStringLiteral("HeadsetKontrol"));

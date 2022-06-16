@@ -16,21 +16,35 @@ class AppController : public QObject
     Q_PROPERTY(KAboutData aboutData READ aboutData CONSTANT)
     Q_PROPERTY(HeadsetControl *headsetControl READ headsetControl CONSTANT)
     Q_PROPERTY(HeadsetKontrolConfig *config READ config CONSTANT)
+    Q_PROPERTY(bool isPaused READ isPaused NOTIFY pauseChanged)
+    Q_PROPERTY(int remainingTime READ remainingTime NOTIFY remainingTimeUpdated)
 public:
     explicit AppController(QObject *parent = nullptr);
 
     KAboutData aboutData() const;
     HeadsetControl *headsetControl() const;
     HeadsetKontrolConfig *config() const;
+    bool isPaused() const;
+    int remainingTime() const;
+
+public Q_SLOTS:
+    Q_INVOKABLE void resetHeadsetSettings();
+    Q_INVOKABLE void saveSettings();
+    Q_INVOKABLE void pauseToggle();
 
 Q_SIGNALS:
     void showWindow();
     void showSettings();
+    void pauseChanged(bool paused);
+    void remainingTimeUpdated();
 
 private:
+    void setupTrayIcon();
+
     TrayIcon *m_trayIcon;
     HeadsetControl *m_headsetControl;
     QTimer m_timer;
+    QTimer m_remainingTimeUpdateTimer;
 };
 
 #endif // APPCONTROLLER_H

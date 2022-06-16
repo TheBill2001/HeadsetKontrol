@@ -12,6 +12,12 @@ Kirigami.ScrollablePage {
     Kirigami.FormLayout {
         Layout.fillWidth: true
 
+        Item {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "HeadsetControl options"
+        }
+
+
         Kirigami.ActionTextField {
             id: binPathTextField
 
@@ -53,6 +59,37 @@ Kirigami.ScrollablePage {
             }
         }
 
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "General options"
+        }
+
+        Controls.CheckBox {
+            Kirigami.FormData.label: i18n("Run in backgroud") + ":"
+            checked: AppController.config.runInBackground
+
+            onToggled: {
+                AppController.config.runInBackground = checked;
+            }
+        }
+
+        Controls.CheckBox {
+            Kirigami.FormData.label: i18n("Autostart") + ":"
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "UI options"
+        }
+
+        Controls.CheckBox {
+            Kirigami.FormData.label: i18n("Show countdown timer") + ":"
+            checked: AppController.config.showCountdownTimer
+
+            onToggled: {
+                AppController.config.showCountdownTimer = checked;
+            }
+        }
     }
 
     FileDialog {

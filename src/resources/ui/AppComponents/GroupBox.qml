@@ -6,6 +6,8 @@ import org.kde.kirigami 2.19 as Kirigami
 Controls.GroupBox {
     id: control
 
+    property alias actions: _actions.children
+
     padding: 10
     topPadding: padding * 2 + labelSeparator.y
 
@@ -22,60 +24,28 @@ Controls.GroupBox {
         radius: 5
     }
 
-    label: Kirigami.Heading {
-        id: label
-
+    label: ColumnLayout {
         x: control.leftPadding
         y: control.leftPadding
-
         width: control.availableWidth
 
-        level: 2
-        text: title
+        RowLayout {
+            id: _actions
+            Kirigami.Heading {
+                id: label
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignLeft
+                level: 2
+                text: title
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+        }
 
         Kirigami.Separator {
             id: labelSeparator
-
-            y: label.height + control.padding / 2
-            width: label.width
+            Layout.fillWidth: true
         }
     }
 }
-
-
-//ColumnLayout {
-//    id: layout
-
-//    property string title
-//    property real padding: 10
-
-//    Rectangle {
-//        id: background
-
-//        width: layout.width
-//        height: layout.height
-
-//        color: Kirigami.Theme.alternateBackgroundColor
-//        border.color: Kirigami.ColorUtils.linearInterpolation(Kirigami.Theme.backgroundColor, Kirigami.Theme.textColor, 0.15)
-//        radius: 5
-//    }
-
-//    Kirigami.Heading {
-//        id: label
-
-//        Layout.leftMargin: layout.padding
-//        Layout.rightMargin: layout.padding
-//        Layout.topMargin: layout.padding
-//        Layout.fillWidth: true
-
-//        level: 2
-//        text: title
-//    }
-
-//    Kirigami.Separator {
-//        Layout.fillWidth: true
-//        Layout.leftMargin: layout.padding
-//        Layout.rightMargin: layout.padding
-//        Layout.bottomMargin: layout.padding
-//    }
-//}
