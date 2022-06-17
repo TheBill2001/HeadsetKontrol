@@ -118,24 +118,24 @@ void AppController::setupTrayIcon()
 {
     m_trayIcon = new TrayIcon(this);
     // BUG: QTBUG-53550 cannot use SVG
-    m_trayIcon->setIcon(QIcon(QStringLiteral(":/icons/hicolor/1024x1024/apps/headsetkontrol.png")));
+    m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/apps/headsetkontrol.png")));
     m_trayIcon->show();
     connect(m_trayIcon, &TrayIcon::showWindow, this, &AppController::showWindow);
     connect(m_trayIcon, &TrayIcon::showSettings, this, &AppController::showSettings);
     connect(headsetControl(), &HeadsetControl::batteryChanged, m_trayIcon, [=]() {
         auto battery = headsetControl()->getBattery();
         if (battery == -2)
-            m_trayIcon->setIcon(QIcon(QStringLiteral(":/icons/hicolor/1024x1024/apps/headsetkontrol.png")));
+            m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/apps/headsetkontrol.png")));
         if (battery >= 0 && battery < 10)
-            m_trayIcon->setIcon(QIcon(QStringLiteral(":/icons/hicolor/1024x1024/status/headsetkontrol_battery_empty.png")));
+            m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/status/headsetkontrol_battery_empty.png")));
         if (battery >= 10 && battery < 35)
-            m_trayIcon->setIcon(QIcon(QStringLiteral(":/icons/hicolor/1024x1024/status/headsetkontrol_battery_low.png")));
+            m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/status/headsetkontrol_battery_low.png")));
         if (battery >= 35 && battery < 65)
-            m_trayIcon->setIcon(QIcon(QStringLiteral(":/icons/hicolor/1024x1024/status/headsetkontrol_battery_medium.png")));
+            m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/status/headsetkontrol_battery_medium.png")));
         if (battery >= 65 && battery < 90)
-            m_trayIcon->setIcon(QIcon(QStringLiteral(":/icons/hicolor/1024x1024/status/headsetkontrol_battery_high.png")));
+            m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/status/headsetkontrol_battery_high.png")));
         if (battery >= 90)
-            m_trayIcon->setIcon(QIcon(QStringLiteral(":/icons/hicolor/1024x1024/status/headsetkontrol_battery_full.png")));
+            m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/status/headsetkontrol_battery_full.png")));
     });
 }
 

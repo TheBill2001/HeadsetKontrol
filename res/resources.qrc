@@ -1,5 +1,12 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/resources">
+        <file>ui/main.qml</file>
+        <file>ui/SettingsPage/GeneralSettingsPage.qml</file>
+        <file>ui/SettingsPage/SettingsPage.qml</file>
+        <file>ui/SettingsPage/NotificationSettingsPage.qml</file>
+        <file>ui/SettingsPage/AboutSettingsPage.qml</file>
+        <file>ui/AppComponents/GroupBox.qml</file>
+        <file>ui/MainPage.qml</file>
         <file>icons/hicolor/scalable/apps/headsetkontrol.svg</file>
         <file>icons/hicolor/scalable/status/headsetkontrol-battery-empty.svg</file>
         <file>icons/hicolor/scalable/status/headsetkontrol-battery-full.svg</file>

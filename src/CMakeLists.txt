@@ -2,7 +2,6 @@ add_executable(${PROJECT_NAME}
     main.cpp
     about.h
     about.cpp
-    resources.qrc
     headsetcontrol.h
     headsetcontrol.cpp
     processqueue.h
