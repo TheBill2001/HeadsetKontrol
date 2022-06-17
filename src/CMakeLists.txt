@@ -23,6 +23,7 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Gui
     Qt5::QuickControls2
     Qt5::Widgets
+    Qt5::DBus
 
     # KDE stuffs
     KF5::Kirigami2
@@ -30,4 +31,5 @@ target_link_libraries(${PROJECT_NAME}
     KF5::CoreAddons
     KF5::ConfigCore
     KF5::ConfigGui
+    KF5::DBusAddons
 )

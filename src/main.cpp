@@ -1,9 +1,12 @@
 #include <QApplication>
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QQmlApplicationEngine>
 #include <QScopedPointer>
 #include <QUrl>
 #include <QtQml>
 
+#include <KDBusAddons/KDBusService>
 #include <KLocalizedContext>
 #include <KLocalizedString>
 
@@ -19,12 +22,33 @@ int main(int argc, char *argv[])
     qSetMessagePattern(QStringLiteral("[%{time yyyy-MM-dd h:mm:ss}] [%{type}] %{message}"));
 #endif
 
+    auto message =
+        QDBusMessage::createMethodCall(QStringLiteral("com.github.headsetkontrol"), QStringLiteral("/appController"), QString(), QStringLiteral("getPid"));
+    auto reply = QDBusConnection::sessionBus().call(message);
+
+    if (reply.type() == QDBusMessage::ReplyMessage) {
+        auto args = reply.arguments();
+        auto val = args.at(0).toLongLong();
+        qInfo() << "Found running instance:" << val;
+
+        auto message =
+            QDBusMessage::createMethodCall(QStringLiteral("com.github.headsetkontrol"), QStringLiteral("/appController"), QString(), QStringLiteral("restore"));
+        auto reply = QDBusConnection::sessionBus().call(message);
+
+        if (reply.type() == QDBusMessage::ReplyMessage)
+            qInfo() << "Restore instance:" << val;
+        else
+            qFatal("Cannot restore instance: %lld\n", val);
+
+        return 0;
+    }
+
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
+    qInfo() << "Start new instance: " << app.applicationPid();
 
     app.setWindowIcon(QIcon(QStringLiteral(":/icons/hicolor/scalable/apps/headsetkontrol.svg")));
 
-    KLocalizedString::setApplicationDomain("HeadsetKontrol");
     QCoreApplication::setApplicationName(QStringLiteral("HeadsetKontrol"));
 
     KAboutData aboutData(QStringLiteral("headsetkontrol"),
@@ -40,8 +64,9 @@ int main(int argc, char *argv[])
                         i18n("Developer\nMaintainer"),
                         QStringLiteral("tuantran1632001@gmail.com"),
                         QStringLiteral("https://github.com/tuantran1632001"));
-
     KAboutData::setApplicationData(aboutData);
+
+    KDBusService service(KDBusService::Unique);
 
     QScopedPointer appControllerPointer(new AppController(&app));
 

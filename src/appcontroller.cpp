@@ -1,3 +1,4 @@
+#include <QDBusConnection>
 #include <QFile>
 #include <QGuiApplication>
 
@@ -8,6 +9,9 @@ AppController::AppController(QObject *parent)
     : QObject{parent}
     , m_headsetControl{new HeadsetControl(HeadsetKontrolConfig::self()->binPath(), this)}
 {
+    // Init D-Bus
+    QDBusConnection::sessionBus().registerObject(QStringLiteral("/appController"), this, QDBusConnection::ExportScriptableContents);
+
     // Init tray icon
     if (HeadsetKontrolConfig::self()->runInBackground()) {
         setupTrayIcon();
@@ -98,6 +102,16 @@ void AppController::pauseToggle()
         m_remainingTimeUpdateTimer.stop();
     }
     Q_EMIT pauseChanged(isPaused());
+}
+
+qint64 AppController::getPid()
+{
+    return QCoreApplication::applicationPid();
+}
+
+void AppController::restore()
+{
+    Q_EMIT showWindow();
 }
 
 void AppController::setupTrayIcon()
