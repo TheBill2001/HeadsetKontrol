@@ -99,20 +99,9 @@ AppController::AppController(bool startMinimized, QObject *parent)
 
     connect(headsetControl(), &HeadsetControl::nameChanged, this, &AppController::applyHeadsetSettings);
 
-    connect(config(), &HeadsetKontrolConfig::AutoStartChanged, this, [=]() {
-        if (config()->autoStart()) {
-            QDir autoStartDir(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QStringLiteral("/autostart"));
-            autoStartDir.mkdir(QStringLiteral("."));
+    connect(config(), &HeadsetKontrolConfig::AutoStartChanged, this, &AppController::onAutoStartChanged);
 
-            QFile autoStartFile(QStringLiteral(":/resources/desktop/com.github.headsetkontrol.autostart.desktop"));
-            autoStartFile.copy(autoStartDir.absolutePath() + QStringLiteral("/com.github.headsetkontrol.desktop"));
-        } else {
-            QFile autoStartFile(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)
-                                + QStringLiteral("/autostart/com.github.headsetkontrol.desktop"));
-            if (autoStartFile.exists())
-                autoStartFile.remove();
-        }
-    });
+    onAutoStartChanged();
 
     qDebug() << "App controller created: " << this;
 }
@@ -194,6 +183,21 @@ qint64 AppController::getPid()
 void AppController::restore()
 {
     Q_EMIT showWindow();
+}
+
+void AppController::onAutoStartChanged()
+{
+    if (config()->autoStart()) {
+        QDir autoStartDir(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QStringLiteral("/autostart"));
+        autoStartDir.mkdir(QStringLiteral("."));
+
+        QFile autoStartFile(QStringLiteral(":/resources/desktop/com.github.headsetkontrol.autostart.desktop"));
+        autoStartFile.copy(autoStartDir.absolutePath() + QStringLiteral("/com.github.headsetkontrol.desktop"));
+    } else {
+        QFile autoStartFile(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QStringLiteral("/autostart/com.github.headsetkontrol.desktop"));
+        if (autoStartFile.exists())
+            autoStartFile.remove();
+    }
 }
 
 void AppController::setupTrayIcon()

@@ -36,6 +36,7 @@ public Q_SLOTS:
     Q_INVOKABLE void pauseToggle();
     Q_SCRIPTABLE qint64 getPid();
     Q_SCRIPTABLE void restore();
+    void onAutoStartChanged();
 
 Q_SIGNALS:
     void showWindow();
