@@ -49,5 +49,8 @@
     <entry name="InactiveTime" type="UInt">
       <default>10</default>
     </entry>
+    <entry name="EqualizerPreset" type="UInt">
+      <default>0</default>
+    </entry>
   </group>
 </kcfg>

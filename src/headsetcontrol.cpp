@@ -369,7 +369,7 @@ void HeadsetControl::onCapabilitiesQuerried()
 
 void HeadsetControl::onNameChanged()
 {
-    setSidetone(-1);
+    setChatMix(-1);
     setBattery(-2);
     setChatMix(-1);
 }

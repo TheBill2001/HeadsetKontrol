@@ -181,12 +181,7 @@ Kirigami.ScrollablePage {
                         ledCheckBox.checked = AppController.config.led;
                         sidetoneSpinBox.value = AppController.config.sidetone;
                         inactiveTimeSpinBox.value = AppController.config.inactiveTime;
-
-                        AppController.headsetControl.setRotateToMute(rotateToMuteCheckBox.checked);
-                        AppController.headsetControl.setVoicePrompt(voicePromptCheckBox.checked);
-                        AppController.headsetControl.setLed(ledCheckBox.checked);
-                        AppController.headsetControl.setSidetone(sidetoneSpinBox.value);
-                        AppController.headsetControl.setInactiveTime(inactiveTimeSpinBox.value);
+                        equalizerPresetSpinBox.value = AppController.config.equalizerPreset;
                     }
                 },
                 Controls.Button {
@@ -198,14 +193,9 @@ Kirigami.ScrollablePage {
                         AppController.config.led = ledCheckBox.checked;
                         AppController.config.sidetone = sidetoneSpinBox.value;
                         AppController.config.inactiveTime = inactiveTimeSpinBox.value;
+                        AppController.config.equalizerPreset = equalizerPresetSpinBox.value;
 
-                        AppController.headsetControl.setRotateToMute(rotateToMuteCheckBox.checked);
-                        AppController.headsetControl.setVoicePrompt(voicePromptCheckBox.checked);
-                        AppController.headsetControl.setLed(ledCheckBox.checked);
-                        AppController.headsetControl.setSidetone(sidetoneSpinBox.value);
-                        AppController.headsetControl.setInactiveTime(inactiveTimeSpinBox.value);
-
-                        AppController.saveSettings();
+                        AppController.applyHeadsetSettings();
                     }
                 }
             ]
@@ -267,6 +257,16 @@ Kirigami.ScrollablePage {
                         Controls.Label {    // Use spin box textFromValue sometime reset the value to 0 after confirm. BUG?
                             text: i18np("minute", "minutes", inactiveTimeSpinBox.value)
                         }
+                    }
+
+                    Controls.SpinBox {
+                        id: equalizerPresetSpinBox
+                        Kirigami.FormData.label: i18n("Equalizer preset") + ":"
+                        enabled: AppController.headsetControl.hasEqualizerPresetCapability
+
+                        from: 0
+                        to: 3
+                        value: AppController.config.equalizerPreset
                     }
                 }
             }

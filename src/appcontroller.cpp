@@ -97,7 +97,7 @@ AppController::AppController(bool startMinimized, QObject *parent)
         notification->sendEvent();
     });
 
-    connect(headsetControl(), &HeadsetControl::nameChanged, this, &AppController::applyAllHeadsetSettings);
+    connect(headsetControl(), &HeadsetControl::nameChanged, this, &AppController::applyHeadsetSettings);
 
     connect(config(), &HeadsetKontrolConfig::AutoStartChanged, this, [=]() {
         if (config()->autoStart()) {
@@ -142,7 +142,7 @@ bool AppController::isStartMinimized() const
     return m_startMinimized;
 }
 
-void AppController::applyAllHeadsetSettings()
+void AppController::applyHeadsetSettings()
 {
     if (headsetControl()->getName().isEmpty())
         return;
@@ -152,6 +152,8 @@ void AppController::applyAllHeadsetSettings()
     headsetControl()->setVoicePrompt(config()->voicePrompt());
     headsetControl()->setRotateToMute(config()->rotateToMute());
     headsetControl()->setSidetone(config()->sidetone());
+    headsetControl()->setEqualizerPreset(config()->equalizerPreset());
+    saveSettings();
 }
 
 void AppController::resetHeadsetSettings()
@@ -161,6 +163,8 @@ void AppController::resetHeadsetSettings()
     config()->setVoicePrompt(config()->defaultVoicePromptValue());
     config()->setRotateToMute(config()->defaultRotateToMuteValue());
     config()->setSidetone(config()->defaultSidetoneValue());
+    config()->setEqualizerPreset(config()->defaultEqualizerPresetValue());
+    applyHeadsetSettings();
     saveSettings();
 }
 

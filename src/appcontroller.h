@@ -30,7 +30,7 @@ public:
     bool isStartMinimized() const;
 
 public Q_SLOTS:
-    Q_INVOKABLE void applyAllHeadsetSettings();
+    Q_INVOKABLE void applyHeadsetSettings();
     Q_INVOKABLE void resetHeadsetSettings();
     Q_INVOKABLE void saveSettings();
     Q_INVOKABLE void pauseToggle();
