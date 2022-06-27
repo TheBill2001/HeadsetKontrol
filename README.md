@@ -27,41 +27,32 @@ KDE Framework 5.92.0 or above with these modules:
 
 ## Installing dependencies
 1. Arch Linux
-
    ```
    pacman -S extra-cmake-modules kirigami2 ki18n kconfig kdbusaddons knotifications kcoreaddons
    ```
-
    These package should pull in all needed Qt and other packages.
-
 
 ## Build and install
 ### General steps.
 Create and enter build directory.
-
 ```
 mkdir build
 cd build
 ```
-
 Build the program.
-
 ```
 cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Release ..
 make
 ```
-
 The install it.
-
 ```
 make install
 ```
-
 Uinstall.
-
 ```
 make uninstall
 ```
+
 ### Platform specific.
 1. Arch Linux
    HeadsetKontrol can be install from the [AUR]().
