@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=HeadsetKontrol
+Comment=Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework
+Type=Application
+Exec=HeadsetKontrol %u --start-minimized
+Icon=headsetkontrol
+Terminal=false
+Categories=Utility;System;Settings
+Keywords=headsetkontrol;headsetcontrol;headset

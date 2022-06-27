@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file>ui/main.qml</file>
+        <file>ui/SettingsPage/GeneralSettingsPage.qml</file>
+        <file>ui/SettingsPage/SettingsPage.qml</file>
+        <file>ui/SettingsPage/AboutSettingsPage.qml</file>
+        <file>ui/AppComponents/GroupBox.qml</file>
+        <file>ui/MainPage.qml</file>
+        <file>desktop/com.github.headsetkontrol.autostart.desktop</file>
+    </qresource>
+</RCC>

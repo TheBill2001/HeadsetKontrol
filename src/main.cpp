@@ -1,38 +1,94 @@
 #include <QApplication>
+#include <QCommandLineParser>
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QQmlApplicationEngine>
-#include <QtQml>
+#include <QScopedPointer>
 #include <QUrl>
+#include <QtQml>
 
+#include <KDBusAddons/KDBusService>
 #include <KLocalizedContext>
 #include <KLocalizedString>
-#include <KAboutData>
 
-#include "config-headsetkontrol.h"
 #include "about.h"
+#include "appcontroller.h"
+#include "headsetkontrolversion.h"
 
 int main(int argc, char *argv[])
 {
+#ifdef QT_DEBUG
+    qSetMessagePattern(QStringLiteral("[%{time yyyy-MM-dd h:mm:ss}] [%{type}] [%{file}:%{line}] %{message}"));
+#else
+    qSetMessagePattern(QStringLiteral("[%{time yyyy-MM-dd h:mm:ss}] [%{type}] %{message}"));
+#endif
+
+    auto message =
+        QDBusMessage::createMethodCall(QStringLiteral("com.github.headsetkontrol"), QStringLiteral("/appController"), QString(), QStringLiteral("getPid"));
+    auto reply = QDBusConnection::sessionBus().call(message);
+
+    if (reply.type() == QDBusMessage::ReplyMessage) {
+        auto args = reply.arguments();
+        auto val = args.at(0).toLongLong();
+        qInfo() << "Found running instance:" << val;
+
+        auto message =
+            QDBusMessage::createMethodCall(QStringLiteral("com.github.headsetkontrol"), QStringLiteral("/appController"), QString(), QStringLiteral("restore"));
+        auto reply = QDBusConnection::sessionBus().call(message);
+
+        if (reply.type() == QDBusMessage::ReplyMessage)
+            qInfo() << "Restore instance:" << val;
+        else
+            qFatal("Cannot restore instance: %lld\n", val);
+
+        return 0;
+    }
+
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
+    qInfo() << "Start new instance: " << app.applicationPid();
 
-    KLocalizedString::setApplicationDomain("HeadsetKontrol");
+    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol")));
+
     QCoreApplication::setApplicationName(QStringLiteral("HeadsetKontrol"));
 
     KAboutData aboutData(QStringLiteral("headsetkontrol"),
-                         i18nc("@title", "HeadsetKontrol"),
+                         QStringLiteral("HeadsetKontrol"),
                          QStringLiteral(HEADSETKONTROL_VERSION_STRING),
                          i18n("Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework"),
                          KAboutLicense::GPL_V3,
-                         i18n("(c) 2022"));
+                         QStringLiteral("Trần Nam Tuấn (c) 2022"),
+                         QString(),
+                         QStringLiteral("https://github.com/tuantran1632001/HeadsetKontrol"),
+                         QStringLiteral("https://github.com/tuantran1632001/HeadsetKontrol/issues"));
+    aboutData.addAuthor(i18n("Trần Nam Tuấn"),
+                        i18n("Developer\nMaintainer"),
+                        QStringLiteral("tuantran1632001@gmail.com"),
+                        QStringLiteral("https://github.com/tuantran1632001"));
     KAboutData::setApplicationData(aboutData);
+
+    KDBusService service(KDBusService::Unique);
+
+    // CLI
+    QCommandLineParser parser;
+    parser.setApplicationDescription(i18n("Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework."));
+    parser.addHelpOption();
+    parser.addVersionOption();
+
+    QCommandLineOption startMinimizedOption(QStringLiteral("start-minimized"), i18n("Start the application minimized."));
+    parser.addOption(startMinimizedOption);
+
+    parser.process(app);
+
+    QScopedPointer appControllerPointer(new AppController(parser.isSet(startMinimizedOption), &app));
 
     QQmlApplicationEngine engine;
 
-    qmlRegisterSingletonType<AboutType>("headsetkontrol", 1, 0, "AboutType", [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
-        Q_UNUSED(engine)
-        Q_UNUSED(scriptEngine)
-        return new AboutType();
-    });
+    // Register qml type
+    qmlRegisterUncreatableType<HeadsetControl>("headsetkontrol", 1, 0, "HeadsetControl", QStringLiteral("SINGLETON"));
+    qmlRegisterUncreatableType<HeadsetKontrolConfig>("headsetkontrol", 1, 0, "Config", QStringLiteral("Type is singleton"));
+
+    qmlRegisterSingletonInstance("headsetkontrol", 1, 0, "AppController", appControllerPointer.get());
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.load(QUrl(QStringLiteral("qrc:/resources/ui/main.qml")));
@@ -43,4 +99,3 @@ int main(int argc, char *argv[])
 
     return app.exec();
 }
-
