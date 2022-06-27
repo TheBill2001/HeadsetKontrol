@@ -28,7 +28,7 @@ KDE Framework 5.92.0 or above with these modules:
 ## Installing dependencies
 1. Arch Linux.
 
-   These package should pull in all needed Qt and other packages.
+   These packages should pull in all needed Qt and other packages.
 
    ```
    pacman -S extra-cmake-modules kirigami2 ki18n kconfig kdbusaddons knotifications kcoreaddons
