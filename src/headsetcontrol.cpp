@@ -12,7 +12,8 @@ HeadsetControl::HeadsetControl(const QString &path, QObject *parent)
 {
     connect(&m_queue, &ProcessQueue::outputReady, this, &HeadsetControl::outputReady);
     connect(this, &HeadsetControl::pathChecked, this, &HeadsetControl::queryAll);
-    connect(this, &HeadsetControl::capabilitiesQueried, this, &HeadsetControl::onCapabilitiesUpdated);
+    connect(this, &HeadsetControl::capabilitiesQueried, this, &HeadsetControl::onCapabilitiesQuerried);
+    connect(this, &HeadsetControl::nameChanged, this, &HeadsetControl::onNameChanged);
 
     if (!m_path.isEmpty())
         checkPath();
@@ -201,7 +202,7 @@ void HeadsetControl::setEqualizerPreset(int preset)
 void HeadsetControl::outputReady(const QString &output, const QStringList &arguments)
 {
     if (arguments.contains(QStringLiteral("-h"))) {
-        if (output.contains(QStringLiteral("Headsetcontrol written by Sapd (Denis Arnst)")))
+        if (output.contains(QStringLiteral("Headsetcontrol")))
             setPathValid(true);
         else
             setPathValid(false);
@@ -358,12 +359,19 @@ void HeadsetControl::outputReady(const QString &output, const QStringList &argum
     }
 }
 
-void HeadsetControl::onCapabilitiesUpdated()
+void HeadsetControl::onCapabilitiesQuerried()
 {
     if (hasBatteryCapability())
         queryBattery();
     if (hasChatMixCapabilitiy())
         queryChatMix();
+}
+
+void HeadsetControl::onNameChanged()
+{
+    setSidetone(-1);
+    setBattery(-2);
+    setChatMix(-1);
 }
 
 void HeadsetControl::setPathValid(bool valid)

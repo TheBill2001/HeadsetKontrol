@@ -1,12 +1,20 @@
 #include <QDBusConnection>
+#include <QDir>
 #include <QFile>
 #include <QGuiApplication>
+#include <QStandardPaths>
+
+#include <KLocalizedString>
+#include <KNotification>
+
+#include <cmath>
 
 #include "appcontroller.h"
 #include "headsetkontrolconfig.h"
 
-AppController::AppController(QObject *parent)
+AppController::AppController(bool startMinimized, QObject *parent)
     : QObject{parent}
+    , m_startMinimized{startMinimized}
     , m_headsetControl{new HeadsetControl(HeadsetKontrolConfig::self()->binPath(), this)}
 {
     // Init D-Bus
@@ -53,6 +61,59 @@ AppController::AppController(QObject *parent)
     });
     m_remainingTimeUpdateTimer.start();
 
+    // Init notification
+    connect(headsetControl(), &HeadsetControl::batteryChanged, this, [=](int battery) {
+        if (!config()->batteryNotification() || battery == -2)
+            return;
+
+        static int oldVal = battery;
+        if (abs(battery - oldVal) < 10)
+            return;
+        else
+            oldVal = battery;
+
+        auto notification = new KNotification(QStringLiteral("batteryStatus"), KNotification::CloseOnTimeout, this);
+        notification->setAutoDelete(true);
+        if (battery == -1)
+            notification->setText(i18n("Battery is charging."));
+        else
+            notification->setText(i18n("Battery is at %1%.", battery));
+        notification->setIconName(m_trayIcon->icon().name());
+
+        notification->sendEvent();
+    });
+    connect(headsetControl(), &HeadsetControl::nameChanged, this, [=](const QString &name) {
+        if (!config()->deviceChangeNotification())
+            return;
+
+        auto notification = new KNotification(QStringLiteral("deviceNameChanged"), KNotification::CloseOnTimeout, this);
+        notification->setAutoDelete(true);
+        if (name.isEmpty())
+            notification->setText(i18n("No known device detected."));
+        else
+            notification->setText(i18n("Found device %1.", name));
+        notification->setIconName(QStringLiteral("headsetkontrol"));
+
+        notification->sendEvent();
+    });
+
+    connect(headsetControl(), &HeadsetControl::nameChanged, this, &AppController::applyAllHeadsetSettings);
+
+    connect(config(), &HeadsetKontrolConfig::AutoStartChanged, this, [=]() {
+        if (config()->autoStart()) {
+            QDir autoStartDir(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QStringLiteral("/autostart"));
+            autoStartDir.mkdir(QStringLiteral("."));
+
+            QFile autoStartFile(QStringLiteral(":/resources/desktop/com.github.headsetkontrol.autostart.desktop"));
+            autoStartFile.copy(autoStartDir.absolutePath() + QStringLiteral("/com.github.headsetkontrol.desktop"));
+        } else {
+            QFile autoStartFile(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)
+                                + QStringLiteral("/autostart/com.github.headsetkontrol.desktop"));
+            if (autoStartFile.exists())
+                autoStartFile.remove();
+        }
+    });
+
     qDebug() << "App controller created: " << this;
 }
 
@@ -74,6 +135,23 @@ bool AppController::isPaused() const
 int AppController::remainingTime() const
 {
     return m_timer.remainingTime();
+}
+
+bool AppController::isStartMinimized() const
+{
+    return m_startMinimized;
+}
+
+void AppController::applyAllHeadsetSettings()
+{
+    if (headsetControl()->getName().isEmpty())
+        return;
+
+    headsetControl()->setInactiveTime(config()->inactiveTime());
+    headsetControl()->setLed(config()->led());
+    headsetControl()->setVoicePrompt(config()->voicePrompt());
+    headsetControl()->setRotateToMute(config()->rotateToMute());
+    headsetControl()->setSidetone(config()->sidetone());
 }
 
 void AppController::resetHeadsetSettings()
@@ -117,25 +195,24 @@ void AppController::restore()
 void AppController::setupTrayIcon()
 {
     m_trayIcon = new TrayIcon(this);
-    // BUG: QTBUG-53550 cannot use SVG
-    m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/apps/headsetkontrol.png")));
+    m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol")));
     m_trayIcon->show();
     connect(m_trayIcon, &TrayIcon::showWindow, this, &AppController::showWindow);
     connect(m_trayIcon, &TrayIcon::showSettings, this, &AppController::showSettings);
     connect(headsetControl(), &HeadsetControl::batteryChanged, m_trayIcon, [=]() {
         auto battery = headsetControl()->getBattery();
         if (battery == -2)
-            m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/apps/headsetkontrol.png")));
+            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol")));
         if (battery >= 0 && battery < 10)
-            m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/status/headsetkontrol_battery_empty.png")));
+            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol-battery-empty")));
         if (battery >= 10 && battery < 35)
-            m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/status/headsetkontrol_battery_low.png")));
+            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol-battery-low")));
         if (battery >= 35 && battery < 65)
-            m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/status/headsetkontrol_battery_medium.png")));
+            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol-battery-medium")));
         if (battery >= 65 && battery < 90)
-            m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/status/headsetkontrol_battery_high.png")));
+            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol-battery-high")));
         if (battery >= 90)
-            m_trayIcon->setIcon(QIcon(QStringLiteral(":/resources/icons/hicolor/1024x1024/status/headsetkontrol_battery_full.png")));
+            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol-battery-full")));
     });
 }
 

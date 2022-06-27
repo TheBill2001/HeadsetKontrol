@@ -8,13 +8,8 @@ Kirigami.CategorizedSettings {
     actions: [
         Kirigami.SettingAction {
             text: i18n("General")
-            icon.name: "settings"
+            icon.name: "configure"
             page: Qt.resolvedUrl("GeneralSettingsPage.qml")
-        },
-        Kirigami.SettingAction {
-            text: i18n("Notification")
-            icon.name: "notifications"
-            page: Qt.resolvedUrl("NotificationSettingsPage.qml")
         },
         Kirigami.SettingAction {
             text: i18n("About")

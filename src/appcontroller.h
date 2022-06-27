@@ -18,16 +18,19 @@ class AppController : public QObject
     Q_PROPERTY(HeadsetKontrolConfig *config READ config CONSTANT)
     Q_PROPERTY(bool isPaused READ isPaused NOTIFY pauseChanged)
     Q_PROPERTY(int remainingTime READ remainingTime NOTIFY remainingTimeUpdated)
+    Q_PROPERTY(bool startMinimized READ isStartMinimized CONSTANT)
 public:
-    explicit AppController(QObject *parent = nullptr);
+    explicit AppController(bool startMinimizied, QObject *parent = nullptr);
 
     KAboutData aboutData() const;
     HeadsetControl *headsetControl() const;
     HeadsetKontrolConfig *config() const;
     bool isPaused() const;
     int remainingTime() const;
+    bool isStartMinimized() const;
 
 public Q_SLOTS:
+    Q_INVOKABLE void applyAllHeadsetSettings();
     Q_INVOKABLE void resetHeadsetSettings();
     Q_INVOKABLE void saveSettings();
     Q_INVOKABLE void pauseToggle();
@@ -43,6 +46,7 @@ Q_SIGNALS:
 private:
     void setupTrayIcon();
 
+    bool m_startMinimized;
     TrayIcon *m_trayIcon;
     HeadsetControl *m_headsetControl;
     QTimer m_timer;

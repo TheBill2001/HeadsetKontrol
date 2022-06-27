@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.20)
 # Project info
 project(HeadsetKontrol)
 
-set(PROJECT_VERSION "0.0.1")
+set(PROJECT_VERSION "1.0.0")
 
 set(KF_MIN_VERSION "5.92.0")
 set(QT_MIN_VERSION "5.15.3")
@@ -26,7 +26,7 @@ ecm_setup_version(${PROJECT_VERSION}
 )
 
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Core Quick Test Gui QuickControls2 Widgets DBus)
-find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Kirigami2 I18n CoreAddons Config DBusAddons)
+find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS Kirigami2 I18n CoreAddons Config DBusAddons Notifications)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -43,3 +43,9 @@ include(KDEGitCommitHooks)
 kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+# Install rules
+install(TARGETS ${PROJECT_NAME} DESTINATION ${KDE_INSTALL_BINDIR})
+install(DIRECTORY res/icons/ DESTINATION ${KDE_INSTALL_ICONDIR})
+install(PROGRAMS res/desktop/com.github.headsetkontrol.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(FILES res/knotifications5/headsetkontrol.notifyrc DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR})

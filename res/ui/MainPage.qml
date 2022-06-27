@@ -13,7 +13,7 @@ Kirigami.ScrollablePage {
         contextualActions: [
             Kirigami.Action {
                 id: settingsAction
-                icon.name: "settings"
+                icon.name: "configure"
                 text: i18nc("@action:button", "Settings")
                 onTriggered: root.pageStack.pushDialogLayer(settingsPageComponent, {}, {
                                                                 "minimumWidth": Kirigami.Units.gridUnit * 30,
@@ -133,7 +133,9 @@ Kirigami.ScrollablePage {
                                 capStr += i18n("Rotate-To-Mute") + "\n";
                             if (AppController.headsetControl.hasEqualizerPresetCapability)
                                 capStr += i18n("Set equalizer preset") + "\n";
-                            return capStr.trim();
+                            if (capStr !== "")
+                                return capStr.trim();
+                            return i18n("Unavailable")
                         }
                     }
                 }
@@ -230,6 +232,7 @@ Kirigami.ScrollablePage {
                         id: ledCheckBox
                         text: i18n("LED")
                         checked: AppController.config.led
+                        enabled: AppController.headsetControl.hasLedCapability
                     }
                 }
 

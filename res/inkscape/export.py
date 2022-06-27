@@ -20,9 +20,8 @@ def findSvgs(exclude):
     return _file
 
 
-#SIZES = [1024, 512, 384, 310, 256, 192, 150,
-#         128, 96, 72, 64, 48, 44, 36, 32, 24, 22, 16]
-SIZES = [1024]
+SIZES = [1024, 512, 384, 310, 256, 192, 150,
+         128, 96, 72, 64, 48, 44, 36, 32, 24, 22, 16]
 EXCLUDE = ["base.svg"]
 SVGS = findSvgs(EXCLUDE)
 
@@ -33,7 +32,7 @@ for svg in SVGS:
     print("Export file \"%s\"" % svg)
 
     filenames = svg.split("-")
-    filePath = "../" + filenames[0] + "/" + "strplchldr"
+    filePath = "../icons/" + filenames[0] + "/" + "strplchldr"
 
     for seg in filenames[1:-1]:
         filePath += "/" + seg
@@ -44,7 +43,7 @@ for svg in SVGS:
 
         Path(_filePath).mkdir(parents=True, exist_ok=True)
 
-        _fileoutname = _filePath + "/" + filenames[-1].split(".")[0] + ".png"
+        _fileoutname = _filePath + "/" + filenames[-1].split(".")[0].replace("_", "-") + ".png"
 
         print("    Size %8d: \"%s\"" % (size, _fileoutname))
 

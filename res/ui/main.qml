@@ -42,4 +42,10 @@ Kirigami.ApplicationWindow {
                                            });
         }
     }
+
+    Component.onCompleted: {
+        if (AppController.startMinimized) {
+            root.close();
+        }
+    }
 }

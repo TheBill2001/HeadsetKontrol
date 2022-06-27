@@ -31,4 +31,5 @@ target_link_libraries(${PROJECT_NAME}
     KF5::ConfigCore
     KF5::ConfigGui
     KF5::DBusAddons
+    KF5::Notifications
 )

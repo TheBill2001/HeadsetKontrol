@@ -76,7 +76,8 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void outputReady(const QString &output, const QStringList &arguments);
-    void onCapabilitiesUpdated();
+    void onCapabilitiesQuerried();
+    void onNameChanged();
 
 Q_SIGNALS:
     void nameQueried(const QString &name);

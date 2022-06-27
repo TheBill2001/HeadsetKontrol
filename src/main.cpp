@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QCommandLineParser>
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QQmlApplicationEngine>
@@ -47,7 +48,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     qInfo() << "Start new instance: " << app.applicationPid();
 
-    app.setWindowIcon(QIcon(QStringLiteral(":/icons/hicolor/scalable/apps/headsetkontrol.svg")));
+    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol")));
 
     QCoreApplication::setApplicationName(QStringLiteral("HeadsetKontrol"));
 
@@ -68,7 +69,18 @@ int main(int argc, char *argv[])
 
     KDBusService service(KDBusService::Unique);
 
-    QScopedPointer appControllerPointer(new AppController(&app));
+    // CLI
+    QCommandLineParser parser;
+    parser.setApplicationDescription(i18n("Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework."));
+    parser.addHelpOption();
+    parser.addVersionOption();
+
+    QCommandLineOption startMinimizedOption(QStringLiteral("start-minimized"), i18n("Start the application minimized."));
+    parser.addOption(startMinimizedOption);
+
+    parser.process(app);
+
+    QScopedPointer appControllerPointer(new AppController(parser.isSet(startMinimizedOption), &app));
 
     QQmlApplicationEngine engine;
 

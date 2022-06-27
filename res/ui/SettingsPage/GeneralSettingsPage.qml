@@ -14,9 +14,31 @@ Kirigami.ScrollablePage {
 
         Item {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "HeadsetControl options"
+            Kirigami.FormData.label: "General options"
         }
 
+        Controls.CheckBox {
+            Kirigami.FormData.label: i18n("Run in backgroud") + ":"
+            checked: AppController.config.runInBackground
+
+            onToggled: {
+                AppController.config.runInBackground = checked;
+            }
+        }
+
+        Controls.CheckBox {
+            Kirigami.FormData.label: i18n("Autostart") + ":"
+            checked: AppController.config.autoStart
+
+            onToggled: {
+                AppController.config.autoStart = checked;
+            }
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "HeadsetControl options"
+        }
 
         Kirigami.ActionTextField {
             id: binPathTextField
@@ -61,24 +83,6 @@ Kirigami.ScrollablePage {
 
         Kirigami.Separator {
             Kirigami.FormData.isSection: true
-            Kirigami.FormData.label: "General options"
-        }
-
-        Controls.CheckBox {
-            Kirigami.FormData.label: i18n("Run in backgroud") + ":"
-            checked: AppController.config.runInBackground
-
-            onToggled: {
-                AppController.config.runInBackground = checked;
-            }
-        }
-
-        Controls.CheckBox {
-            Kirigami.FormData.label: i18n("Autostart") + ":"
-        }
-
-        Kirigami.Separator {
-            Kirigami.FormData.isSection: true
             Kirigami.FormData.label: "UI options"
         }
 
@@ -88,6 +92,29 @@ Kirigami.ScrollablePage {
 
             onToggled: {
                 AppController.config.showCountdownTimer = checked;
+            }
+        }
+
+        Kirigami.Separator {
+            Kirigami.FormData.isSection: true
+            Kirigami.FormData.label: "Notification options"
+        }
+
+        Controls.CheckBox {
+            Kirigami.FormData.label: i18n("Battery notification:")
+            checked: AppController.config.batteryNotification
+
+            onToggled: {
+                AppController.config.batteryNotification = checked
+            }
+        }
+
+        Controls.CheckBox {
+            Kirigami.FormData.label: i18n("Device change notification:")
+            checked: AppController.config.deviceChangeNotification
+
+            onToggled: {
+                AppController.config.deviceChangeNotification = checked
             }
         }
     }
