@@ -1,0 +1,16 @@
+[Desktop Entry]
+Categories=Utility;System;Settings
+Comment=Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework
+Exec=HeadsetKontrol %u
+Icon=headsetkontrol
+Keywords=headsetkontrol;headsetcontrol;headset
+Name=HeadsetKontrol
+StartupNotify=true
+Terminal=false
+Type=Application
+X-DBUS-ServiceName=xyz.billsstuff.headsetkontrol
+X-KDE-SubstituteUID=false
+
+Comment[vi]=Giao diện cho HeadsetControl (bởi Sapd) được viết với Kirigami và Framework KDE
+Keywords[vi]=headsetkontrol;headsetcontrol;tai nghe
+Name[vi]=HeadsetKontrol

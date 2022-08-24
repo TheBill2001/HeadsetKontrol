@@ -1,0 +1,13 @@
+[Global]
+IconName=headsetkontrol
+Name=HeadsetKontrol
+Comment=Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework
+DesktopEntry=DesktopFileName
+
+[Event/batteryStatus]
+Name=Battery status
+Action=Popup
+
+[Event/deviceNameChanged]
+Name=Device name changed
+Action=Popup

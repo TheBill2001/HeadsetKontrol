@@ -1,0 +1,16 @@
+######### IDE #########
+build
+build/
+
+# QtCreator
+*.txt.user
+
+# Kdevelop
+*.kdev4
+*.kate-swp
+
+# KDE stuff
+.clang-format
+
+# VSCode
+.vscode

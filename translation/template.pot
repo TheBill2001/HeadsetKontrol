@@ -1,0 +1,256 @@
+# Translation of HeadsetKontrol in LANGUAGE
+# Copyright (C) 2022
+# This file is distributed under the same license as the HeadsetKontrol package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: HeadsetKontrol\n"
+"Report-Msgid-Bugs-To: https://github.com/tuantran1632001/HeadsetKontrol/issues\n"
+"POT-Creation-Date: 2022-08-25 05:34+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: ../headsetkontrol.desktop ../src/main.cpp
+msgid "Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework"
+msgstr ""
+
+#: ../headsetkontrol.desktop
+msgid "headsetkontrol;headsetcontrol;headset"
+msgstr ""
+
+#: ../headsetkontrol.desktop
+msgid "HeadsetKontrol"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgctxt "@action:button"
+msgid "Settings"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgctxt "@action:button"
+msgid "Quit"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Headset controls"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "General information"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Resume"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Pause"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Refresh"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Device name"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Unavailable"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Chat-mix level"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Battery"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Charging"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Capabilities"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Sidetone"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Play notification sound"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Set LED mode"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Set inactive time"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Chat-Mix"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Set voice prompt mode"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Rotate-To-Mute"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Set equalizer preset"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Actions"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Notification sound"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Play"
+msgstr ""
+
+#: ../qml/MainPage.qml ../src/trayicon.cpp
+msgid "Settings"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Default"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Apply"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Rotate to mute"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Voice prompt"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "LED"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Sidetone level"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "Inactive time"
+msgstr ""
+
+#: ../qml/MainPage.qml
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../qml/main.qml
+msgctxt "@title:window"
+msgid "Control your headset"
+msgstr ""
+
+#: ../qml/SettingsPage/GeneralSettingsPage.qml
+msgid "Run in backgroud"
+msgstr ""
+
+#: ../qml/SettingsPage/GeneralSettingsPage.qml
+msgid "Autostart"
+msgstr ""
+
+#: ../qml/SettingsPage/GeneralSettingsPage.qml
+msgid "HeadsetControl path"
+msgstr ""
+
+#: ../qml/SettingsPage/GeneralSettingsPage.qml
+msgid "Path to HeadsetControl"
+msgstr ""
+
+#: ../qml/SettingsPage/GeneralSettingsPage.qml
+msgid "Update rate (seconds)"
+msgstr ""
+
+#: ../qml/SettingsPage/GeneralSettingsPage.qml
+msgid "From 0 to 3600, 0 means disable"
+msgstr ""
+
+#: ../qml/SettingsPage/GeneralSettingsPage.qml
+msgid "Show countdown timer"
+msgstr ""
+
+#: ../qml/SettingsPage/GeneralSettingsPage.qml
+msgid "Battery notification"
+msgstr ""
+
+#: ../qml/SettingsPage/GeneralSettingsPage.qml
+msgid "Device change notification"
+msgstr ""
+
+#: ../qml/SettingsPage/SettingsPage.qml
+msgid "General"
+msgstr ""
+
+#: ../qml/SettingsPage/SettingsPage.qml
+msgid "About"
+msgstr ""
+
+#: ../src/appcontroller.cpp
+msgid "Battery is charging."
+msgstr ""
+
+#: ../src/appcontroller.cpp
+msgid "Battery is at %1%."
+msgstr ""
+
+#: ../src/appcontroller.cpp
+msgid "No known device detected."
+msgstr ""
+
+#: ../src/appcontroller.cpp
+msgid "Found device %1."
+msgstr ""
+
+#: ../src/main.cpp
+msgid "Trần Nam Tuấn"
+msgstr ""
+
+#: ../src/main.cpp
+msgid "Developer, Maintainer"
+msgstr ""
+
+#: ../src/main.cpp
+msgid "Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework."
+msgstr ""
+
+#: ../src/main.cpp
+msgid "Start the application minimized."
+msgstr ""
+
+#: ../src/trayicon.cpp
+msgid "Show"
+msgstr ""
+
+#: ../src/trayicon.cpp
+msgid "Quit"
+msgstr ""

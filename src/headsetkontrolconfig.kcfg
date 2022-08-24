@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <group name="General">
+    <entry name="BinPath" type="Path">
+      <label>Path of HeadsetControl binary.</label>
+      <default>/usr/bin/headsetcontrol</default>
+    </entry>
+    <entry name="UpdateRate" type="UInt">
+      <label>How often should HeadsetKontrol run HeadsetControl.</label>
+      <default>5000</default>
+    </entry>
+    <entry name="RunInBackground" type="Bool">
+      <label>Run application in background.</label>
+      <default>true</default>
+    </entry>
+    <entry name="AutoStart" type="Bool">
+      <label>Run application on start up.</label>
+      <default>false</default>
+    </entry>
+    <entry name="ShowCountdownTimer" type="Bool">
+      <label>Show countdown timer until the next query.</label>
+      <default>true</default>
+    </entry>
+  </group>
+  <group name="Notification">
+    <entry name="BatteryNotification" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="DeviceChangeNotification" type="Bool">
+      <default>true</default>
+    </entry>
+  </group>
+  <group name="HeadsetSettings">
+    <entry name="RotateToMute" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="VoicePrompt" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="Led" type="Bool">
+      <default>true</default>
+    </entry>
+    <entry name="Sidetone" type="UInt">
+      <default>0</default>
+    </entry>
+    <entry name="InactiveTime" type="UInt">
+      <default>10</default>
+    </entry>
+  </group>
+</kcfg>
