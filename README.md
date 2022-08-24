@@ -8,7 +8,7 @@ Interface for [HeadsetControl](https://github.com/Sapd/HeadsetControl) written w
 # Installing
 1. Arch Linux
 
-   HeadsetKontrol can be install from the [AUR]().
+   HeadsetKontrol can be install from the [AUR](https://aur.archlinux.org/packages/headsetkontrol).
 
 # Building
 The program is only tested on Linux (Arch to be specific). However, all libraries used are available on Mac OS and Windows. You might need to build them yourself, though.
