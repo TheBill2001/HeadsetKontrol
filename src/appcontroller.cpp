@@ -212,15 +212,15 @@ void AppController::setupTrayIcon()
         if (battery == -2)
             m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol")));
         if (battery >= 0 && battery < 10)
-            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol-battery-empty")));
+            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol_battery_empty")));
         if (battery >= 10 && battery < 35)
-            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol-battery-low")));
+            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol_battery_low")));
         if (battery >= 35 && battery < 65)
-            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol-battery-medium")));
+            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol_battery_medium")));
         if (battery >= 65 && battery < 90)
-            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol-battery-high")));
+            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol_battery_high")));
         if (battery >= 90)
-            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol-battery-full")));
+            m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol_battery_full")));
     });
 }
 
