@@ -7,8 +7,6 @@
 #include <KLocalizedString>
 #include <KNotification>
 
-#include <cmath>
-
 #include "appcontroller.h"
 #include "headsetkontrolconfig.h"
 
@@ -39,7 +37,6 @@ AppController::AppController(bool startMinimized, QObject *parent)
     });
 
     // Init timer
-    m_timer.setParent(this);
     m_timer.setInterval(config()->updateRate());
     connect(&m_timer, &QTimer::timeout, headsetControl(), &HeadsetControl::queryAll);
     connect(config(), &HeadsetKontrolConfig::UpdateRateChanged, &m_timer, [=]() {
@@ -51,8 +48,7 @@ AppController::AppController(bool startMinimized, QObject *parent)
     headsetControl()->queryAll();
 
     // Init remainingTimeUpdateTimer
-    m_remainingTimeUpdateTimer.setParent(this);
-    m_remainingTimeUpdateTimer.setInterval(0);
+    m_remainingTimeUpdateTimer.setInterval(1000);
     connect(&m_remainingTimeUpdateTimer, &QTimer::timeout, this, &AppController::remainingTimeUpdated);
     connect(config(), &HeadsetKontrolConfig::ShowCountdownTimerChanged, &m_remainingTimeUpdateTimer, [=]() {
         if (config()->showCountdownTimer())

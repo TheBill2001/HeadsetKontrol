@@ -15,14 +15,15 @@ Kirigami.ScrollablePage {
                 id: settingsAction
                 icon.name: "configure"
                 text: i18nc("@action:button", "Settings")
-                onTriggered: root.pageStack.pushDialogLayer(settingsPageComponent, {}, {
-                                                                "minimumWidth": Kirigami.Units.gridUnit * 30,
-                                                                "minimumHeight": Kirigami.Units.gridUnit * 20,
-                                                                "maximumWidth": Kirigami.Units.gridUnit * 50,
-                                                                "maximumHeight": Kirigami.Units.gridUnit * 40,
-                                                                "width": Kirigami.Units.gridUnit * 40,
-                                                                "height": Kirigami.Units.gridUnit * 30
-                                                            })
+                onTriggered: root.pageStack.pushDialogLayer(
+                                 settingsPageComponent, {}, {
+                                     "minimumWidth": Kirigami.Units.gridUnit * 30,
+                                     "minimumHeight": Kirigami.Units.gridUnit * 20,
+                                     "maximumWidth": Kirigami.Units.gridUnit * 50,
+                                     "maximumHeight": Kirigami.Units.gridUnit * 40,
+                                     "width": Kirigami.Units.gridUnit * 40,
+                                     "height": Kirigami.Units.gridUnit * 30
+                                 })
             },
             Kirigami.Action {
                 id: quitAction
@@ -46,25 +47,29 @@ Kirigami.ScrollablePage {
             title: i18n("General information")
 
             actions: [
-                Controls.Label{
+                Controls.Label {
                     visible: AppController.config.showCountdownTimer
                     text: {
-                        var pad = (n, z = 2) => ('00' + n).slice(-z);
-                        return pad(AppController.remainingTime/3.6e6|0) + ':' + pad((AppController.remainingTime%3.6e6)/6e4 | 0) + ':' + pad((AppController.remainingTime%6e4)/1000|0) + '.' + pad(AppController.remainingTime%1000, 3);
+                        var pad = (n, z = 2) => ('00' + n).slice(-z)
+                        var time = AppController.remainingTime
+                        return pad(
+                            time / 3.6e6 | 0) + ':' + pad((time % 3.6e6) / 6e4 | 0) + ':'
+                        + pad((time % 6e4) / 1000 | 0) /* + '.' + pad(time % 1000, 3)*/
                     }
                 },
                 Controls.Button {
-                    text: AppController.isPaused ? i18n("Resume") : i18n("Pause")
+                    text: AppController.isPaused ? i18n(
+                                                       "Resume") : i18n("Pause")
                     icon.name: AppController.isPaused ? "media-playback-start" : "media-playback-pause"
                     onClicked: {
-                        AppController.pauseToggle();
+                        AppController.pauseToggle()
                     }
                 },
                 Controls.Button {
                     text: i18n("Refresh")
                     icon.name: "view-refresh"
                     onClicked: {
-                        AppController.headsetControl.queryAll();
+                        AppController.headsetControl.queryAll()
                     }
                 }
             ]
@@ -75,12 +80,16 @@ Kirigami.ScrollablePage {
 
                     Controls.Label {
                         Kirigami.FormData.label: i18n("Device name") + ":"
-                        text: AppController.headsetControl.name !== "" ? AppController.headsetControl.name : i18n("Unavailable")
+                        text: AppController.headsetControl.name
+                              !== "" ? AppController.headsetControl.name : i18n(
+                                           "Unavailable")
                     }
 
                     Controls.Label {
                         Kirigami.FormData.label: i18n("Chat-mix level") + ":"
-                        text: AppController.headsetControl.chatMix > -1 ? AppController.headsetControl.chatMix : i18n("Unavailable")
+                        text: AppController.headsetControl.chatMix
+                              > -1 ? AppController.headsetControl.chatMix : i18n(
+                                         "Unavailable")
                     }
 
                     RowLayout {
@@ -95,9 +104,9 @@ Kirigami.ScrollablePage {
                         Controls.Label {
                             text: {
                                 if (AppController.headsetControl.battery === -1)
-                                    return i18n("Charging");
+                                    return i18n("Charging")
                                 if (AppController.headsetControl.battery === -2)
-                                    return i18n("Unavailable");
+                                    return i18n("Unavailable")
                                 return AppController.headsetControl.battery + "%"
                             }
                         }
@@ -114,27 +123,27 @@ Kirigami.ScrollablePage {
                     Controls.Label {
                         Kirigami.FormData.label: i18n("Capabilities") + ":"
                         text: {
-                            var capStr = "";
+                            var capStr = ""
                             if (AppController.headsetControl.hasSidetoneCapability)
-                                capStr += i18n("Sidetone") + "\n";
+                                capStr += i18n("Sidetone") + "\n"
                             if (AppController.headsetControl.hasBatteryCapability)
-                                capStr += i18n("Battery") + "\n";
+                                capStr += i18n("Battery") + "\n"
                             if (AppController.headsetControl.hasNotificationSoundCapability)
-                                capStr += i18n("Play notification sound") + "\n";
+                                capStr += i18n("Play notification sound") + "\n"
                             if (AppController.headsetControl.hasLedCapability)
-                                capStr += i18n("Set LED mode") + "\n";
+                                capStr += i18n("Set LED mode") + "\n"
                             if (AppController.headsetControl.hasInactiveTimeCapabilities)
-                                capStr += i18n("Set inactive time") + "\n";
+                                capStr += i18n("Set inactive time") + "\n"
                             if (AppController.headsetControl.hasChatMixCapabilitiy)
-                                capStr += i18n("Chat-Mix") + "\n";
+                                capStr += i18n("Chat-Mix") + "\n"
                             if (AppController.headsetControl.hasVoicePromptCapabilitiy)
-                                capStr += i18n("Set voice prompt mode") + "\n";
+                                capStr += i18n("Set voice prompt mode") + "\n"
                             if (AppController.headsetControl.hasRotateToMuteCapabilitiy)
-                                capStr += i18n("Rotate-To-Mute") + "\n";
+                                capStr += i18n("Rotate-To-Mute") + "\n"
                             if (AppController.headsetControl.hasEqualizerPresetCapability)
-                                capStr += i18n("Set equalizer preset") + "\n";
+                                capStr += i18n("Set equalizer preset") + "\n"
                             if (capStr !== "")
-                                return capStr.trim();
+                                return capStr.trim()
                             return i18n("Unavailable")
                         }
                     }
@@ -153,12 +162,14 @@ Kirigami.ScrollablePage {
                     Kirigami.FormData.label: i18n("Notification sound") + ":"
                     model: ["Sound 1", "Sound 2"]
 
-                    Controls.Button {   // workaround weird polish loop
+                    Controls.Button {
+                        // workaround weird polish loop
                         x: parent.width + 5
                         height: parent.height
                         text: i18n("Play")
                         onClicked: {
-                            AppController.headsetControl.setNotificationSound(parent.currentIndex);
+                            AppController.headsetControl.setNotificationSound(
+                                        parent.currentIndex)
                         }
                     }
                 }
@@ -174,43 +185,51 @@ Kirigami.ScrollablePage {
                     text: i18n("Default")
                     icon.name: "kt-restore-defaults"
                     onClicked: {
-                        AppController.resetHeadsetSettings();
+                        AppController.resetHeadsetSettings()
 
-                        rotateToMuteCheckBox.checked = AppController.config.rotateToMute;
-                        voicePromptCheckBox.checked = AppController.config.voicePrompt;
-                        ledCheckBox.checked = AppController.config.led;
-                        sidetoneSpinBox.value = AppController.config.sidetone;
-                        inactiveTimeSpinBox.value = AppController.config.inactiveTime;
+                        rotateToMuteCheckBox.checked = AppController.config.rotateToMute
+                        voicePromptCheckBox.checked = AppController.config.voicePrompt
+                        ledCheckBox.checked = AppController.config.led
+                        sidetoneSpinBox.value = AppController.config.sidetone
+                        inactiveTimeSpinBox.value = AppController.config.inactiveTime
 
-                        AppController.headsetControl.setRotateToMute(rotateToMuteCheckBox.checked);
-                        AppController.headsetControl.setVoicePrompt(voicePromptCheckBox.checked);
-                        AppController.headsetControl.setLed(ledCheckBox.checked);
-                        AppController.headsetControl.setSidetone(sidetoneSpinBox.value);
-                        AppController.headsetControl.setInactiveTime(inactiveTimeSpinBox.value);
+                        AppController.headsetControl.setRotateToMute(
+                            rotateToMuteCheckBox.checked)
+                        AppController.headsetControl.setVoicePrompt(
+                            voicePromptCheckBox.checked)
+                        AppController.headsetControl.setLed(ledCheckBox.checked)
+                        AppController.headsetControl.setSidetone(
+                            sidetoneSpinBox.value)
+                        AppController.headsetControl.setInactiveTime(
+                            inactiveTimeSpinBox.value)
                     }
                 },
                 Controls.Button {
                     text: i18n("Apply")
                     icon.name: "dialog-ok-apply"
                     onClicked: {
-                        AppController.config.rotateToMute = rotateToMuteCheckBox.checked;
-                        AppController.config.voicePrompt = voicePromptCheckBox.checked;
-                        AppController.config.led = ledCheckBox.checked;
-                        AppController.config.sidetone = sidetoneSpinBox.value;
-                        AppController.config.inactiveTime = inactiveTimeSpinBox.value;
+                        AppController.config.rotateToMute = rotateToMuteCheckBox.checked
+                        AppController.config.voicePrompt = voicePromptCheckBox.checked
+                        AppController.config.led = ledCheckBox.checked
+                        AppController.config.sidetone = sidetoneSpinBox.value
+                        AppController.config.inactiveTime = inactiveTimeSpinBox.value
 
-                        AppController.headsetControl.setRotateToMute(rotateToMuteCheckBox.checked);
-                        AppController.headsetControl.setVoicePrompt(voicePromptCheckBox.checked);
-                        AppController.headsetControl.setLed(ledCheckBox.checked);
-                        AppController.headsetControl.setSidetone(sidetoneSpinBox.value);
-                        AppController.headsetControl.setInactiveTime(inactiveTimeSpinBox.value);
+                        AppController.headsetControl.setRotateToMute(
+                            rotateToMuteCheckBox.checked)
+                        AppController.headsetControl.setVoicePrompt(
+                            voicePromptCheckBox.checked)
+                        AppController.headsetControl.setLed(ledCheckBox.checked)
+                        AppController.headsetControl.setSidetone(
+                            sidetoneSpinBox.value)
+                        AppController.headsetControl.setInactiveTime(
+                            inactiveTimeSpinBox.value)
 
-                        AppController.saveSettings();
+                        AppController.saveSettings()
                     }
                 }
             ]
 
-            RowLayout{
+            RowLayout {
                 Kirigami.FormLayout {
                     Layout.preferredWidth: (settingsBox.availableWidth) / 2
 
@@ -237,7 +256,7 @@ Kirigami.ScrollablePage {
                 }
 
                 Kirigami.Separator {
-                    Layout.fillHeight:true
+                    Layout.fillHeight: true
                 }
 
                 Kirigami.FormLayout {
@@ -264,8 +283,10 @@ Kirigami.ScrollablePage {
                             enabled: AppController.headsetControl.hasInactiveTimeCapabilities
                         }
 
-                        Controls.Label {    // Use spin box textFromValue sometime reset the value to 0 after confirm. BUG?
-                            text: i18np("minute", "minutes", inactiveTimeSpinBox.value)
+                        Controls.Label {
+                            // Use spin box textFromValue sometime reset the value to 0 after confirm. BUG?
+                            text: i18np("minute", "minutes",
+                                        inactiveTimeSpinBox.value)
                         }
                     }
                 }
