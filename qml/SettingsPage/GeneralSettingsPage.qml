@@ -22,7 +22,7 @@ Kirigami.ScrollablePage {
             checked: AppController.config.runInBackground
 
             onToggled: {
-                AppController.config.runInBackground = checked;
+                AppController.config.runInBackground = checked
             }
         }
 
@@ -31,7 +31,7 @@ Kirigami.ScrollablePage {
             checked: AppController.config.autoStart
 
             onToggled: {
-                AppController.config.autoStart = checked;
+                AppController.config.autoStart = checked
             }
         }
 
@@ -91,7 +91,7 @@ Kirigami.ScrollablePage {
             checked: AppController.config.showCountdownTimer
 
             onToggled: {
-                AppController.config.showCountdownTimer = checked;
+                AppController.config.showCountdownTimer = checked
             }
         }
 

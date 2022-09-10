@@ -25,13 +25,13 @@ Kirigami.ApplicationWindow {
     Connections {
         target: AppController
         function onShowWindow() {
-            root.show();
-            root.raise();
+            root.show()
+            root.raise()
         }
 
         function onShowSettings() {
-            root.show();
-            root.raise();
+            root.show()
+            root.raise()
             root.pageStack.pushDialogLayer(settingsPageComponent, {}, {
                                                "minimumWidth": Kirigami.Units.gridUnit * 30,
                                                "minimumHeight": Kirigami.Units.gridUnit * 20,
@@ -39,13 +39,13 @@ Kirigami.ApplicationWindow {
                                                "maximumHeight": Kirigami.Units.gridUnit * 40,
                                                "width": Kirigami.Units.gridUnit * 40,
                                                "height": Kirigami.Units.gridUnit * 30
-                                           });
+                                           })
         }
     }
 
     Component.onCompleted: {
         if (AppController.startMinimized) {
-            root.close();
+            root.close()
         }
     }
 }

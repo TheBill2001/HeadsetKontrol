@@ -20,7 +20,9 @@ Controls.GroupBox {
         height: control.height
 
         color: Kirigami.Theme.alternateBackgroundColor
-        border.color: Kirigami.ColorUtils.linearInterpolation(Kirigami.Theme.backgroundColor, Kirigami.Theme.textColor, 0.15)
+        border.color: Kirigami.ColorUtils.linearInterpolation(
+                          Kirigami.Theme.backgroundColor,
+                          Kirigami.Theme.textColor, 0.15)
         radius: 5
     }
 
