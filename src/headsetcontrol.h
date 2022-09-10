@@ -3,7 +3,6 @@
 
 #include <QList>
 #include <QObject>
-#include <QScopedPointer>
 
 #include "processqueue.h"
 
