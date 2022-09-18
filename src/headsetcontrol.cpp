@@ -385,6 +385,7 @@ void HeadsetControl::setName(const QString &name)
     if (name != m_name) {
         m_name = name;
         Q_EMIT nameChanged(m_name);
+        Q_EMIT queriedChanged();
     }
     Q_EMIT nameQueried(m_name);
 }
@@ -394,6 +395,7 @@ void HeadsetControl::setBattery(int battery)
     if (m_battery != battery) {
         m_battery = battery;
         Q_EMIT batteryChanged(m_battery);
+        Q_EMIT queriedChanged();
     }
     Q_EMIT batteryQueried(m_battery);
 }
@@ -403,6 +405,7 @@ void HeadsetControl::setChatMix(int chatMix)
     if (m_chatMix != chatMix) {
         m_chatMix = chatMix;
         Q_EMIT chatMixChanged(m_chatMix);
+        Q_EMIT queriedChanged();
     }
     Q_EMIT chatMixQueried(m_chatMix);
 }
@@ -412,6 +415,7 @@ void HeadsetControl::setCapabilities(const QList<Capabilities> &capabilities)
     if (m_capabilities != capabilities) {
         m_capabilities = capabilities;
         Q_EMIT capabilitiesChanged(m_capabilities);
+        Q_EMIT queriedChanged();
     }
     Q_EMIT capabilitiesQueried(m_capabilities);
 }

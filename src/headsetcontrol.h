@@ -99,6 +99,8 @@ Q_SIGNALS:
     void rotateToMuteUpdated(bool success);
     void equalizerPresetUpdated(bool success);
 
+    void queriedChanged();
+
 private:
     QString m_path;
     QString m_name;

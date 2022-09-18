@@ -218,6 +218,32 @@ void AppController::setupTrayIcon()
         if (battery >= 90)
             m_trayIcon->setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol_battery_full")));
     });
+    connect(headsetControl(), &HeadsetControl::queriedChanged, m_trayIcon, [=]() {
+        static const QString infoString1(i18n("Device name") + QStringLiteral(": %1"));
+        static const QString infoString2(i18n("Chat-mix level") + QStringLiteral(": %1"));
+        static const QString infoString3(i18n("Battery") + QStringLiteral(": %1"));
+
+        QStringList infoStrings;
+
+        if (!headsetControl()->getName().isEmpty())
+            infoStrings.append(infoString1.arg(headsetControl()->getName()));
+        if (headsetControl()->hasChatMixCapabilitiy())
+            infoStrings.append(infoString2.arg(headsetControl()->getChatMix()));
+        if (headsetControl()->hasBatteryCapability()) {
+            auto bat = headsetControl()->getBattery();
+            if (bat < -1)
+                infoStrings.append(infoString3.arg(i18n("Unavailable")));
+            else if (bat < 0)
+                infoStrings.append(infoString3.arg(i18n("Charging")));
+            else
+                infoStrings.append(infoString3.arg(QString::number(bat) + QStringLiteral("%")));
+        }
+
+        if (infoStrings.isEmpty())
+            m_trayIcon->setToolTip(i18n("HeadsetKontrol"));
+        else
+            m_trayIcon->setToolTip(infoStrings.join(QStringLiteral("\n")));
+    });
 }
 
 KAboutData AppController::aboutData() const
