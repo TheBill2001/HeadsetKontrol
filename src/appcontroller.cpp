@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QGuiApplication>
 #include <QStandardPaths>
+#include <QDebug>
 
 #include <KLocalizedString>
 #include <KNotification>
@@ -98,8 +99,12 @@ AppController::AppController(bool startMinimized, QObject *parent)
 
     connect(config(), &HeadsetKontrolConfig::AutoStartChanged, this, [=]() {
         if (config()->autoStart()) {
-            QFile desktopFile(QStringLiteral("qrc:/resources/headsetkontrol.desktop"));
-            desktopFile.open(QIODevice::ReadOnly);
+            QFile desktopFile(QStringLiteral(":/resources/headsetkontrol.desktop"));
+
+            if (!desktopFile.open(QIODevice::ReadOnly)) {
+                qFatal("Cannot open resource file: %s", desktopFile.errorString().toUtf8().constData());
+                return;
+            }
 
             auto desktopFileContent = QString::fromUtf8(desktopFile.readAll());
             desktopFileContent.replace(QStringLiteral("Exec=HeadsetKontrol %u"), QStringLiteral("Exec=HeadsetKontrol %u --start-minimized"));
