@@ -1,9 +1,9 @@
 #include <QDBusConnection>
+#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QGuiApplication>
 #include <QStandardPaths>
-#include <QDebug>
 
 #include <KLocalizedString>
 #include <KNotification>
