@@ -107,7 +107,7 @@ AppController::AppController(bool startMinimized, QObject *parent)
             }
 
             auto desktopFileContent = QString::fromUtf8(desktopFile.readAll());
-            desktopFileContent.replace(QStringLiteral("Exec=HeadsetKontrol %u"), QStringLiteral("Exec=HeadsetKontrol %u --start-minimized"));
+            desktopFileContent.replace(QStringLiteral("Exec=HeadsetKontrol"), QStringLiteral("Exec=HeadsetKontrol --start-minimized"));
 
             QDir autoStartDir(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QStringLiteral("/autostart"));
             autoStartDir.mkdir(QStringLiteral("."));
