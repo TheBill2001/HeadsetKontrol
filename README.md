@@ -5,6 +5,8 @@ Interface for [HeadsetControl](https://github.com/Sapd/HeadsetControl) written w
 * Battery level notification.
 * Set headset specific settings.
 
+![Screenshot](/uploads/c9f8ce9af82116dff5e155fece36571f/Screenshot_20230301_034343.png)
+
 # Installing
 1. Arch Linux
 
@@ -38,8 +40,6 @@ KDE Framework 5.92.0 or above with these modules:
    ```
 
    These packages should pull in all needed Qt and other packages.
-
-2. Others (coming soon)
 
 ## Build steps
 Create and enter build directory.
