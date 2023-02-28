@@ -34,6 +34,7 @@ public Q_SLOTS:
     Q_INVOKABLE void resetHeadsetSettings();
     Q_INVOKABLE void saveSettings();
     Q_INVOKABLE void pauseToggle();
+    Q_INVOKABLE void refresh();
     Q_SCRIPTABLE qint64 getPid();
     Q_SCRIPTABLE void restore();
 

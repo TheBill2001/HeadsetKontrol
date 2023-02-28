@@ -69,7 +69,7 @@ Kirigami.ScrollablePage {
                     text: i18n("Refresh")
                     icon.name: "view-refresh"
                     onClicked: {
-                        AppController.headsetControl.queryAll()
+                        AppController.refresh()
                     }
                 }
             ]

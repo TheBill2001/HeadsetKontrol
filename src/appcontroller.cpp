@@ -191,6 +191,12 @@ void AppController::pauseToggle()
     Q_EMIT pauseChanged(isPaused());
 }
 
+void AppController::refresh()
+{
+    m_timer.start();
+    m_headsetControl->queryAll();
+}
+
 qint64 AppController::getPid()
 {
     return QCoreApplication::applicationPid();
