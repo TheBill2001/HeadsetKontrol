@@ -12,7 +12,6 @@
 #include <KLocalizedContext>
 #include <KLocalizedString>
 
-#include "about.h"
 #include "appcontroller.h"
 #include "headsetkontrolversion.h"
 
