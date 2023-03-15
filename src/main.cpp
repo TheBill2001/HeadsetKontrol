@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     // Register qml type
-    qmlRegisterUncreatableType<HeadsetControl>("headsetkontrol", 1, 0, "HeadsetControl", QStringLiteral("SINGLETON"));
+    qmlRegisterUncreatableType<HeadsetControl>("headsetkontrol", 1, 0, "HeadsetControl", QStringLiteral("Type is singleton"));
     qmlRegisterUncreatableType<HeadsetKontrolConfig>("headsetkontrol", 1, 0, "Config", QStringLiteral("Type is singleton"));
 
     qmlRegisterSingletonInstance("headsetkontrol", 1, 0, "AppController", appControllerPointer.get());
