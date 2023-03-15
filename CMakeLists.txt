@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.20)
 # Project info
 project(HeadsetKontrol)
 
-set(PROJECT_VERSION "1.0.4")
+set(PROJECT_VERSION "1.0.5")
 
 set(KF_MIN_VERSION "5.92.0")
 set(QT_MIN_VERSION "5.15.3")
