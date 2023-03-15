@@ -46,8 +46,15 @@ void ProcessQueue::start()
             auto stdoutVal = QTextStream(p_process).readAll();
             Q_EMIT outputReady(stdoutVal, p_process->arguments());
         });
-        connect(p_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, [=]() {
+        connect(p_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, [=](int exitCode, QProcess::ExitStatus exitStatus) {
+            if (exitStatus != QProcess::QProcess::NormalExit)
+                qWarning() << "headsetcontrol process crashed, exit code:" << exitCode;
+
             p_process->deleteLater();
+        });
+        connect(p_process, &QProcess::errorOccurred, this, [=](QProcess::ProcessError error) {
+            Q_UNUSED(error)
+            qWarning() << "headsetcontrol process error:" << p_process->errorString();
         });
         connect(p_process, &QProcess::destroyed, this, [=]() {
             if (m_queue.isEmpty()) {
