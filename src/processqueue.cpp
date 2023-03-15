@@ -42,7 +42,8 @@ void ProcessQueue::start()
     while (!m_queue.isEmpty() && runningProcess() < 1) {
         QProcess *p_process = m_queue.dequeue();
         connect(p_process, &QProcess::readyReadStandardOutput, this, [=]() {
-            auto stdoutVal = QString::fromUtf8(p_process->readAllStandardOutput());
+            // NOTE: the output is fast enough that reading from only QProcess::readyReadStandardOutput is probably OK.
+            auto stdoutVal = QTextStream(p_process).readAll();
             Q_EMIT outputReady(stdoutVal, p_process->arguments());
         });
         connect(p_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, [=]() {
