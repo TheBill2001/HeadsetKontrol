@@ -42,8 +42,8 @@ void ProcessQueue::start()
     while (!m_queue.isEmpty() && runningProcess() < 1) {
         QProcess *p_process = m_queue.dequeue();
         connect(p_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, [=]() {
-            auto processOutput = QTextStream(p_process);
-            Q_EMIT outputReady(processOutput.readAll(), p_process->arguments());
+            auto testVal = QString::fromUtf8(p_process->readAll());
+            Q_EMIT outputReady(testVal, p_process->arguments());
             p_process->deleteLater();
         });
         connect(p_process, &QProcess::destroyed, this, [=]() {
