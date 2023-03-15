@@ -5,7 +5,7 @@ Interface for [HeadsetControl](https://github.com/Sapd/HeadsetControl) written w
 * Battery level notification.
 * Set headset specific settings.
 
-![Screenshot](/uploads/c9f8ce9af82116dff5e155fece36571f/Screenshot_20230301_034343.png)
+![Screenshot](https://gitlab.com/TheBill2001/HeadsetKontrol/uploads/c9f8ce9af82116dff5e155fece36571f/Screenshot_20230301_034343.png)
 
 # Installing
 1. Arch Linux
@@ -13,8 +13,6 @@ Interface for [HeadsetControl](https://github.com/Sapd/HeadsetControl) written w
    HeadsetKontrol can be install from the [AUR](https://aur.archlinux.org/packages/headsetkontrol).
 
 # Building
-The program is only tested on Linux (Arch to be specific). However, all libraries used are available on Mac OS and Windows. You might need to build them yourself, though.
-
 ## Requirement
 Qt version 5.15.3 or above with these modules:
 
