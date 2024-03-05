@@ -1,4 +1,7 @@
+# NOTE: Rewriting for Plasma 6 in progress. I'm very busy at the moment, so bear with me.
+
 # HeadsetKontrol
+
 Interface for [HeadsetControl](https://github.com/Sapd/HeadsetControl) written with Kirigami and KDE Framework.
 
 * Monitor headset information.
