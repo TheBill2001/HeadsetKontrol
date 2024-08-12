@@ -5,6 +5,9 @@ build/
 # QtCreator
 *.txt.user
 
+# qmlls
+*.qmlls.ini
+
 # Kdevelop
 *.kdev4
 *.kate-swp
