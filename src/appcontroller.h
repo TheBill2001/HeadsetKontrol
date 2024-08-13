@@ -4,8 +4,6 @@
 #include <QObject>
 #include <QTimer>
 
-#include <KAboutData>
-
 #include "headsetcontrol.h"
 #include "headsetkontrolconfig.h"
 #include "trayicon.h"
@@ -13,7 +11,6 @@
 class AppController : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(KAboutData aboutData READ aboutData CONSTANT)
     Q_PROPERTY(HeadsetControl *headsetControl READ headsetControl CONSTANT)
     Q_PROPERTY(HeadsetKontrolConfig *config READ config CONSTANT)
     Q_PROPERTY(bool isPaused READ isPaused NOTIFY pauseChanged)
@@ -22,7 +19,6 @@ class AppController : public QObject
 public:
     explicit AppController(bool startMinimizied, QObject *parent = nullptr);
 
-    KAboutData aboutData() const;
     HeadsetControl *headsetControl() const;
     HeadsetKontrolConfig *config() const;
     bool isPaused() const;

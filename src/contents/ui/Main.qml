@@ -1,29 +1,58 @@
-import QtQuick 2.15
-import org.kde.kirigami 2.19 as Kirigami
+import QtQuick
+import org.kde.kirigami as Kirigami
 
-import headsetkontrol 1.0
-
-import "SettingsPage"
+import com.gitlab.thebill2001.headsetkontrol
 
 Kirigami.ApplicationWindow {
     id: root
 
-    property string mainPageComponent: "qrc:/resources/qml/MainPage.qml"
-    property string settingsPageComponent: "qrc:/resources/qml/SettingsPage/SettingsPage.qml"
-
     title: i18nc("@title:window", "Control your headset")
 
-    minimumWidth: Kirigami.Units.gridUnit * 30
-    minimumHeight: Kirigami.Units.gridUnit * 20
-    maximumWidth: Kirigami.Units.gridUnit * 50
-    maximumHeight: Kirigami.Units.gridUnit * 40
+    minimumWidth: Kirigami.Units.gridUnit * 20
+    minimumHeight: Kirigami.Units.gridUnit * 10
+
     width: Kirigami.Units.gridUnit * 45
     height: Kirigami.Units.gridUnit * 35
 
-    pageStack.initialPage: Qt.createComponent(mainPageComponent)
+    property Device selectedDevice: null
+
+    globalDrawer: Kirigami.GlobalDrawer {
+        isMenu: true
+
+        actions: [
+            Kirigami.Action {
+                id: settingsAction
+                icon.name: "configure"
+                text: i18nc("@action:button", "Settings")
+                onTriggered: root.openSettingsPage()
+            },
+            Kirigami.Action {
+                separator: true
+            },
+            Kirigami.Action {
+                id: quitAction
+                icon.name: "application-exit"
+                text: i18nc("@action:button", "Quit")
+                onTriggered: Qt.quit()
+            }
+        ]
+    }
+
+    pageStack.initialPage: DevicesPage {
+        id: devicesPage
+    }
+
+    onVisibleChanged: visible ? HeadsetControl.stopCountDownUpdateTimer(
+                                    ) : HeadsetControl.startCountDownUpdateTimer()
+
+    SettingsView {
+        id: settingsView
+
+        window: root
+    }
 
     Connections {
-        target: AppController
+        target: TrayIcon
         function onShowWindow() {
             root.show()
             root.raise()
@@ -32,20 +61,32 @@ Kirigami.ApplicationWindow {
         function onShowSettings() {
             root.show()
             root.raise()
-            root.pageStack.pushDialogLayer(settingsPageComponent, {}, {
-                                               "minimumWidth": Kirigami.Units.gridUnit * 30,
-                                               "minimumHeight": Kirigami.Units.gridUnit * 20,
-                                               "maximumWidth": Kirigami.Units.gridUnit * 50,
-                                               "maximumHeight": Kirigami.Units.gridUnit * 40,
-                                               "width": Kirigami.Units.gridUnit * 40,
-                                               "height": Kirigami.Units.gridUnit * 30
-                                           })
+            root.openSettingsPage()
         }
     }
 
-    Component.onCompleted: {
-        if (AppController.startMinimized) {
-            root.close()
+    DeviceDetailPage {
+        id: deviceDetailPage
+
+        device: root.selectedDevice
+    }
+
+    // Component.onCompleted: {
+    //     if (AppController.startMinimized) {
+    //         root.close()
+    //     }
+    // }
+    function openSettingsPage() {
+        settingsView.open()
+    }
+
+    function openDeviceDetailPage(device) {
+        root.selectedDevice = device
+
+        while (root.pageStack.depth > 1) {
+            root.pageStack.pop()
         }
+
+        root.pageStack.push(deviceDetailPage)
     }
 }

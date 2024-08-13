@@ -1,6 +1,4 @@
 File=headsetkontrolconfig.kcfg
-ClassName=HeadsetKontrolConfig
+ClassName=HeadsetKontrolConfigBase
 Mutators=true
-DefaultValueGetters=true
-Singleton=true
 GenerateProperties=true

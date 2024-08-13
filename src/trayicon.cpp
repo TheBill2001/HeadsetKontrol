@@ -4,6 +4,7 @@
 
 #include <KLocalizedString>
 
+#include "config.h"
 #include "trayicon.h"
 
 TrayIcon::TrayIcon(QObject *parent)
@@ -33,4 +34,18 @@ TrayIcon::TrayIcon(QObject *parent)
     menu->addAction(quitAction);
 
     setContextMenu(menu);
+
+    setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol")));
+
+    connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::RunInBackgroundChanged, this, [=]() {
+        if (HeadsetKontrolConfig::instance()->runInBackground()) {
+            show();
+        } else {
+            hide();
+        }
+    });
+
+    if (HeadsetKontrolConfig::instance()->runInBackground()) {
+        show();
+    }
 }

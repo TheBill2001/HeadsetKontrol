@@ -1,427 +1,495 @@
 #include <QDebug>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 
+#include "config.h"
 #include "headsetcontrol.h"
 
-HeadsetControl::HeadsetControl(const QString &path, QObject *parent)
+using namespace Qt::Literals::StringLiterals;
+
+HeadsetControlDeviceBattery::HeadsetControlDeviceBattery(HeadsetControlDevice *parent)
     : QObject{parent}
-    , m_path{path}
-    , m_battery{-2}
-    , m_chatMix{-1}
-    , m_pathValid{false}
-    , m_queue{this}
 {
-    connect(&m_queue, &ProcessQueue::outputReady, this, &HeadsetControl::outputReady);
-    connect(this, &HeadsetControl::pathChecked, this, &HeadsetControl::queryAll);
-    connect(this, &HeadsetControl::capabilitiesQueried, this, &HeadsetControl::onCapabilitiesQuerried);
-    connect(this, &HeadsetControl::nameChanged, this, &HeadsetControl::onNameChanged);
-
-    if (!m_path.isEmpty())
-        checkPath();
 }
 
-QString HeadsetControl::getName() const
+HeadsetControlDeviceBattery::~HeadsetControlDeviceBattery()
 {
-    return m_name;
 }
 
-int HeadsetControl::getBattery() const
+HeadsetControlDeviceBattery::Status HeadsetControlDeviceBattery::status() const
 {
-    if (!hasBatteryCapability())
-        return -2;
+    return m_status;
+}
 
+void HeadsetControlDeviceBattery::setStatus(const QString &newStatus)
+{
+    Status stat = Unavailable;
+    if (newStatus == u"BATTERY_CHARGING"_s) {
+        stat = Charging;
+    } else if (newStatus == u"BATTERY_AVAILABLE"_s) {
+        stat = Available;
+    } else if (newStatus == u"BATTERY_HIDERROR"_s) {
+        stat = HidError;
+    } else if (newStatus == u"BATTERY_TIMEOUT"_s) {
+        stat = Timeout;
+    }
+
+    if (m_status == stat)
+        return;
+    m_status = stat;
+    Q_EMIT statusChanged();
+}
+
+int HeadsetControlDeviceBattery::level() const
+{
+    return m_level;
+}
+
+void HeadsetControlDeviceBattery::update(const QVariantHash &hash)
+{
+    setStatus(hash.value(u"status"_s, QString()).toString());
+    setLevel(hash.value(u"level"_s, -1).toInt());
+}
+
+void HeadsetControlDeviceBattery::setLevel(int newLevel)
+{
+    if (m_level == newLevel)
+        return;
+    m_level = newLevel;
+    Q_EMIT levelChanged();
+}
+
+HeadsetControlDevice::HeadsetControlDevice(HeadsetControl *parent)
+    : QObject{parent}
+    , m_battery{new HeadsetControlDeviceBattery(this)}
+{
+}
+
+HeadsetControlDevice::~HeadsetControlDevice()
+{
+}
+
+HeadsetControlDeviceBattery *HeadsetControlDevice::battery() const
+{
     return m_battery;
 }
 
-int HeadsetControl::getChatMix() const
+int HeadsetControlDevice::chatMix() const
 {
-    if (!hasChatMixCapabilitiy())
-        return -1;
-
     return m_chatMix;
 }
 
-QList<HeadsetControl::Capabilities> HeadsetControl::getCapabilities() const
+void HeadsetControlDevice::setChatMix(int newChatMix)
+{
+    if (m_chatMix == newChatMix)
+        return;
+    m_chatMix = newChatMix;
+    Q_EMIT chatMixChanged();
+}
+
+HeadsetControlDevice::Capabilities HeadsetControlDevice::capabilities() const
 {
     return m_capabilities;
 }
 
-void HeadsetControl::setPath(const QString &path)
+void HeadsetControlDevice::setCapabilities(const QStringList &newCapabilities)
 {
-    if (path != m_path) {
-        m_path = path;
-        Q_EMIT pathChanged(m_path);
+    Capabilities cap;
+    if (newCapabilities.contains(u"CAP_SIDETONE"_s)) {
+        cap |= Sidetone;
+    }
+
+    if (newCapabilities.contains(u"CAP_BATTERY_STATUS"_s)) {
+        cap |= Battery;
+    }
+
+    if (newCapabilities.contains(u"CAP_NOTIFICATION_SOUND"_s)) {
+        cap |= NotificationSound;
+    }
+
+    if (newCapabilities.contains(u"CAP_LIGHTS"_s)) {
+        cap |= LED;
+    }
+
+    if (newCapabilities.contains(u"CAP_INACTIVE_TIME"_s)) {
+        cap |= InactiveTime;
+    }
+
+    if (newCapabilities.contains(u"CAP_CHATMIX_STATUS"_s)) {
+        cap |= ChatMix;
+    }
+
+    if (newCapabilities.contains(u"CAP_VOICE_PROMPTS"_s)) {
+        cap |= VoicePrompt;
+    }
+
+    if (newCapabilities.contains(u"CAP_ROTATE_TO_MUTE"_s)) {
+        cap |= RotateToMute;
+    }
+
+    if (newCapabilities.contains(u"CAP_EQUALIZER_PRESET"_s)) {
+        cap |= EqualizerPreset;
+    }
+
+    if (newCapabilities.contains(u"CAP_EQUALIZER"_s)) {
+        cap |= Equalizer;
+    }
+
+    if (newCapabilities.contains(u"CAP_MICROPHONE_MUTE_LED_BRIGHTNESS"_s)) {
+        cap |= MicrophoneMuteLedBrightness;
+    }
+
+    if (newCapabilities.contains(u"CAP_MICROPHONE_VOLUME"_s)) {
+        cap |= MicrophoneVolume;
+    }
+
+    if (m_capabilities == cap)
+        return;
+    m_capabilities = cap;
+    Q_EMIT capabilitiesChanged();
+}
+
+QString HeadsetControlDevice::device() const
+{
+    return m_device;
+}
+
+void HeadsetControlDevice::setDevice(const QString &newDevice)
+{
+    if (m_device == newDevice)
+        return;
+    m_device = newDevice;
+    Q_EMIT deviceChanged();
+}
+
+QString HeadsetControlDevice::vendor() const
+{
+    return m_vendor;
+}
+
+void HeadsetControlDevice::setVendor(const QString &newVendor)
+{
+    if (m_vendor == newVendor)
+        return;
+    m_vendor = newVendor;
+    Q_EMIT vendorChanged();
+}
+
+QString HeadsetControlDevice::product() const
+{
+    return m_product;
+}
+
+QString HeadsetControlDevice::vendorId() const
+{
+    return m_vendorId;
+}
+
+void HeadsetControlDevice::setVendorId(const QString &newVendorId)
+{
+    if (m_vendorId == newVendorId)
+        return;
+    m_vendorId = newVendorId;
+    Q_EMIT vendorIdChanged();
+}
+
+QString HeadsetControlDevice::productId() const
+{
+    return m_productId;
+}
+
+void HeadsetControlDevice::update(const QVariantHash &hash)
+{
+    setStatus(hash.value(u"status"_s, QString()).toString());
+    setDevice(hash.value(u"device"_s, QString()).toString());
+    setVendor(hash.value(u"vendor"_s, QString()).toString());
+    setProduct(hash.value(u"product"_s, QString()).toString());
+    setVendorId(hash.value(u"id_vendor"_s, QString()).toString());
+    setProductId(hash.value(u"id_product"_s, QString()).toString());
+    setChatMix(hash.value(u"chatmix"_s, 0).toInt());
+    setCapabilities(hash.value(u"capabilities"_s, QStringList()).toStringList());
+    battery()->update(hash.value(u"battery"_s, QStringList()).toHash());
+
+    auto errors = hash.value(u"errors"_s, QString()).toStringList();
+    for (auto const &error : std::as_const(errors)) {
+        Q_EMIT errorOccurred(error);
     }
 }
 
-QString HeadsetControl::getPath() const
+HeadsetControlDevice::Status HeadsetControlDevice::status() const
 {
-    return m_path;
+    return m_status;
 }
 
-bool HeadsetControl::isPathValid() const
+void HeadsetControlDevice::setStatus(const QString &newStatus)
 {
-    return m_pathValid;
-}
+    Status stat = Failure;
+    if (newStatus == u"partial"_s)
+        stat = Partial;
+    else if (newStatus == u"success"_s)
+        stat = Success;
 
-bool HeadsetControl::hasBatteryCapability() const
-{
-    return m_capabilities.contains(Capabilities::Battery);
-}
-
-bool HeadsetControl::hasSidetoneCapability() const
-{
-    return m_capabilities.contains(Capabilities::Sidetone);
-}
-
-bool HeadsetControl::hasNotificationSoundCapability() const
-{
-    return m_capabilities.contains(Capabilities::NotificationSound);
-}
-
-bool HeadsetControl::hasLedCapability() const
-{
-    return m_capabilities.contains(Capabilities::LED);
-}
-
-bool HeadsetControl::hasInactiveTimeCapabilities() const
-{
-    return m_capabilities.contains(Capabilities::InactiveTime);
-}
-
-bool HeadsetControl::hasChatMixCapabilitiy() const
-{
-    return m_capabilities.contains(Capabilities::ChatMix);
-}
-
-bool HeadsetControl::hasVoicePromptCapabilitiy() const
-{
-    return m_capabilities.contains(Capabilities::VoicePrompt);
-}
-
-bool HeadsetControl::hasRotateToMuteCapabilitiy() const
-{
-    return m_capabilities.contains(Capabilities::RotateToMute);
-}
-
-bool HeadsetControl::hasEqualizerPresetCapability() const
-{
-    return m_capabilities.contains(Capabilities::EqualizerPreset);
-}
-
-void HeadsetControl::checkPath()
-{
-    enqueue({QStringLiteral("-h")});
-}
-
-void HeadsetControl::queryAll()
-{
-    if (isPathValid()) {
-        queryName();
-        queryCapabilities();
-    }
-}
-
-void HeadsetControl::queryName()
-{
-    enqueue({});
-}
-
-void HeadsetControl::queryBattery()
-{
-    enqueue({QStringLiteral("-cb")});
-}
-
-void HeadsetControl::queryChatMix()
-{
-    enqueue({QStringLiteral("-cm")});
-}
-
-void HeadsetControl::queryCapabilities()
-{
-    enqueue({QStringLiteral("-?c")});
-}
-
-void HeadsetControl::setSidetone(int sidetone)
-{
-    if (!hasSidetoneCapability())
+    if (m_status == stat)
         return;
-
-    enqueue({QStringLiteral("-s ").append(QString::number(sidetone))});
+    m_status = stat;
+    Q_EMIT statusChanged();
 }
 
-void HeadsetControl::setNotificationSound(int sound)
+void HeadsetControlDevice::setProductId(const QString &newProductId)
 {
-    if (!hasNotificationSoundCapability())
+    if (m_productId == newProductId)
         return;
-
-    enqueue({QStringLiteral("-n ").append(QString::number(sound))});
+    m_productId = newProductId;
+    Q_EMIT productIdChanged();
 }
 
-void HeadsetControl::setLed(bool enable)
+void HeadsetControlDevice::setProduct(const QString &newProduct)
 {
-    if (!hasLedCapability())
+    if (m_product == newProduct)
         return;
-
-    enqueue({QStringLiteral("-l ").append(enable ? QString::number(1) : QString::number(0))});
+    m_product = newProduct;
+    Q_EMIT productChanged();
 }
 
-void HeadsetControl::setInactiveTime(int time)
+HeadsetControl::HeadsetControl(QObject *parent)
+    : QObject{parent}
+    , m_queue{new ProcessQueue(this)}
 {
-    if (!hasInactiveTimeCapabilities())
-        return;
+    connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::ExecutablePathChanged, this, &HeadsetControl::start);
+    connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::UpdateRateChanged, this, &HeadsetControl::start);
 
-    enqueue({QStringLiteral("-i ").append(QString::number(time))});
-}
-
-void HeadsetControl::setVoicePrompt(bool enable)
-{
-    if (!hasVoicePromptCapabilitiy())
-        return;
-
-    enqueue({QStringLiteral("-v ").append(enable ? QString::number(1) : QString::number(0))});
-}
-
-void HeadsetControl::setRotateToMute(bool enable)
-{
-    if (!hasRotateToMuteCapabilitiy())
-        return;
-
-    enqueue({QStringLiteral("-r ").append(enable ? QString::number(1) : QString::number(0))});
-}
-
-void HeadsetControl::setEqualizerPreset(int preset)
-{
-    if (!hasEqualizerPresetCapability())
-        return;
-
-    enqueue({QStringLiteral("-p ").append(QString::number(preset))});
-}
-
-void HeadsetControl::outputReady(const QString &output, const QStringList &arguments)
-{
-    if (arguments.contains(QStringLiteral("-h"))) {
-        if (output.contains(QStringLiteral("Headsetcontrol")))
-            setPathValid(true);
+    connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::ShowCountdownProgressChanged, this, [=]() {
+        if (HeadsetKontrolConfig::instance()->showCountdownProgress())
+            startCountDownUpdateTimer();
         else
-            setPathValid(false);
+            stopCountDownUpdateTimer();
+    });
 
+    m_timer.setParent(this);
+    m_timer.setSingleShot(false);
+    m_timer.setInterval(HeadsetKontrolConfig::instance()->updateRate());
+
+    connect(&m_timer, &QTimer::timeout, this, &HeadsetControl::run);
+
+    connect(m_queue, &ProcessQueue::outputReady, this, &HeadsetControl::onUpdated);
+    connect(m_queue, &ProcessQueue::errorOccurred, this, &HeadsetControl::processErrorOccurred);
+
+    connect(&m_countdownRefreshTimer, &QTimer::timeout, this, &HeadsetControl::countDownTimeChanged);
+
+    m_countdownRefreshTimer.setInterval(50); // This spikes CPU alot
+
+    QTimer::singleShot(0, this, &HeadsetControl::start);
+}
+
+QString HeadsetControl::version() const
+{
+    return m_version;
+}
+
+void HeadsetControl::setVersion(const QString &newVersion)
+{
+    if (m_version == newVersion)
+        return;
+    m_version = newVersion;
+    Q_EMIT versionChanged();
+}
+
+QString HeadsetControl::apiVersion() const
+{
+    return m_apiVersion;
+}
+
+void HeadsetControl::setApiVersion(const QString &newApiVersion)
+{
+    if (m_apiVersion == newApiVersion)
+        return;
+    m_apiVersion = newApiVersion;
+    Q_EMIT apiVersionChanged();
+}
+
+QString HeadsetControl::hidApiVersion() const
+{
+    return m_hidApiVersion;
+}
+
+int HeadsetControl::updateRate() const
+{
+    return m_updateRate;
+}
+
+void HeadsetControl::setUpdateRate(int newUpdateRate)
+{
+    if (m_updateRate == newUpdateRate)
+        return;
+    m_updateRate = newUpdateRate;
+    Q_EMIT updateRateChanged();
+}
+
+void HeadsetControl::start()
+{
+    if (HeadsetKontrolConfig::instance()->executablePath().isEmpty() || HeadsetKontrolConfig::instance()->updateRate() <= 0) {
+        stop();
         return;
     }
 
-    if (arguments.isEmpty()) {
-        if (isPathValid()) {
-            auto nameString = output.trimmed().split(QStringLiteral("\n")).at(0);
-            nameString.chop(1);
-            setName(nameString.remove(QStringLiteral("Found ")));
-        } else
-            setName(QString());
+    m_timer.start(HeadsetKontrolConfig::instance()->updateRate());
 
+    if (HeadsetKontrolConfig::instance()->showCountdownProgress())
+        m_countdownRefreshTimer.start();
+
+    Q_EMIT isRunningChanged();
+    run();
+}
+
+void HeadsetControl::stop()
+{
+    m_timer.stop();
+    m_queue->stop();
+    Q_EMIT isRunningChanged();
+}
+
+void HeadsetControl::refresh()
+{
+    if (isRunning()) {
+        start();
+    } else {
+        run();
+    }
+}
+
+void HeadsetControl::stopCountDownUpdateTimer()
+{
+    m_countdownRefreshTimer.stop();
+}
+
+void HeadsetControl::startCountDownUpdateTimer()
+{
+    m_countdownRefreshTimer.start();
+}
+
+void HeadsetControl::onUpdated(const QByteArray &data)
+{
+    if (data.isEmpty()) {
+        clearDevices();
+        stop();
         return;
     }
 
-    if (arguments.contains(QStringLiteral("-?c"))) {
-        if (isPathValid()) {
-            QList<Capabilities> cap;
-            if (output.contains(QStringLiteral("s")))
-                cap.append(Capabilities::Sidetone);
-            if (output.contains(QStringLiteral("b")))
-                cap.append(Capabilities::Battery);
-            if (output.contains(QStringLiteral("n")))
-                cap.append(Capabilities::NotificationSound);
-            if (output.contains(QStringLiteral("l")))
-                cap.append(Capabilities::LED);
-            if (output.contains(QStringLiteral("i")))
-                cap.append(Capabilities::InactiveTime);
-            if (output.contains(QStringLiteral("m")))
-                cap.append(Capabilities::ChatMix);
-            if (output.contains(QStringLiteral("v")))
-                cap.append(Capabilities::VoicePrompt);
-            if (output.contains(QStringLiteral("r")))
-                cap.append(Capabilities::RotateToMute);
-            if (output.contains(QStringLiteral("p")))
-                cap.append(Capabilities::EqualizerPreset);
-            setCapabilities(cap);
-        } else
-            setCapabilities(QList<Capabilities>());
+    QJsonParseError jsonError;
+    QJsonDocument doc = QJsonDocument::fromJson(data, &jsonError);
+    QString errorString;
+    bool hasError = false;
 
+    if (jsonError.error != QJsonParseError::NoError) {
+        qWarning().noquote() << u"Failed to parse headsetcontrol output, JSON error '%1' at position '%2': '%3'."_s.arg(jsonError.errorString(),
+                                                                                                                        QString::number(jsonError.offset),
+                                                                                                                        QString::fromUtf8(data));
+        errorString =
+            u"Failed to parse headsetcontrol output, JSON error '%1' at position '%2'."_s.arg(jsonError.errorString(), QString::number(jsonError.offset));
+        hasError = true;
+    }
+
+    if (!hasError && !doc.isObject()) {
+        qWarning().noquote() << u"Failed to parse headsetcontrol output, Expecting root element to be an object: '%1'."_s.arg(QString::fromUtf8(data));
+        errorString = u"Failed to parse headsetcontrol output, Expecting root element to be an object."_s;
+        hasError = true;
+    }
+
+    if (hasError) {
+        stop();
+        Q_EMIT parsingErrorOccurred(errorString);
         return;
     }
 
-    if (arguments.contains(QStringLiteral("-cb"))) {
-        if (isPathValid()) {
-            bool check;
-            auto batteryValue = output.toInt(&check);
+    auto rootHash = doc.object().toVariantHash();
+    setVersion(rootHash.value(u"version"_s, QString()).toString());
+    setApiVersion(rootHash.value(u"api_version"_s, QString()).toString());
+    setHidApiVersion(rootHash.value(u"hidapi_version"_s, QString()).toString());
 
-            if (!check) {
-                qWarning() << "Cannot parse battery info: " << output;
-                setBattery(-2);
-            } else
-                setBattery(batteryValue);
-        } else
-            setBattery(-2);
+    auto devicesHash = rootHash.value(u"devices"_s, QVariantList()).toList();
+    for (const auto &deviceVariant : std::as_const(devicesHash)) {
+        auto deviceHash = deviceVariant.toHash();
+        HeadsetControlDevice *device =
+            getDevice(deviceHash.value(u"id_vendor"_s, QString()).toString(), deviceHash.value(u"id_product"_s, QString()).toString());
 
-        return;
-    }
-
-    if (arguments.contains(QStringLiteral("-cm"))) {
-        if (isPathValid()) {
-            bool check;
-            auto chatMixValue = output.toInt(&check);
-
-            if (!check) {
-                qWarning() << "Cannot parse Chat-Mix info: " << output;
-                setChatMix(-1);
-            } else
-                setChatMix(chatMixValue);
-        } else
-            setChatMix(-1);
-
-        return;
-    }
-
-    if (arguments.contains(QStringLiteral("-s"))) {
-        if (output.contains(QStringLiteral("Success!")))
-            Q_EMIT sidetoneUpdated(true);
-        else {
-            qWarning() << "Failed to set sidetone: " << output.split(QStringLiteral("\n")).at(1).simplified();
-            Q_EMIT sidetoneUpdated(false);
+        if (device) {
+            device->update(deviceHash);
+        } else {
+            device = new HeadsetControlDevice(this);
+            device->update(deviceHash);
+            addDevice(device);
         }
+    }
+}
 
+void HeadsetControl::run()
+{
+    m_queue->addProcess(HeadsetKontrolConfig::instance()->executablePath(), {u"--test-device"_s, u"-o"_s, u"json"_s});
+    m_queue->start();
+}
+
+QList<HeadsetControlDevice *> HeadsetControl::devices() const
+{
+    return m_devices;
+}
+
+qint32 HeadsetControl::countDownTime() const
+{
+    return m_timer.remainingTime();
+}
+
+bool HeadsetControl::isRunning() const
+{
+    return m_timer.isActive();
+}
+
+void HeadsetControl::setHidApiVersion(const QString &newHidApiVersion)
+{
+    if (m_hidApiVersion == newHidApiVersion)
         return;
-    }
+    m_hidApiVersion = newHidApiVersion;
+    Q_EMIT hidApiVersionChanged();
+}
 
-    if (arguments.contains(QStringLiteral("-n"))) {
-        if (output.contains(QStringLiteral("Success!")))
-            Q_EMIT notificationSoundUpdated(true);
-        else {
-            qWarning() << "Failed to play notification sound: " << output.split(QStringLiteral("\n")).at(1).simplified();
-            Q_EMIT notificationSoundUpdated(false);
-        }
-
+void HeadsetControl::addDevice(HeadsetControlDevice *device)
+{
+    if (m_devices.contains(device))
         return;
-    }
+    m_devices.append(device);
+    Q_EMIT devicesChanged();
+}
 
-    if (arguments.contains(QStringLiteral("-l"))) {
-        if (output.contains(QStringLiteral("Success!")))
-            Q_EMIT ledUpdated(true);
-        else {
-            qWarning() << "Failed to set LED mode: " << output.split(QStringLiteral("\n")).at(1).simplified();
-            Q_EMIT ledUpdated(false);
-        }
-
+void HeadsetControl::removeDevice(HeadsetControlDevice *device)
+{
+    if (!m_devices.contains(device))
         return;
-    }
+    m_devices.removeAll(device);
+    Q_EMIT devicesChanged();
+}
 
-    if (arguments.contains(QStringLiteral("-i"))) {
-        if (output.contains(QStringLiteral("Success!")))
-            Q_EMIT inactiveTimeUpdated(true);
-        else {
-            qWarning() << "Failed to set inactive time: " << output.split(QStringLiteral("\n")).at(1).simplified();
-            Q_EMIT inactiveTimeUpdated(false);
-        }
+void HeadsetControl::clearDevices()
+{
+    setVersion({});
+    setApiVersion({});
+    setHidApiVersion({});
 
+    if (m_devices.isEmpty())
         return;
+
+    while (!m_devices.isEmpty()) {
+        auto device = m_devices.last();
+        m_devices.pop_back();
+        device->deleteLater();
     }
-
-    if (arguments.contains(QStringLiteral("-v"))) {
-        if (output.contains(QStringLiteral("Success!")))
-            Q_EMIT voicePromptUpdated(true);
-        else {
-            qWarning() << "Failed to set voice prompt mode: " << output.split(QStringLiteral("\n")).at(1).simplified();
-            Q_EMIT voicePromptUpdated(false);
-        }
-
-        return;
-    }
-
-    if (arguments.contains(QStringLiteral("-r"))) {
-        if (output.contains(QStringLiteral("Success!")))
-            Q_EMIT rotateToMuteUpdated(true);
-        else {
-            qWarning() << "Failed to set rotate-to-mute mode: " << output.split(QStringLiteral("\n")).at(1).simplified();
-            Q_EMIT rotateToMuteUpdated(false);
-        }
-
-        return;
-    }
-
-    if (arguments.contains(QStringLiteral("-p"))) {
-        if (output.contains(QStringLiteral("Success!")))
-            Q_EMIT equalizerPresetUpdated(true);
-        else {
-            qWarning() << "Failed to set equalizer preset: " << output.split(QStringLiteral("\n")).at(1).simplified();
-            Q_EMIT equalizerPresetUpdated(false);
-        }
-
-        return;
-    }
+    Q_EMIT devicesChanged();
 }
 
-void HeadsetControl::onCapabilitiesQuerried()
+HeadsetControlDevice *HeadsetControl::getDevice(const QString &vendorId, const QString &productId)
 {
-    if (hasBatteryCapability())
-        queryBattery();
-    if (hasChatMixCapabilitiy())
-        queryChatMix();
-}
-
-void HeadsetControl::onNameChanged()
-{
-    setSidetone(-1);
-    setBattery(-2);
-    setChatMix(-1);
-}
-
-void HeadsetControl::setPathValid(bool valid)
-{
-    if (m_pathValid != valid) {
-        m_pathValid = valid;
-        Q_EMIT pathChecked();
+    for (auto device : std::as_const(m_devices)) {
+        if (device->vendorId() == vendorId && device->productId() == productId)
+            return device;
     }
-}
-
-void HeadsetControl::setName(const QString &name)
-{
-    if (name != m_name) {
-        m_name = name;
-        Q_EMIT nameChanged(m_name);
-        Q_EMIT queriedChanged();
-    }
-    Q_EMIT nameQueried(m_name);
-}
-
-void HeadsetControl::setBattery(int battery)
-{
-    if (m_battery != battery) {
-        m_battery = battery;
-        Q_EMIT batteryChanged(m_battery);
-        Q_EMIT queriedChanged();
-    }
-    Q_EMIT batteryQueried(m_battery);
-}
-
-void HeadsetControl::setChatMix(int chatMix)
-{
-    if (m_chatMix != chatMix) {
-        m_chatMix = chatMix;
-        Q_EMIT chatMixChanged(m_chatMix);
-        Q_EMIT queriedChanged();
-    }
-    Q_EMIT chatMixQueried(m_chatMix);
-}
-
-void HeadsetControl::setCapabilities(const QList<Capabilities> &capabilities)
-{
-    if (m_capabilities != capabilities) {
-        m_capabilities = capabilities;
-        Q_EMIT capabilitiesChanged(m_capabilities);
-        Q_EMIT queriedChanged();
-    }
-    Q_EMIT capabilitiesQueried(m_capabilities);
-}
-
-void HeadsetControl::enqueue(const QStringList &arguments)
-{
-    m_queue.addProcess(m_path, arguments);
-    m_queue.start();
+    return nullptr;
 }

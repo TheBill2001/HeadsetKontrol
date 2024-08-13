@@ -21,13 +21,15 @@ public Q_SLOTS:
     void clear();
 
 Q_SIGNALS:
-    void outputReady(const QString &output, const QStringList &arguments);
+    void outputReady(const QByteArray &data);
     void runningChanged(bool running);
-    void finished();
+    void errorOccurred(const QString &error);
 
 private:
     QQueue<QProcess *> m_queue;
     bool m_running;
+
+    QByteArray m_outputData;
 
     void setRunning(bool running);
 };

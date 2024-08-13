@@ -256,8 +256,3 @@ void AppController::setupTrayIcon()
             m_trayIcon->setToolTip(infoStrings.join(QStringLiteral("\n")));
     });
 }
-
-KAboutData AppController::aboutData() const
-{
-    return KAboutData::applicationData();
-}

@@ -26,8 +26,11 @@ ecm_setup_version(${PROJECT_VERSION}
 
 find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS
     Core
+    Gui
     Quick
+    Qml
     QuickControls2
+    Widgets
     DBus
 )
 
@@ -38,9 +41,16 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     Config
     DBusAddons
     Notifications
+    IconThemes
 )
 
+find_package(KF6 1.4.0 REQUIRED COMPONENTS KirigamiAddons)
+
+qt_policy(SET QTP0001 NEW)
+
 ecm_find_qmlmodule(org.kde.kirigami REQUIRED)
+ecm_find_qmlmodule(org.kde.kirigamiaddons.settings REQUIRED)
+ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard REQUIRED)
 
 # Subdir to sources
 add_subdirectory(src)
@@ -53,6 +63,7 @@ kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 include(KDEGitCommitHooks)
 kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 
+include(FeatureSummary)
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 # Build translation
