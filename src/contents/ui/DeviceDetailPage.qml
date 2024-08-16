@@ -157,14 +157,21 @@ KirigamiFormCard.FormCardPage {
         id: configFormCard
 
         visible: deviceDetailPage.device?.capabilities
-                 & (Device.LED | Device.VoicePrompt | Device.Sidetone
+                 & (Device.Light | Device.VoicePrompt | Device.Sidetone
                     | Device.InactiveTime | Device.NotificationSound) ?? false
 
         KirigamiFormCard.FormSwitchDelegate {
             id: lightDelegate
 
             text: i18n("Lights")
-            visible: deviceDetailPage.device?.capabilities & Device.LED ?? false
+            visible: deviceDetailPage.device?.capabilities & Device.Light
+                     ?? false
+
+            checked: deviceDetailPage.device?.light ?? true
+            onCheckedChanged: {
+                if (deviceDetailPage.device)
+                    deviceDetailPage.device.light = checked
+            }
         }
 
         KirigamiFormCard.FormSwitchDelegate {
@@ -277,12 +284,12 @@ KirigamiFormCard.FormCardPage {
                  ?? false
 
         FormSliderDelegate {
-            id: microphoneLEDBrightnessDelegate
+            id: microphoneLightBrightnessDelegate
 
             visible: deviceDetailPage.device?.capabilities & Device.MicrophoneMuteLedBrightness
                      ?? false
 
-            text: i18n("Mircophone mute LED brightness")
+            text: i18n("Mircophone mute light brightness")
             from: 0
             to: 3
             stepSize: 1

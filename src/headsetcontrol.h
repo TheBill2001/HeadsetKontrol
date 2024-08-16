@@ -4,6 +4,8 @@
 #include <QQmlEngine>
 #include <QTimer>
 
+#include <KSharedConfig>
+
 #include "processqueue.h"
 
 class HeadsetControl;
@@ -56,6 +58,15 @@ class HeadsetControlDevice : public QObject
     Q_PROPERTY(QString vendorId READ vendorId NOTIFY vendorIdChanged FINAL)
     Q_PROPERTY(QString productId READ productId NOTIFY productIdChanged FINAL)
     Q_PROPERTY(Status status READ status NOTIFY statusChanged FINAL)
+
+    Q_PROPERTY(bool light READ light WRITE setLight NOTIFY lightChanged FINAL)
+    Q_PROPERTY(bool voicePrompt READ voicePrompt WRITE setVoicePrompt NOTIFY voicePromptChanged FINAL)
+    Q_PROPERTY(int inactiveTime READ inactiveTime WRITE setInactiveTime NOTIFY inactiveTimeChanged FINAL)
+    Q_PROPERTY(QString equalizer READ equalizer WRITE setEqualizer NOTIFY equalizerChanged FINAL)
+    Q_PROPERTY(int equalizerPreset READ equalizerPreset WRITE setEqualizerPreset NOTIFY equalizerPresetChanged FINAL)
+    Q_PROPERTY(bool rotateToMute READ rotateToMute WRITE setRotateToMute NOTIFY rotateToMuteChanged FINAL)
+    Q_PROPERTY(int microphoneBrightness READ microphoneBrightness WRITE setMicrophoneBrightness NOTIFY microphoneBrightnessChanged FINAL)
+    Q_PROPERTY(int microphoneVolume READ microphoneVolume WRITE setMicrophoneVolume NOTIFY microphoneVolumeChanged FINAL)
 public:
     explicit HeadsetControlDevice(HeadsetControl *parent = nullptr);
     ~HeadsetControlDevice();
@@ -64,7 +75,7 @@ public:
         Sidetone = 0x0001,
         Battery = 0x0002,
         NotificationSound = 0x0004,
-        LED = 0x0008,
+        Light = 0x0008,
         InactiveTime = 0x0010,
         ChatMix = 0x0020,
         VoicePrompt = 0x0040,
@@ -96,6 +107,33 @@ public:
 
     Status status() const;
 
+    bool light() const;
+    void setLight(bool state);
+
+    bool voicePrompt() const;
+    void setVoicePrompt(bool state);
+
+    int inactiveTime() const;
+    void setInactiveTime(int time);
+
+    QString equalizer() const;
+    void setEqualizer(const QString &eqString);
+
+    int equalizerPreset() const;
+    void setEqualizerPreset(int equalizerPreset);
+
+    bool rotateToMute() const;
+    void setRotateToMute(bool state);
+
+    int microphoneBrightness() const;
+    void setMicrophoneBrightness(int brightness);
+
+    int microphoneVolume() const;
+    void setMicrophoneVolume(int volume);
+
+public Q_SLOTS:
+    void playNotification(const QString &audioId);
+
 Q_SIGNALS:
     void chatMixChanged();
     void capabilitiesChanged();
@@ -108,6 +146,15 @@ Q_SIGNALS:
     void errorOccurred(const QString &error);
 
     void statusChanged();
+
+    void lightChanged();
+    void voicePromptChanged();
+    void inactiveTimeChanged();
+    void equalizerChanged();
+    void equalizerPresetChanged();
+    void rotateToMuteChanged();
+    void microphoneBrightnessChanged();
+    void microphoneVolumeChanged();
 
 private:
     Status m_status;
@@ -123,6 +170,9 @@ private:
 
     Capabilities m_capabilities;
 
+    HeadsetControl *m_headsetControl;
+    KSharedConfig::Ptr m_config;
+
     void setChatMix(int newChatMix);
     void setCapabilities(const QStringList &newCapabilities);
     void setDevice(const QString &newDevice);
@@ -131,6 +181,9 @@ private:
     void setVendorId(const QString &newVendorId);
     void setProductId(const QString &newProductId);
     void setStatus(const QString &newStatus);
+
+    void writeConfig(const QString &key, const QVariant &value);
+    QVariant readConfig(const QString &key, const QVariant &defaultValue) const;
 };
 
 class HeadsetControl : public QObject
@@ -162,7 +215,7 @@ public:
     bool isRunning() const;
 
 public Q_SLOTS:
-    void start();
+    void start(const QStringList &args = {});
     void stop();
     void refresh();
 
@@ -170,7 +223,6 @@ public Q_SLOTS:
     void startCountDownUpdateTimer();
 
 Q_SIGNALS:
-    void pathChanged();
     void versionChanged();
     void apiVersionChanged();
     void hidApiVersionChanged();
@@ -178,12 +230,13 @@ Q_SIGNALS:
     void devicesChanged();
     void parsingErrorOccurred(const QString &error);
     void processErrorOccurred(const QString &error);
+    void deviceErrorOccurred(HeadsetControlDevice *device, const QString &error);
     void countDownTimeChanged();
     void isRunningChanged();
 
 private Q_SLOTS:
     void onUpdated(const QByteArray &data);
-    void run();
+    void run(const QStringList &args = {});
 
 private:
     ProcessQueue *m_queue;

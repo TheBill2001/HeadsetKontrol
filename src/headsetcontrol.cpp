@@ -63,7 +63,12 @@ void HeadsetControlDeviceBattery::setLevel(int newLevel)
 HeadsetControlDevice::HeadsetControlDevice(HeadsetControl *parent)
     : QObject{parent}
     , m_battery{new HeadsetControlDeviceBattery(this)}
+    , m_headsetControl{parent}
+    , m_config{HeadsetKontrolConfig::instance()->sharedConfig()}
 {
+    connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::configChanged, this, [=]() {
+        qInfo() << "HAHA!";
+    });
 }
 
 HeadsetControlDevice::~HeadsetControlDevice()
@@ -109,7 +114,7 @@ void HeadsetControlDevice::setCapabilities(const QStringList &newCapabilities)
     }
 
     if (newCapabilities.contains(u"CAP_LIGHTS"_s)) {
-        cap |= LED;
+        cap |= Light;
     }
 
     if (newCapabilities.contains(u"CAP_INACTIVE_TIME"_s)) {
@@ -222,6 +227,126 @@ HeadsetControlDevice::Status HeadsetControlDevice::status() const
     return m_status;
 }
 
+bool HeadsetControlDevice::light() const
+{
+    return readConfig(u"light"_s, true).toBool();
+}
+
+void HeadsetControlDevice::setLight(bool state)
+{
+    if (m_capabilities.testFlag(Light)) {
+        writeConfig(u"light"_s, state);
+        m_headsetControl->start({u"--light"_s, state ? u"1"_s : u"0"_s});
+    }
+}
+
+bool HeadsetControlDevice::voicePrompt() const
+{
+    return readConfig(u"voicePrompt"_s, true).toBool();
+}
+
+void HeadsetControlDevice::setVoicePrompt(bool state)
+{
+    if (m_capabilities.testFlag(VoicePrompt)) {
+        writeConfig(u"voicePrompt"_s, state);
+        m_headsetControl->start({u"--voice-prompt"_s, state ? u"1"_s : u"0"_s});
+    }
+}
+
+int HeadsetControlDevice::inactiveTime() const
+{
+    return readConfig(u"inactiveTime"_s, 10).toInt();
+}
+
+void HeadsetControlDevice::setInactiveTime(int time)
+{
+    if (m_capabilities.testFlag(InactiveTime)) {
+        writeConfig(u"inactiveTime"_s, time);
+        m_headsetControl->start({u"--inactive-time"_s, QString::number(time)});
+    }
+}
+
+QString HeadsetControlDevice::equalizer() const
+{
+    return readConfig(u"equalizer"_s, QString()).toString();
+}
+
+void HeadsetControlDevice::setEqualizer(const QString &eqString)
+{
+    if (m_capabilities.testFlag(Equalizer)) {
+        writeConfig(u"equalizer"_s, eqString);
+        m_headsetControl->start({u"--equalizer"_s, eqString});
+    }
+}
+
+int HeadsetControlDevice::equalizerPreset() const
+{
+    return readConfig(u"equalizerPreset"_s, 0).toInt();
+}
+
+void HeadsetControlDevice::setEqualizerPreset(int equalizerPreset)
+{
+    if (m_capabilities.testFlag(EqualizerPreset)) {
+        if (equalizerPreset < 0 || equalizerPreset > 3)
+            return;
+
+        writeConfig(u"equalizerPreset"_s, equalizerPreset);
+        m_headsetControl->start({u"--equalizer-preset"_s, QString::number(equalizerPreset)});
+    }
+}
+
+bool HeadsetControlDevice::rotateToMute() const
+{
+    return readConfig(u"rotateToMute"_s, true).toBool();
+}
+
+void HeadsetControlDevice::setRotateToMute(bool state)
+{
+    if (m_capabilities.testFlag(RotateToMute)) {
+        writeConfig(u"rotateToMute"_s, state);
+        m_headsetControl->start({u"--rotate-to-mute"_s, state ? u"1"_s : u"0"_s});
+    }
+}
+
+int HeadsetControlDevice::microphoneBrightness() const
+{
+    return readConfig(u"microphonBrightness"_s, 3).toInt();
+}
+
+void HeadsetControlDevice::setMicrophoneBrightness(int brightness)
+{
+    if (m_capabilities.testFlag(MicrophoneMuteLedBrightness)) {
+        if (brightness < 0 || brightness > 3)
+            return;
+
+        writeConfig(u"equalizerPreset"_s, brightness);
+        m_headsetControl->start({u"--microphone-mute-led-brightness"_s, QString::number(brightness)});
+    }
+}
+
+int HeadsetControlDevice::microphoneVolume() const
+{
+    return readConfig(u"microphonVolume"_s, 128).toInt();
+}
+
+void HeadsetControlDevice::setMicrophoneVolume(int volume)
+{
+    if (m_capabilities.testFlag(MicrophoneVolume)) {
+        if (volume < 0 || volume > 128)
+            return;
+
+        writeConfig(u"equalizerPreset"_s, volume);
+        m_headsetControl->start({u"--microphone-volume"_s, QString::number(volume)});
+    }
+}
+
+void HeadsetControlDevice::playNotification(const QString &audioId)
+{
+    if (m_capabilities.testFlag(NotificationSound)) {
+        m_headsetControl->start({u"--notificate"_s, audioId});
+    }
+}
+
 void HeadsetControlDevice::setStatus(const QString &newStatus)
 {
     Status stat = Failure;
@@ -234,6 +359,22 @@ void HeadsetControlDevice::setStatus(const QString &newStatus)
         return;
     m_status = stat;
     Q_EMIT statusChanged();
+}
+
+void HeadsetControlDevice::writeConfig(const QString &key, const QVariant &value)
+{
+    auto vendorConfigGroup = m_config->group(vendorId());
+    auto productConfigGroup = vendorConfigGroup.group(productId());
+    productConfigGroup.writeEntry(key, value);
+    productConfigGroup.sync();
+    HeadsetKontrolConfig::instance()->save();
+}
+
+QVariant HeadsetControlDevice::readConfig(const QString &key, const QVariant &defaultValue) const
+{
+    auto vendorConfigGroup = m_config->group(vendorId());
+    auto productConfigGroup = vendorConfigGroup.group(productId());
+    return productConfigGroup.readEntry(key, defaultValue);
 }
 
 void HeadsetControlDevice::setProductId(const QString &newProductId)
@@ -256,8 +397,12 @@ HeadsetControl::HeadsetControl(QObject *parent)
     : QObject{parent}
     , m_queue{new ProcessQueue(this)}
 {
-    connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::ExecutablePathChanged, this, &HeadsetControl::start);
-    connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::UpdateRateChanged, this, &HeadsetControl::start);
+    connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::ExecutablePathChanged, this, [this]() {
+        this->start();
+    });
+    connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::UpdateRateChanged, this, [this]() {
+        this->start();
+    });
 
     connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::ShowCountdownProgressChanged, this, [=]() {
         if (HeadsetKontrolConfig::instance()->showCountdownProgress())
@@ -270,7 +415,9 @@ HeadsetControl::HeadsetControl(QObject *parent)
     m_timer.setSingleShot(false);
     m_timer.setInterval(HeadsetKontrolConfig::instance()->updateRate());
 
-    connect(&m_timer, &QTimer::timeout, this, &HeadsetControl::run);
+    connect(&m_timer, &QTimer::timeout, this, [this]() {
+        this->run();
+    });
 
     connect(m_queue, &ProcessQueue::outputReady, this, &HeadsetControl::onUpdated);
     connect(m_queue, &ProcessQueue::errorOccurred, this, &HeadsetControl::processErrorOccurred);
@@ -279,7 +426,9 @@ HeadsetControl::HeadsetControl(QObject *parent)
 
     m_countdownRefreshTimer.setInterval(50); // This spikes CPU alot
 
-    QTimer::singleShot(0, this, &HeadsetControl::start);
+    QTimer::singleShot(0, this, [this]() {
+        this->start();
+    });
 }
 
 QString HeadsetControl::version() const
@@ -326,7 +475,7 @@ void HeadsetControl::setUpdateRate(int newUpdateRate)
     Q_EMIT updateRateChanged();
 }
 
-void HeadsetControl::start()
+void HeadsetControl::start(const QStringList &args)
 {
     if (HeadsetKontrolConfig::instance()->executablePath().isEmpty() || HeadsetKontrolConfig::instance()->updateRate() <= 0) {
         stop();
@@ -339,7 +488,7 @@ void HeadsetControl::start()
         m_countdownRefreshTimer.start();
 
     Q_EMIT isRunningChanged();
-    run();
+    run(args);
 }
 
 void HeadsetControl::stop()
@@ -423,9 +572,12 @@ void HeadsetControl::onUpdated(const QByteArray &data)
     }
 }
 
-void HeadsetControl::run()
+void HeadsetControl::run(const QStringList &args)
 {
-    m_queue->addProcess(HeadsetKontrolConfig::instance()->executablePath(), {u"--test-device"_s, u"-o"_s, u"json"_s});
+    QStringList argsList = {u"--test-device"_s, u"-o"_s, u"json"_s};
+    if (!args.isEmpty())
+        argsList.append(args);
+    m_queue->addProcess(HeadsetKontrolConfig::instance()->executablePath(), argsList);
     m_queue->start();
 }
 
@@ -456,6 +608,9 @@ void HeadsetControl::addDevice(HeadsetControlDevice *device)
 {
     if (m_devices.contains(device))
         return;
+    connect(device, &HeadsetControlDevice::errorOccurred, this, [=](const QString &error) {
+        Q_EMIT this->deviceErrorOccurred(device, error);
+    });
     m_devices.append(device);
     Q_EMIT devicesChanged();
 }
