@@ -1,5 +1,5 @@
 # Translation of HeadsetKontrol in LANGUAGE
-# Copyright (C) 2022
+# Copyright (C) 2024
 # This file is distributed under the same license as the HeadsetKontrol package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: HeadsetKontrol\n"
-"Report-Msgid-Bugs-To: https://github.com/tuantran1632001/HeadsetKontrol/issues\n"
-"POT-Creation-Date: 2022-08-25 05:34+0700\n"
+"Report-Msgid-Bugs-To: https://gitlab.com/TheBill2001/HeadsetKontrol/-/issues\n"
+"POT-Creation-Date: 2024-08-18 04:43+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,205 +30,426 @@ msgstr ""
 msgid "HeadsetKontrol"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgctxt "@action:button"
-msgid "Settings"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@title:window"
+msgid "Device details"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgctxt "@action:button"
-msgid "Quit"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@action:intoolbar apply all"
+msgid "Apply all"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Headset controls"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@info:tooltip apply all"
+msgid "Apply all settings"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "General information"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@title:group"
+msgid "Information"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Resume"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@label:textbox"
+msgid "Product"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Pause"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@label:textbox"
+msgid "Product ID"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Refresh"
+#: ../src/contents/ui/DeviceDetailPage.qml ../src/contents/ui/DevicesPage.qml
+msgctxt "@label:textbox"
+msgid "Vendor"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Device name"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@label:textbox"
+msgid "Vendor ID"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Unavailable"
+#: ../src/contents/ui/DeviceDetailPage.qml ../src/contents/ui/DevicesPage.qml
+msgctxt "@label:textbox"
+msgid "Device"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Chat-mix level"
-msgstr ""
-
-#: ../qml/MainPage.qml
-msgid "Battery"
-msgstr ""
-
-#: ../qml/MainPage.qml
-msgid "Charging"
-msgstr ""
-
-#: ../qml/MainPage.qml
-msgid "Capabilities"
-msgstr ""
-
-#: ../qml/MainPage.qml
-msgid "Sidetone"
-msgstr ""
-
-#: ../qml/MainPage.qml
-msgid "Play notification sound"
-msgstr ""
-
-#: ../qml/MainPage.qml
-msgid "Set LED mode"
-msgstr ""
-
-#: ../qml/MainPage.qml
-msgid "Set inactive time"
-msgstr ""
-
-#: ../qml/MainPage.qml
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@title:group"
 msgid "Chat-Mix"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Set voice prompt mode"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@label"
+msgid "Chat-Mix level"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Rotate-To-Mute"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@title:group"
+msgid "Battery"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Set equalizer preset"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@label"
+msgid "Battery status"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Actions"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@item battery status"
+msgid "Available"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Notification sound"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@item battery status"
+msgid "Charging"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Play"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@item battery status"
+msgid "Unavailable"
 msgstr ""
 
-#: ../qml/MainPage.qml ../src/trayicon.cpp
-msgid "Settings"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@label"
+msgid "Battery level"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Default"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@title:group"
+msgid "Configurations"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Apply"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@option:check"
+msgid "Lights"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Rotate to mute"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@option:check"
+msgid "Voice prompts"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "Voice prompt"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@label:spinbox"
+msgid "Sidetone"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "LED"
-msgstr ""
-
-#: ../qml/MainPage.qml
-msgid "Sidetone level"
-msgstr ""
-
-#: ../qml/MainPage.qml
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@label:spinbox"
 msgid "Inactive time"
 msgstr ""
 
-#: ../qml/MainPage.qml
-msgid "minute"
-msgid_plural "minutes"
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@item:valuesuffix"
+msgid "%1 minute"
+msgid_plural "%1 minutes"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../qml/main.qml
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@label:textbox"
+msgid "Notification sound"
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@info:placeholder"
+msgid "Sound ID (depends on device)"
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@action:button"
+msgid "Play"
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@info"
+msgid "Sound ID cannot be empty."
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@title:group"
+msgid "Equalizer"
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@label:textbox"
+msgid "Equalizer curve"
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@info:placeholder"
+msgid "Values separated by spaces, or commas"
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@action:button"
+msgid "Apply"
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@info"
+msgid "Equalizer curve cannot be empty."
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@label:listbox"
+msgid "Equalizer preset"
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@item:inlistbox"
+msgid "Default"
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@item:inlistbox"
+msgid "Preset %1"
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@title:group"
+msgid "Microphone"
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@label:slider"
+msgid "Mircophone mute light brightness"
+msgstr ""
+
+#: ../src/contents/ui/DeviceDetailPage.qml
+msgctxt "@label:slider"
+msgid "Mircophone volume"
+msgstr ""
+
+#: ../src/contents/ui/DevicesPage.qml
+msgctxt "@title:window"
+msgid "Devices"
+msgstr ""
+
+#: ../src/contents/ui/DevicesPage.qml
+msgctxt "@action:intoolbar stop update headsetcontrol"
+msgid "Stop"
+msgstr ""
+
+#: ../src/contents/ui/DevicesPage.qml
+msgctxt "@action:intoolbar start update headsetcontrol"
+msgid "Start"
+msgstr ""
+
+#: ../src/contents/ui/DevicesPage.qml
+msgctxt "@action:intoolbar"
+msgid "Refresh"
+msgstr ""
+
+#: ../src/contents/ui/DevicesPage.qml
+msgctxt "@info"
+msgid "This is empty"
+msgstr ""
+
+#: ../src/contents/ui/DevicesPage.qml
+msgctxt "@label:textbox"
+msgid "Device %1"
+msgstr ""
+
+#: ../src/contents/ui/DevicesPage.qml
+msgctxt "@label:textbox"
+msgid "Chat-Mix"
+msgstr ""
+
+#: ../src/contents/ui/DevicesPage.qml
+msgctxt "@label"
+msgid "Battery"
+msgstr ""
+
+#: ../src/contents/ui/DevicesPage.qml
+msgctxt "@label:textbox"
+msgid "Charging %1"
+msgstr ""
+
+#: ../src/contents/ui/DevicesPage.qml
+msgid "Charging"
+msgstr ""
+
+#: ../src/contents/ui/DevicesPage.qml
+msgctxt "@label:textbox"
+msgid "Unavailable"
+msgstr ""
+
+#: ../src/contents/ui/GeneralSettingsPage.qml
+msgctxt "@title:group"
+msgid "General"
+msgstr ""
+
+#: ../src/contents/ui/GeneralSettingsPage.qml
+msgctxt "@option:check"
+msgid "Start minimized"
+msgstr ""
+
+#: ../src/contents/ui/GeneralSettingsPage.qml
+msgctxt "@option:check"
+msgid "Autostart"
+msgstr ""
+
+#: ../src/contents/ui/GeneralSettingsPage.qml
+msgctxt "@title:group"
+msgid "User interface"
+msgstr ""
+
+#: ../src/contents/ui/GeneralSettingsPage.qml
+msgctxt "@info:usagetip"
+msgid "Can cause high CPU usage"
+msgstr ""
+
+#: ../src/contents/ui/GeneralSettingsPage.qml
+msgctxt "@option:check"
+msgid "Show countdown progress"
+msgstr ""
+
+#: ../src/contents/ui/GeneralSettingsPage.qml
+msgctxt "@title:group"
+msgid "Notifications"
+msgstr ""
+
+#: ../src/contents/ui/GeneralSettingsPage.qml
+msgctxt "@option:check"
+msgid "Battery notification"
+msgstr ""
+
+#: ../src/contents/ui/GeneralSettingsPage.qml
+msgctxt "@option:check"
+msgid "Device change notification"
+msgstr ""
+
+#: ../src/contents/ui/HeadsetControlSettingsPage.qml
+msgctxt "@title:group"
+msgid "HeadsetControl path"
+msgstr ""
+
+#: ../src/contents/ui/HeadsetControlSettingsPage.qml
+msgctxt "@action:button"
+msgid "Select HeadsetControl excutable path"
+msgstr ""
+
+#: ../src/contents/ui/HeadsetControlSettingsPage.qml
+msgid "Path"
+msgstr ""
+
+#: ../src/contents/ui/HeadsetControlSettingsPage.qml
+msgctxt "@label:textbox"
+msgid "Version"
+msgstr ""
+
+#: ../src/contents/ui/HeadsetControlSettingsPage.qml
+msgctxt "@label:textbox"
+msgid "API version"
+msgstr ""
+
+#: ../src/contents/ui/HeadsetControlSettingsPage.qml
+msgctxt "@label:textbox"
+msgid "HID API version"
+msgstr ""
+
+#: ../src/contents/ui/HeadsetControlSettingsPage.qml
+msgctxt "@title:group"
+msgid "Update rate"
+msgstr ""
+
+#: ../src/contents/ui/HeadsetControlSettingsPage.qml
+msgctxt "@info:usagetip"
+msgid "From 0 to 3600, 0 means disabled."
+msgstr ""
+
+#: ../src/contents/ui/HeadsetControlSettingsPage.qml
+msgctxt "@label:spinbox"
+msgid "Update rate"
+msgstr ""
+
+#: ../src/contents/ui/HeadsetControlSettingsPage.qml
+msgctxt "@item:valuesuffix"
+msgid "%1 second"
+msgid_plural "%1 seconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/contents/ui/Main.qml
 msgctxt "@title:window"
 msgid "Control your headset"
 msgstr ""
 
-#: ../qml/SettingsPage/GeneralSettingsPage.qml
-msgid "Run in backgroud"
+#: ../src/contents/ui/Main.qml
+msgctxt "@action:button"
+msgid "Settings"
 msgstr ""
 
-#: ../qml/SettingsPage/GeneralSettingsPage.qml
-msgid "Autostart"
+#: ../src/contents/ui/Main.qml
+msgctxt "@action:button"
+msgid "Quit"
 msgstr ""
 
-#: ../qml/SettingsPage/GeneralSettingsPage.qml
-msgid "HeadsetControl path"
-msgstr ""
-
-#: ../qml/SettingsPage/GeneralSettingsPage.qml
-msgid "Path to HeadsetControl"
-msgstr ""
-
-#: ../qml/SettingsPage/GeneralSettingsPage.qml
-msgid "Update rate (seconds)"
-msgstr ""
-
-#: ../qml/SettingsPage/GeneralSettingsPage.qml
-msgid "From 0 to 3600, 0 means disable"
-msgstr ""
-
-#: ../qml/SettingsPage/GeneralSettingsPage.qml
-msgid "Show countdown timer"
-msgstr ""
-
-#: ../qml/SettingsPage/GeneralSettingsPage.qml
-msgid "Battery notification"
-msgstr ""
-
-#: ../qml/SettingsPage/GeneralSettingsPage.qml
-msgid "Device change notification"
-msgstr ""
-
-#: ../qml/SettingsPage/SettingsPage.qml
+#: ../src/contents/ui/SettingsView.qml
+msgctxt "@action:inmenu"
 msgid "General"
 msgstr ""
 
-#: ../qml/SettingsPage/SettingsPage.qml
+#: ../src/contents/ui/SettingsView.qml
+msgctxt "@action:inmenu"
+msgid "HeadsetControl"
+msgstr ""
+
+#: ../src/contents/ui/SettingsView.qml
+msgctxt "@action:inmenu"
 msgid "About"
 msgstr ""
 
-#: ../src/appcontroller.cpp
+#: ../src/headsetcontrol.cpp
+msgctxt "@info:status"
+msgid "New device found"
+msgstr ""
+
+#: ../src/headsetcontrol.cpp
+msgctxt "@info:status"
+msgid "Device %1 found."
+msgstr ""
+
+#: ../src/headsetcontrol.cpp
+msgctxt "@info:status"
+msgid "Device removed"
+msgstr ""
+
+#: ../src/headsetcontrol.cpp
+msgctxt "@info:status"
+msgid "Device %1 removed."
+msgstr ""
+
+#: ../src/headsetcontroldevicebattery.cpp
+msgctxt "@info:status"
 msgid "Battery is charging."
 msgstr ""
 
-#: ../src/appcontroller.cpp
+#: ../src/headsetcontroldevicebattery.cpp
+msgctxt "@info:status"
+msgid "Battery is charging at %1%."
+msgstr ""
+
+#: ../src/headsetcontroldevicebattery.cpp
+msgctxt "@info:status"
 msgid "Battery is at %1%."
 msgstr ""
 
-#: ../src/appcontroller.cpp
-msgid "No known device detected."
+#: ../src/headsetkontroltrayicon.cpp
+msgctxt "@action:inmenu"
+msgid "Show"
 msgstr ""
 
-#: ../src/appcontroller.cpp
-msgid "Found device %1."
+#: ../src/headsetkontroltrayicon.cpp
+msgctxt "@action:inmenu"
+msgid "Settings"
+msgstr ""
+
+#: ../src/headsetkontroltrayicon.cpp
+msgctxt "@action:inmenu"
+msgid "Quit"
 msgstr ""
 
 #: ../src/main.cpp
@@ -236,21 +457,6 @@ msgid "Trần Nam Tuấn"
 msgstr ""
 
 #: ../src/main.cpp
+msgctxt "@info:credit"
 msgid "Developer, Maintainer"
-msgstr ""
-
-#: ../src/main.cpp
-msgid "Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework."
-msgstr ""
-
-#: ../src/main.cpp
-msgid "Start the application minimized."
-msgstr ""
-
-#: ../src/trayicon.cpp
-msgid "Show"
-msgstr ""
-
-#: ../src/trayicon.cpp
-msgid "Quit"
 msgstr ""

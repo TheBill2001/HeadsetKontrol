@@ -28,29 +28,30 @@ int main(int argc, char *argv[])
     qSetMessagePattern(QStringLiteral("[%{time yyyy-MM-dd h:mm:ss}] [%{type}] %{message}"));
 #endif
 
-    // auto message =
-    //     QDBusMessage::createMethodCall(QStringLiteral("xyz.billsstuff.headsetkontrol"), QStringLiteral("/appController"), QString(),
-    //     QStringLiteral("getPid"));
-    // auto reply = QDBusConnection::sessionBus().call(message);
+    auto message = QDBusMessage::createMethodCall(QStringLiteral("com.gitlab.thebill2001.headsetkontrol"),
+                                                  QStringLiteral("/HeadsetKontrol"),
+                                                  QString(),
+                                                  QStringLiteral("pid"));
+    auto reply = QDBusConnection::sessionBus().call(message);
 
-    // if (reply.type() == QDBusMessage::ReplyMessage) {
-    //     auto args = reply.arguments();
-    //     auto val = args.at(0).toLongLong();
-    //     qInfo() << "Found running instance:" << val;
+    if (reply.type() == QDBusMessage::ReplyMessage) {
+        auto args = reply.arguments();
+        auto val = args.at(0).toLongLong();
+        qInfo() << "Found running instance:" << val;
 
-    //     auto message = QDBusMessage::createMethodCall(QStringLiteral("xyz.billsstuff.headsetkontrol"),
-    //                                                   QStringLiteral("/appController"),
-    //                                                   QString(),
-    //                                                   QStringLiteral("restore"));
-    //     auto reply = QDBusConnection::sessionBus().call(message);
+        auto message = QDBusMessage::createMethodCall(QStringLiteral("com.gitlab.thebill2001.headsetkontrol"),
+                                                      QStringLiteral("/HeadsetKontrol"),
+                                                      QString(),
+                                                      QStringLiteral("restore"));
+        auto reply = QDBusConnection::sessionBus().call(message);
 
-    //     if (reply.type() == QDBusMessage::ReplyMessage)
-    //         qInfo() << "Restore instance:" << val;
-    //     else
-    //         qFatal("Cannot restore instance: %lld\n", val);
+        if (reply.type() == QDBusMessage::ReplyMessage)
+            qInfo() << "Restore instance:" << val;
+        else
+            qFatal("Cannot restore instance: %lld\n", val);
 
-    //     return 0;
-    // }
+        return 0;
+    }
 
     KIconTheme::initTheme();
 
@@ -60,7 +61,7 @@ int main(int argc, char *argv[])
         QQuickStyle::setStyle(u"org.kde.desktop"_s);
     }
 
-    KLocalizedString::setApplicationDomain("headsetkontrol");
+    KLocalizedString::setApplicationDomain("com.gitlab.thebill2001.headsetkontrol");
 
     qInfo().noquote() << u"Start new instance. PID: %1"_s.arg(QString::number(app.applicationPid()));
 
@@ -74,32 +75,20 @@ int main(int argc, char *argv[])
                          QStringLiteral("https://gitlab.com/TheBill2001/HeadsetKontrol"),
                          QStringLiteral("https://gitlab.com/TheBill2001/HeadsetKontrol/-/issues"));
     aboutData.addAuthor(i18n("Trần Nam Tuấn"),
-                        i18n("Developer, Maintainer"),
+                        i18nc("@info:credit", "Developer, Maintainer"),
                         QStringLiteral("tuantran1632001@gmail.com"),
                         QStringLiteral("https://gitlab.com/TheBill2001"));
     aboutData.setDesktopFileName(u"headsetkontrol"_s);
+    aboutData.setOrganizationDomain("thebill2001.gitlab.com");
 
     KAboutData::setApplicationData(aboutData);
 
     QGuiApplication::setWindowIcon(QIcon::fromTheme(u"headsetkontrol"_s));
 
-    // KDBusService service(KDBusService::Unique);
+    KDBusService service(KDBusService::Unique);
 
     // Translation
     QCoreApplication::installTranslator(new KLocalizedTranslator(&app));
-
-    // CLI
-    // QCommandLineParser parser;
-    // parser.setApplicationDescription(i18n("Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework."));
-    // parser.addHelpOption();
-    // parser.addVersionOption();
-
-    // QCommandLineOption startMinimizedOption(u"start-minimized"_s, i18n("Start the application minimized."));
-    // parser.addOption(startMinimizedOption);
-
-    // parser.process(app);
-
-    // QScopedPointer appControllerPointer(new AppController(parser.isSet(startMinimizedOption), &app));
 
     QQmlApplicationEngine engine;
 

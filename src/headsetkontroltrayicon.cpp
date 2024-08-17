@@ -4,16 +4,16 @@
 
 #include <KLocalizedString>
 
-#include "config.h"
-#include "trayicon.h"
+#include "headsetkontrolapplication.h"
+#include "headsetkontroltrayicon.h"
 
-TrayIcon::TrayIcon(QObject *parent)
+HeadsetKontrolTrayIcon::HeadsetKontrolTrayIcon(HeadsetKontrolApplication *parent)
     : QSystemTrayIcon{parent}
 {
     QMenu *menu = new QMenu();
 
-    auto viewAction = new QAction(i18n("Show"), parent);
-    connect(viewAction, &QAction::triggered, this, &TrayIcon::showWindow);
+    auto viewAction = new QAction(i18nc("@action:inmenu", "Show"), parent);
+    connect(viewAction, &QAction::triggered, this, &HeadsetKontrolTrayIcon::showWindow);
     connect(this, &QSystemTrayIcon::activated, this, [this](QSystemTrayIcon::ActivationReason reason) {
         if (reason == QSystemTrayIcon::Trigger) {
             Q_EMIT showWindow();
@@ -21,13 +21,13 @@ TrayIcon::TrayIcon(QObject *parent)
     });
     menu->addAction(viewAction);
 
-    auto settingAction = new QAction(i18n("Settings"), parent);
-    connect(settingAction, &QAction::triggered, this, &TrayIcon::showSettings);
+    auto settingAction = new QAction(i18nc("@action:inmenu", "Settings"), parent);
+    connect(settingAction, &QAction::triggered, this, &HeadsetKontrolTrayIcon::showSettings);
     menu->addAction(settingAction);
 
     menu->addSeparator();
 
-    auto quitAction = new QAction(i18n("Quit"), parent);
+    auto quitAction = new QAction(i18nc("@action:inmenu", "Quit"), parent);
     quitAction->setIcon(QIcon::fromTheme(QStringLiteral("application-exit")));
     connect(quitAction, &QAction::triggered, QCoreApplication::instance(), QCoreApplication::quit);
 
@@ -37,15 +37,5 @@ TrayIcon::TrayIcon(QObject *parent)
 
     setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol")));
 
-    connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::RunInBackgroundChanged, this, [=]() {
-        if (HeadsetKontrolConfig::instance()->runInBackground()) {
-            show();
-        } else {
-            hide();
-        }
-    });
-
-    if (HeadsetKontrolConfig::instance()->runInBackground()) {
-        show();
-    }
+    show();
 }

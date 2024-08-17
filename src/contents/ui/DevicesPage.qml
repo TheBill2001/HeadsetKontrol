@@ -8,20 +8,22 @@ import com.gitlab.thebill2001.headsetkontrol
 Kirigami.ScrollablePage {
     id: devicesPage
 
-    title: i18nc('@title:page', 'Devices')
+    title: i18nc("@title:window", "Devices")
 
     actions: [
         Kirigami.Action {
             icon.name: HeadsetControl.isRunning ? "media-playback-stop" : "media-playback-start"
-            text: HeadsetControl.isRunning ? i18nc("@action:button",
-                                                   "Stop") : i18nc(
-                                                 "@action:button", "Start")
+            text: HeadsetControl.isRunning ? i18nc(
+                                                 "@action:intoolbar stop update headsetcontrol",
+                                                 "Stop") : i18nc(
+                                                 "@action:intoolbar start update headsetcontrol",
+                                                 "Start")
             onTriggered: HeadsetControl.isRunning ? HeadsetControl.stop(
                                                         ) : HeadsetControl.start()
         },
         Kirigami.Action {
             icon.name: "view-refresh"
-            text: i18nc("@action:button", "Refresh")
+            text: i18nc("@action:intoolbar", "Refresh")
             onTriggered: HeadsetControl.refresh()
         }
     ]
@@ -58,6 +60,7 @@ Kirigami.ScrollablePage {
 
         showCloseButton: true
         position: Kirigami.InlineMessage.Position.Footer
+        type: Kirigami.MessageType.Error
 
         Connections {
             target: HeadsetControl
@@ -71,13 +74,15 @@ Kirigami.ScrollablePage {
         }
 
         function showError(error) {
-            text = error
-            visible = true
+            if (devicesPage.isCurrentPage) {
+                text = error
+                visible = true
+            }
         }
     }
 
     Controls.Label {
-        text: i18n("This is empty")
+        text: i18nc("@info", "This is empty")
         opacity: 0.5
         anchors.centerIn: parent
         font.pixelSize: Kirigami.Units.gridUnit * 2
@@ -102,7 +107,8 @@ Kirigami.ScrollablePage {
 
                     banner {
                         titleIcon: "headsetkontrol"
-                        title: modelData.product ? modelData.product : i18n(
+                        title: modelData.product ? modelData.product : i18nc(
+                                                       "@label:textbox",
                                                        "Device %1", index)
                     }
 
@@ -114,19 +120,25 @@ Kirigami.ScrollablePage {
                             Layout.fillWidth: true
 
                             Controls.Label {
-                                Kirigami.FormData.label: i18n("Device") + ":"
+                                Kirigami.FormData.label: i18nc(
+                                                             "@label:textbox",
+                                                             "Device") + ":"
                                 text: deviceCard.modelData.device
                                 visible: deviceCard.modelData.device
                             }
 
                             Controls.Label {
-                                Kirigami.FormData.label: i18n("Vendor") + ":"
+                                Kirigami.FormData.label: i18nc(
+                                                             "@label:textbox",
+                                                             "Vendor") + ":"
                                 text: deviceCard.modelData.vendor
                                 visible: deviceCard.modelData.vendor
                             }
 
                             RowLayout {
-                                Kirigami.FormData.label: i18n("Chat-Mix") + ":"
+                                Kirigami.FormData.label: i18nc(
+                                                             "@label:textbox",
+                                                             "Chat-Mix") + ":"
 
                                 visible: deviceCard.modelData.capabilities & Device.ChatMix
 
@@ -144,7 +156,8 @@ Kirigami.ScrollablePage {
                             }
 
                             RowLayout {
-                                Kirigami.FormData.label: i18n("Battery") + ":"
+                                Kirigami.FormData.label: i18nc("@label",
+                                                               "Battery") + ":"
 
                                 visible: deviceCard.modelData.capabilities & Device.Battery
 
@@ -164,11 +177,14 @@ Kirigami.ScrollablePage {
                                             return `${deviceCard.modelData.battery.level}%`
                                         case DeviceBattery.Charging:
                                             return deviceCard.modelData.battery.level
-                                                    > 0 ? i18n("Charging %1",
-                                                               `${deviceCard.modelData.battery.level}%`) : i18n(
+                                                    > 0 ? i18nc(
+                                                              "@label:textbox",
+                                                              "Charging %1",
+                                                              `${deviceCard.modelData.battery.level}%`) : i18n(
                                                               "Charging")
                                         default:
-                                            return i18n("Unavailable")
+                                            return i18nc("@label:textbox",
+                                                         "Unavailable")
                                         }
                                     }
                                 }

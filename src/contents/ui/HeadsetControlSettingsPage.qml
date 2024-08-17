@@ -10,7 +10,7 @@ import com.gitlab.thebill2001.headsetkontrol
 KirigamiFormCard.FormCardPage {
     id: headsetcontrolSettingsPage
 
-    title: i18nc('@title:page', 'headsetcontrol')
+    title: i18nc('@title:tab', 'headsetcontrol')
 
     Kirigami.InlineMessage {
         id: headerMessage
@@ -35,13 +35,14 @@ KirigamiFormCard.FormCardPage {
     }
 
     KirigamiFormCard.FormHeader {
-        title: i18n("HeadsetControl path")
+        title: i18nc("@title:group", "HeadsetControl path")
     }
 
     KirigamiFormCard.FormCard {
         KirigamiFormCard.FormButtonDelegate {
             icon.name: "document-open"
-            text: i18n("Select HeadsetControl excutable path")
+            text: i18nc("@action:button",
+                        "Select HeadsetControl excutable path")
 
             onClicked: fileDialog.open()
         }
@@ -53,35 +54,35 @@ KirigamiFormCard.FormCardPage {
         }
 
         KirigamiFormCard.FormTextDelegate {
-            text: i18n("Version")
+            text: i18nc("@label:textbox", "Version")
             description: HeadsetControl.version
             visible: HeadsetControl.version.length > 0
         }
 
         KirigamiFormCard.FormTextDelegate {
-            text: i18n("API version")
+            text: i18nc("@label:textbox", "API version")
             description: HeadsetControl.apiVersion
             visible: HeadsetControl.apiVersion.length > 0
         }
 
         KirigamiFormCard.FormTextDelegate {
-            text: i18n("HID API version")
+            text: i18nc("@label:textbox", "HID API version")
             description: HeadsetControl.hidApiVersion
             visible: HeadsetControl.hidApiVersion.length > 0
         }
     }
 
     KirigamiFormCard.FormHeader {
-        title: i18n("Update rate")
+        title: i18nc("@title:group", "Update rate")
     }
 
     KirigamiFormCard.FormCard {
         KirigamiFormCard.FormSectionText {
-            text: i18n("From 0 to 3600, 0 means disabled.")
+            text: i18nc("@info:usagetip", "From 0 to 3600, 0 means disabled.")
         }
 
         KirigamiFormCard.FormSpinBoxDelegate {
-            label: i18n("Update rate")
+            label: i18nc("@label:spinbox", "Update rate")
             from: 0
             to: 3600
 
@@ -89,7 +90,8 @@ KirigamiFormCard.FormCardPage {
             onValueChanged: Config.updateRate = value * 1000
 
             textFromValue: function (value, locale) {
-                return i18np("%1 second", "%1 seconds", value)
+                return i18ncp("@item:valuesuffix", "%1 second",
+                              "%1 seconds", value)
             }
             valueFromText: function (text, locale) {
                 const matches = text.match(/\d+/)

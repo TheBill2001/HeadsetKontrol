@@ -11,6 +11,8 @@ KirigamiFormCard.AbstractFormDelegate {
     property alias to: slider.to
     property alias stepSize: slider.stepSize
 
+    signal moved
+
     hoverEnabled: false
     background: null
 
@@ -30,6 +32,8 @@ KirigamiFormCard.AbstractFormDelegate {
                 Layout.fillWidth: true
 
                 snapMode: Controls.Slider.SnapAlways
+
+                onMoved: sliderDelegate.moved()
             }
 
             Controls.Label {

@@ -11,6 +11,3 @@ Type=Application
 X-DBUS-ServiceName=xyz.billsstuff.headsetkontrol
 X-KDE-SubstituteUID=false
 
-Comment[vi]=Giao diện cho HeadsetControl (bởi Sapd) được viết với Kirigami và Framework KDE
-Keywords[vi]=headsetkontrol;headsetcontrol;tai nghe
-Name[vi]=HeadsetKontrol

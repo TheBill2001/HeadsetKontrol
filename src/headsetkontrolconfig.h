@@ -5,11 +5,13 @@
 #include <QQmlEngine>
 #include <QTimer>
 
-#include "headsetkontrolconfig.h"
+#include "headsetkontrolconfigbase.h"
 
 class HeadsetKontrolConfig : public HeadsetKontrolConfigBase
 {
     Q_OBJECT
+    QML_NAMED_ELEMENT(Config)
+    QML_SINGLETON
 
     Q_PROPERTY(KAboutData aboutData READ aboutData CONSTANT FINAL)
 public:
@@ -26,19 +28,7 @@ public:
 
 private:
     QTimer m_timer;
-};
-
-class HeadsetKontrolConfigQml
-{
-    Q_GADGET
-    QML_FOREIGN(HeadsetKontrolConfig)
-    QML_NAMED_ELEMENT(Config)
-    QML_SINGLETON
-public:
-    static HeadsetKontrolConfig *create(QQmlEngine *, QJSEngine *engine);
-
-private:
-    inline static QJSEngine *s_engine = nullptr;
+    bool m_startMinimized;
 };
 
 #endif // CONFIG_H

@@ -10,7 +10,7 @@ KirigamiSettings.ConfigurationView {
     modules: [
         KirigamiSettings.ConfigurationModule {
             moduleId: "general"
-            text: i18nc("@action:button", "General")
+            text: i18nc("@action:inmenu", "General")
             icon.name: "configure"
             page: () => Qt.createComponent(
                       "com.gitlab.thebill2001.headsetkontrol",
@@ -18,7 +18,7 @@ KirigamiSettings.ConfigurationView {
         },
         KirigamiSettings.ConfigurationModule {
             moduleId: "headsetcontrol"
-            text: i18nc("@action:button", "HeadsetControl")
+            text: i18nc("@action:inmenu", "HeadsetControl")
             icon.name: "headsetkontrol"
             page: () => Qt.createComponent(
                       "com.gitlab.thebill2001.headsetkontrol",
@@ -26,7 +26,7 @@ KirigamiSettings.ConfigurationView {
         },
         KirigamiSettings.ConfigurationModule {
             moduleId: "about"
-            text: i18nc("@action:button", "About")
+            text: i18nc("@action:inmenu", "About")
             icon.name: "help-about"
             page: () => Qt.createComponent(
                       "com.gitlab.thebill2001.headsetkontrol",

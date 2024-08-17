@@ -42,8 +42,16 @@ Kirigami.ApplicationWindow {
         id: devicesPage
     }
 
-    onVisibleChanged: visible ? HeadsetControl.stopCountDownUpdateTimer(
-                                    ) : HeadsetControl.startCountDownUpdateTimer()
+    onVisibleChanged: {
+        if (visible)
+            HeadsetControl.startCountDownUpdateTimer()
+        else
+            HeadsetControl.stopCountDownUpdateTimer()
+    }
+
+    Component.onCompleted: {
+        root.visible = !Config.startMinimized
+    }
 
     SettingsView {
         id: settingsView
@@ -52,7 +60,7 @@ Kirigami.ApplicationWindow {
     }
 
     Connections {
-        target: TrayIcon
+        target: App
         function onShowWindow() {
             root.show()
             root.raise()
@@ -71,11 +79,6 @@ Kirigami.ApplicationWindow {
         device: root.selectedDevice
     }
 
-    // Component.onCompleted: {
-    //     if (AppController.startMinimized) {
-    //         root.close()
-    //     }
-    // }
     function openSettingsPage() {
         settingsView.open()
     }

@@ -1,8 +1,18 @@
 qt_add_executable(headsetkontrol)
 
+set_source_files_properties(../headsetkontrol.desktop PROPERTIES
+    QT_RESOURCE_ALIAS headsetkontrol.desktop
+)
+
+qt_add_resources(headsetkontrol "resources"
+    PREFIX "/resources"
+    FILES
+        ../headsetkontrol.desktop
+)
+
 ecm_add_qml_module(headsetkontrol
     URI com.gitlab.thebill2001.headsetkontrol
-    VERSION 1.1
+    VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     IMPORTS
         org.kde.kirigami
         org.kde.kirigamiaddons.settings
@@ -24,14 +34,16 @@ ecm_target_qml_sources(headsetkontrol
 
 target_sources(headsetkontrol PRIVATE
     main.cpp
-    config.h config.cpp
-    trayicon.h trayicon.cpp
-    headsetcontrol.h headsetcontrol.cpp
     processqueue.h processqueue.cpp
-    # appcontroller.h appcontroller.cpp
+    headsetcontrol.h headsetcontrol.cpp
+    headsetkontrolconfig.h headsetkontrolconfig.cpp
+    headsetkontroltrayicon.h headsetkontroltrayicon.cpp
+    headsetcontroldevice.h headsetcontroldevice.cpp
+    headsetcontroldevicebattery.h headsetcontroldevicebattery.cpp
+    headsetkontrolapplication.h headsetkontrolapplication.cpp
 )
 
-kconfig_add_kcfg_files(headsetkontrol GENERATE_MOC headsetkontrolconfig.kcfgc)
+kconfig_add_kcfg_files(headsetkontrol GENERATE_MOC headsetkontrolconfigbase.kcfgc)
 
 target_link_libraries(headsetkontrol
     PRIVATE

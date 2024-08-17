@@ -1,4 +1,4 @@
-File=headsetkontrolconfig.kcfg
+File=headsetkontrolconfigbase.kcfg
 ClassName=HeadsetKontrolConfigBase
 Mutators=true
 GenerateProperties=true

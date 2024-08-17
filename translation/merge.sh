@@ -1,5 +1,5 @@
-#!/bin/sh
-# Version: 22
+#!/bin/bash
+# Version: 23
 
 # https://techbase.kde.org/Development/Tutorials/Localization/i18n_Build_Systems
 # https://techbase.kde.org/Development/Tutorials/Localization/i18n_Build_Systems/Outside_KDE_repositories
@@ -9,25 +9,45 @@
 # https://develop.kde.org/docs/extend/plasma/widget/translations-i18n/
 
 DIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
-appName=`kreadconfig5 --file="$DIR/../headsetkontrol.desktop" --group="Desktop Entry" --key="Name"`
+appName=`kreadconfig6 --file="$DIR/../headsetkontrol.desktop" --group="Desktop Entry" --key="Name"`
 widgetName="${appName##*.}" # Strip namespace
-bugAddress="https://github.com/tuantran1632001/HeadsetKontrol/issues"
+bugAddress="https://gitlab.com/TheBill2001/HeadsetKontrol/-/issues"
 packageRoot=".." # Root of translatable sources
 projectName="app_${appName}" # project name
 
+### Colors
+# https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
+# https://stackoverflow.com/questions/911168/how-can-i-detect-if-my-shell-script-is-running-through-a-pipe
+TC_Red='\033[31m'; TC_Orange='\033[33m';
+TC_LightGray='\033[90m'; TC_LightRed='\033[91m'; TC_LightGreen='\033[92m'; TC_Yellow='\033[93m'; TC_LightBlue='\033[94m';
+TC_Reset='\033[0m'; TC_Bold='\033[1m';
+if [ ! -t 1 ]; then
+	TC_Red=''; TC_Orange='';
+	TC_LightGray=''; TC_LightRed=''; TC_LightGreen=''; TC_Yellow=''; TC_LightBlue='';
+	TC_Bold=''; TC_Reset='';
+fi
+function echoTC() {
+	text="$1"
+	textColor="$2"
+	echo -e "${textColor}${text}${TC_Reset}"
+}
+function echoGray { echoTC "$1" "$TC_LightGray"; }
+function echoRed { echoTC "$1" "$TC_Red"; }
+function echoGreen { echoTC "$1" "$TC_LightGreen"; }
+
 #---
 if [ -z "$appName" ]; then
-	echo "[merge] Error: Couldn't read appName."
+	echoRed "[translate/merge] Error: Couldn't read appName."
 	exit
 fi
 
 if [ -z "$(which xgettext)" ]; then
-	echo "[merge] Error: xgettext command not found. Need to install gettext"
-    exit
+	echoRed "[translate/merge] Error: xgettext command not found. Need to install gettext"
+	exit 1
 fi
 
 #---
-echo "[merge] Extracting messages"
+echoGray "[translate/merge] Extracting messages"
 potArgs="--from-code=UTF-8 --width=200 --add-location=file"
 
 # Note: xgettext v0.20.1 (Kubuntu 20.04) and below will attempt to translate Icon,
@@ -44,7 +64,7 @@ xgettext \
 	-D "${DIR}" \
 	-o "template.pot.new" \
 	|| \
-	{ echo "[merge] error while calling xgettext. aborting."; exit 1; }
+	{ echoRed "[translate/merge] error while calling xgettext. aborting."; exit 1; }
 
 sed -i 's/"Content-Type: text\/plain; charset=CHARSET\\n"/"Content-Type: text\/plain; charset=UTF-8\\n"/' "template.pot.new"
 
@@ -76,7 +96,7 @@ xgettext \
 	--join-existing \
 	-o "template.pot.new" \
 	|| \
-	{ echo "[merge] error while calling xgettext. aborting."; exit 1; }
+	{ echoRed "[translate/merge] error while calling xgettext. aborting."; exit 1; }
 
 sed -i 's/# SOME DESCRIPTIVE TITLE./'"# Translation of ${widgetName} in LANGUAGE"'/' "template.pot.new"
 sed -i 's/# Copyright (C) YEAR THE PACKAGE'"'"'S COPYRIGHT HOLDER/'"# Copyright (C) $(date +%Y)"'/' "template.pot.new"
@@ -94,11 +114,11 @@ if [ -f "template.pot" ]; then
 		addedKeys=`echo "$changes" | grep "> msgid" | cut -c 9- | sort`
 		removedKeys=`echo "$changes" | grep "< msgid" | cut -c 9- | sort`
 		echo ""
-		echo "Added Keys:"
-		echo "$addedKeys"
+		echoGreen "Added Keys:"
+		echoGreen "$addedKeys"
 		echo ""
-		echo "Removed Keys:"
-		echo "$removedKeys"
+		echoRed "Removed Keys:"
+		echoRed "$removedKeys"
 		echo ""
 
 	else
@@ -118,13 +138,13 @@ templateLine=`perl -e "printf(\"$entryFormat\", \"Template\", \"${potMessageCoun
 echo "$templateLine" >> "./Status.md"
 
 rm "${DIR}/infiles.list"
-echo "[merge] Done extracting messages"
+echoGray "[translate/merge] Done extracting messages"
 
 #---
-echo "[merge] Merging messages"
+echoGray "[translate/merge] Merging messages"
 catalogs=`find . -name '*.po' | sort`
 for cat in $catalogs; do
-	echo "[merge] $cat"
+	echoGray "[translate/merge] Updating ${cat}"
 	catLocale=`basename ${cat%.*}`
 
 	widthArg=""
@@ -167,10 +187,10 @@ for cat in $catalogs; do
 	# mv "$cat" "$cat.old"
 	mv "$cat.new" "$cat"
 done
-echo "[merge] Done merging messages"
+echoGray "[translate/merge] Done merging messages"
 
 #---
-echo "[merge] Updating .desktop file"
+echoGray "[translate/merge] Updating .desktop file"
 
 # Generate LINGUAS for msgfmt
 if [ -f "$DIR/LINGUAS" ]; then
@@ -193,19 +213,19 @@ msgfmt \
 
 # Delete empty msgid messages that used the po header
 if [ ! -z "$(grep '^Name=$' "$DIR/new.desktop")" ]; then
-	echo "[merge] Name in headsetkontrol.desktop is empty!"
+	echo "[translate/merge] Name in headsetkontrol.desktop is empty!"
 	sed -i '/^Name\[/ d' "$DIR/new.desktop"
 fi
 if [ ! -z "$(grep '^GenericName=$' "$DIR/new.desktop")" ]; then
-	echo "[merge] GenericName in headsetkontrol.desktop is empty!"
+	echo "[translate/merge] GenericName in headsetkontrol.desktop is empty!"
 	sed -i '/^GenericName\[/ d' "$DIR/new.desktop"
 fi
 if [ ! -z "$(grep '^Comment=$' "$DIR/new.desktop")" ]; then
-	echo "[merge] Comment in headsetkontrol.desktop is empty!"
+	echo "[translate/merge] Comment in headsetkontrol.desktop is empty!"
 	sed -i '/^Comment\[/ d' "$DIR/new.desktop"
 fi
 if [ ! -z "$(grep '^Keywords=$' "$DIR/new.desktop")" ]; then
-	echo "[merge] Keywords in headsetkontrol.desktop is empty!"
+	echo "[translate/merge] Keywords in headsetkontrol.desktop is empty!"
 	sed -i '/^Keywords\[/ d' "$DIR/new.desktop"
 fi
 
@@ -227,13 +247,13 @@ rm "$DIR/LINGUAS"
 
 #---
 # Populate Progress.md
-echo "[merge] Updating translate/Progress.md"
+echoGray "[translate/merge] Updating translate/Progress.md"
 sed -i -E 's`share\/plasma\/plasmoids\/(.+)\/translate`share/plasma/plasmoids/'"${appName}"'/translate`' ./Progress.md
 if [[ "$website" == *"github.com"* ]]; then
 	sed -i -E 's`\[new issue\]\(https:\/\/github\.com\/(.+)\/(.+)\/issues\/new\)`[new issue]('"${website}"'/issues/new)`' ./Progress.md
 fi
-sed -i '/^|/ d' ./Progress.md # Remove status table from ReadMe
+sed -i '/^|/ d' ./Progress.md # Remove status table from Progress
 cat ./Status.md >> ./Progress.md
 rm ./Status.md
 
-echo "[merge] Done"
+echoGreen "[translate/merge] Done merge script"

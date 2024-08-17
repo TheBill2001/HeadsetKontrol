@@ -2,28 +2,11 @@
 
 Interface for [HeadsetControl](https://github.com/Sapd/HeadsetControl) written with Kirigami and KDE Framework.
 
-* Monitor headset information.
+* Monitor headsets information.
 * Battery level notification.
-* Set headset specific settings.
+* Set headsets specific settings.
 
-![Screenshot](https://gitlab.com/TheBill2001/HeadsetKontrol/uploads/c9f8ce9af82116dff5e155fece36571f/Screenshot_20230301_034343.png)
-
-# Rewriting for Plasma 6
-
-- [x] Refactoring CMake and project structure for ECM 6.0.0
-- [ ] Porting to Qt6/KF6 - UI
-   - [x] Porting Kirigami.CategorizedConfig to KirigamiAddons.ConfigurationView
-   - [x] Add devices list page
-   - [ ] Porting device configuration page to KirigamiAddons.FormCard
-
-- [ ] Porting HeadsetControl wrapper class to new output format.
-   - [x] Query actions.
-   - [ ] Configuring actions.
-      - [ ] Save per-device configuration (might skip, HeadsetControl currently doesn't support this).
-
-- [ ] Rewrite notifications
-- [ ] Update icons (might skip)
-- [ ] Update README images
+![Screenshot](screenshot.png)
 
 ## 1. Installing
 1. Arch Linux
@@ -56,7 +39,10 @@ KDE Framework 6.0.0 or above with these modules:
 
 ### 2.2 Installing dependencies
 
-_TODO_
+1. Arch Linux
+```
+pacman -Syu extra-cmake-modules kirigami kirigami-addons ki18n kcoreaddons kconfig kdbusaddons knotifications kiconthemes
+```
 
 ### 2.3 Build steps
 - Create and enter build directory.
