@@ -26,6 +26,9 @@ public:
 
     static HeadsetKontrolConfig *instance();
 
+private Q_SLOTS:
+    void checkAutoStart();
+
 private:
     QTimer m_timer;
     bool m_startMinimized;

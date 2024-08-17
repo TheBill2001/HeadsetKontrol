@@ -2,7 +2,12 @@
 
 #include <QDir>
 #include <QFile>
+#include <QProcess>
 #include <qapplicationstatic.h>
+
+#include <KLocalizedString>
+
+using namespace Qt::Literals::StringLiterals;
 
 Q_APPLICATION_STATIC(HeadsetKontrolConfig, s_config, QCoreApplication::instance())
 
@@ -21,26 +26,56 @@ HeadsetKontrolConfig::HeadsetKontrolConfig(QObject *parent)
     });
     m_timer.start();
 
-    connect(this, &HeadsetKontrolConfig::AutoStartChanged, this, [&]() {
-        QString autoStartFileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + QStringLiteral("/autostart/headsetkontrol.desktop");
-        if (autoStart()) {
-            if (QFile::exists(autoStartFileName)) {
-                QFile autoStartFile(autoStartFileName);
-                autoStartFile.remove();
+    connect(this, &HeadsetKontrolConfig::AutoStartChanged, this, &HeadsetKontrolConfig::checkAutoStart);
+
+    if (executablePath().isEmpty()) {
+        QTimer::singleShot(0, this, [&]() {
+            qInfo() << i18nc("@info:shell", "Empty HeadsetControl executable path. Attempting to auto-detect...");
+            auto pathsString = qEnvironmentVariable("PATH");
+            if (pathsString.isEmpty()) {
+                qInfo() << i18nc("@info:shell", "PATH environment variable is empty. Cannot auto-detect HeadsetControl executable path.");
             }
 
-            QFile desktopFile(QStringLiteral(":/resources/headsetkontrol.desktop"));
-            desktopFile.copy(autoStartFileName);
-        } else {
-            QFile autoStartFile(autoStartFileName);
-            if (autoStartFile.exists())
-                autoStartFile.remove();
-        }
-    });
+            auto paths = pathsString.split(u":"_s);
+            for (const auto &path : std::as_const(paths)) {
+                QDir dir(path);
+                dir.setNameFilters({u"headsetcontrol"_s});
+
+                auto entryList = dir.entryInfoList(QDir::Files | QDir::Executable);
+
+                bool found = false;
+                for (const auto &entry : std::as_const(entryList)) {
+                    auto filePath = entry.canonicalFilePath();
+
+                    QProcess process(this);
+                    process.start(filePath, {u"--connected"_s});
+                    auto finished = process.waitForFinished(500);
+                    if (finished) {
+                        auto reply = QString::fromUtf8(process.readAllStandardOutput()).simplified();
+                        if (reply == u"true"_s) {
+                            setExecutablePath(entryList.first().canonicalFilePath());
+                            found = true;
+                            qInfo() << i18nc("@info:shell", "Found HeadsetControl executable path: %1", executablePath());
+                        }
+                    }
+                }
+
+                if (found) {
+                    break;
+                }
+            }
+        });
+    }
+
+    QTimer::singleShot(0, this, &HeadsetKontrolConfig::checkAutoStart);
 }
 
 HeadsetKontrolConfig::~HeadsetKontrolConfig()
 {
+    m_timer.stop();
+    if (isSaveNeeded() || config()->isDirty()) {
+        save();
+    }
 }
 
 HeadsetKontrolConfig *HeadsetKontrolConfig::create(QQmlEngine *, QJSEngine *engine)
@@ -62,4 +97,22 @@ void HeadsetKontrolConfig::setExecutablePathUrl(const QUrl &url)
 HeadsetKontrolConfig *HeadsetKontrolConfig::instance()
 {
     return s_config;
+}
+
+void HeadsetKontrolConfig::checkAutoStart()
+{
+    static QString autoStartFileName = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + u"/autostart/headsetkontrol.desktop"_s;
+    if (autoStart()) {
+        if (QFile::exists(autoStartFileName)) {
+            QFile autoStartFile(autoStartFileName);
+            autoStartFile.remove();
+        }
+
+        QFile desktopFile(QStringLiteral(":/resources/headsetkontrol.desktop"));
+        desktopFile.copy(autoStartFileName);
+    } else {
+        QFile autoStartFile(autoStartFileName);
+        if (autoStartFile.exists())
+            autoStartFile.remove();
+    }
 }
