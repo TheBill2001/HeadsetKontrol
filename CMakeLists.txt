@@ -44,7 +44,7 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     IconThemes
 )
 
-find_package(KF6 1.4.0 REQUIRED COMPONENTS KirigamiAddons)
+find_package(KF6 1.3.0 REQUIRED COMPONENTS KirigamiAddons)
 
 qt_policy(SET QTP0001 NEW)
 

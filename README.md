@@ -29,7 +29,7 @@ KDE Framework 6.0.0 or above with these modules:
 
 * ECM (for CMake)
 * Kirigami
-* KirigamiAddons
+* KirigamiAddons (1.3.0 or newer)
 * I18n
 * CoreAddons
 * Config
@@ -46,8 +46,10 @@ pacman -Syu extra-cmake-modules kirigami kirigami-addons ki18n kcoreaddons kconf
 
 2. Fedora
 ```
-dnf install extra-cmake-modules kf6-kirigami-devel  kf6-kirigami-addons kf6-ki18n-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kdbusaddons-devel kf6-knotifications-devel kf5-kcoreaddons-devel 
+dnf install extra-cmake-modules kf6-kirigami-devel kf6-kirigami-addons kf6-ki18n-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kdbusaddons-devel kf6-knotifications-devel kf6-kiconthemes-devel 
 ```
+
+**NOTE August 18<sup>th</sup>, 2024**: HeadsetKontrol need KirigamiAddons 1.3.0 or newer. At the time of writing, Fedora 40 only have 1.2.1.
 
 ### 2.3 Build steps
 - Create and enter build directory.
