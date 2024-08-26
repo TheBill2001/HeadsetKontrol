@@ -59,15 +59,17 @@ void HeadsetControlDeviceBattery::setLevel(int newLevel)
 {
     if (m_level == newLevel)
         return;
-    m_oldLevel = m_level;
+
+    bool notify = false;
+    if (abs(m_level - m_oldLevel) > 10) {
+        notify = true;
+        m_oldLevel = m_level;
+    }
+
     m_level = newLevel;
     Q_EMIT levelChanged();
 
-    if (!HeadsetKontrolConfig::instance()->batteryNotification()) {
-        return;
-    }
-
-    if (abs(level() - m_oldLevel) < 10) {
+    if (!(HeadsetKontrolConfig::instance()->batteryNotification() && notify)) {
         return;
     }
 
