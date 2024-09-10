@@ -17,23 +17,28 @@ Kirigami.ApplicationWindow {
     property Device selectedDevice: null
 
     globalDrawer: Kirigami.GlobalDrawer {
+        id: globalDrawer
+
         isMenu: true
 
         actions: [
             Kirigami.Action {
-                id: settingsAction
-                icon.name: "configure"
-                text: i18nc("@action:button", "Settings")
-                onTriggered: root.openSettingsPage()
+                fromQAction: App.aboutAction
+            },
+            Kirigami.Action {
+                fromQAction: App.reportBugAction
             },
             Kirigami.Action {
                 separator: true
             },
             Kirigami.Action {
-                id: quitAction
-                icon.name: "application-exit"
-                text: i18nc("@action:button", "Quit")
-                onTriggered: Qt.quit()
+                fromQAction: App.configureAction
+            },
+            Kirigami.Action {
+                separator: true
+            },
+            Kirigami.Action {
+                fromQAction: App.quitAction
             }
         ]
     }
@@ -50,7 +55,11 @@ Kirigami.ApplicationWindow {
     }
 
     Component.onCompleted: {
-        root.visible = !Config.startMinimized
+        if (Config.runInBackground) {
+            root.visible = !Config.startMinimized
+        } else {
+            root.visible = true
+        }
     }
 
     SettingsView {
@@ -67,9 +76,11 @@ Kirigami.ApplicationWindow {
         }
 
         function onShowSettings() {
-            root.show()
-            root.raise()
             root.openSettingsPage()
+        }
+
+        function onShowAbout() {
+            root.openSettingsPage("about")
         }
     }
 
@@ -79,8 +90,8 @@ Kirigami.ApplicationWindow {
         device: root.selectedDevice
     }
 
-    function openSettingsPage() {
-        settingsView.open()
+    function openSettingsPage(module = null) {
+        settingsView.open(module ? module : '')
     }
 
     function openDeviceDetailPage(device) {

@@ -42,6 +42,8 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     DBusAddons
     Notifications
     IconThemes
+    StatusNotifierItem
+    XmlGui
 )
 
 find_package(KF6 1.3.0 REQUIRED COMPONENTS KirigamiAddons)

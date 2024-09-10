@@ -7,6 +7,8 @@ import com.gitlab.thebill2001.headsetkontrol
 KirigamiSettings.ConfigurationView {
     id: settingsView
 
+    property var dialog: null
+
     modules: [
         KirigamiSettings.ConfigurationModule {
             moduleId: "general"
@@ -34,5 +36,30 @@ KirigamiSettings.ConfigurationView {
         }
     ]
 
-    Component.onDestruction: Config.save()
+    // Override default behaviour
+    function open(defaultModule = '') {
+        const component = Qt.createComponent(
+                            'org.kde.kirigamiaddons.settings.private',
+                            'ConfigWindow')
+        if (component.status === Component.Failed) {
+            console.error(component.errorString())
+            return
+        }
+
+        if (settingsView.dialog) {
+            settingsView.dialog.close()
+        }
+
+        settingsView.dialog = component.createObject(root, {
+                                                         "defaultModule": defaultModule,
+                                                         "modules": settingsView.modules,
+                                                         "width": Kirigami.Units.gridUnit * 50,
+                                                         "height": Kirigami.Units.gridUnit * 30,
+                                                         "minimumWidth": Kirigami.Units.gridUnit
+                                                                         * 50,
+                                                         "minimumHeight": Kirigami.Units.gridUnit
+                                                                          * 30,
+                                                         "title": settingsView.title
+                                                     })
+    }
 }

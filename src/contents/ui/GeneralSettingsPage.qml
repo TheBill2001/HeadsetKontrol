@@ -13,7 +13,14 @@ KirigamiFormCard.FormCardPage {
 
     KirigamiFormCard.FormCard {
         KirigamiFormCard.FormSwitchDelegate {
+            text: i18nc("@option:check", "Run in background")
+            checked: Config.runInBackground
+            onCheckedChanged: Config.runInBackground = checked
+        }
+
+        KirigamiFormCard.FormSwitchDelegate {
             text: i18nc("@option:check", "Start minimized")
+            enabled: Config.runInBackground
             checked: Config.startMinimized
             onCheckedChanged: Config.startMinimized = checked
         }

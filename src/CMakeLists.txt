@@ -37,7 +37,7 @@ target_sources(headsetkontrol PRIVATE
     processqueue.h processqueue.cpp
     headsetcontrol.h headsetcontrol.cpp
     headsetkontrolconfig.h headsetkontrolconfig.cpp
-    headsetkontroltrayicon.h headsetkontroltrayicon.cpp
+    headsetkontrolnotifieritem.h headsetkontrolnotifieritem.cpp
     headsetcontroldevice.h headsetcontroldevice.cpp
     headsetcontroldevicebattery.h headsetcontroldevicebattery.cpp
     headsetkontrolapplication.h headsetkontrolapplication.cpp
@@ -65,6 +65,8 @@ target_link_libraries(headsetkontrol
         KF6::DBusAddons
         KF6::Notifications
         KF6::IconThemes
+        KF6::StatusNotifierItem
+        KF6::XmlGui
 )
 
 install(TARGETS headsetkontrol ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
