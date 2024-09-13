@@ -431,9 +431,6 @@ void HeadsetControlDevice::writeConfig(const QString &key, const QVariant &value
     auto vendorConfigGroup = m_config->group(vendorId());
     auto productConfigGroup = vendorConfigGroup.group(productId());
     productConfigGroup.writeEntry(key, value);
-    // QTimer::singleShot(0, this, [&]() {
-    //     productConfigGroup.sync();
-    // });
 }
 
 QVariant HeadsetControlDevice::readConfig(const QString &key, const QVariant &defaultValue) const

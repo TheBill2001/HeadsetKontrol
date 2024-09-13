@@ -23,16 +23,6 @@
         </entry>
     </group>
 
-    <group name="Notification">
-        <entry name="BatteryNotification" type="Bool">
-            <default>true</default>
-        </entry>
-
-        <entry name="DeviceChangeNotification" type="Bool">
-            <default>true</default>
-        </entry>
-    </group>
-
     <group name="HeadsetControl">
         <entry name="ExecutablePath" type="Path">
         </entry>

@@ -2,6 +2,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <qapplicationstatic.h>
 
 #include <KLocalizedString>
 #include <KNotification>
@@ -11,10 +12,14 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+Q_APPLICATION_STATIC(HeadsetControl, globalInstance, QCoreApplication::instance())
+
 HeadsetControl::HeadsetControl(QObject *parent)
     : QObject{parent}
     , m_queue{new ProcessQueue(this)}
 {
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
+
     connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::ExecutablePathChanged, this, &HeadsetControl::start);
     connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::UpdateRateChanged, this, &HeadsetControl::start);
 
@@ -44,6 +49,16 @@ HeadsetControl::HeadsetControl(QObject *parent)
     connect(&m_queueDelayTimer, &QTimer::timeout, this, &HeadsetControl::refresh);
 
     QTimer::singleShot(0, this, &HeadsetControl::start);
+}
+
+HeadsetControl *HeadsetControl::create(QQmlEngine *, QJSEngine *)
+{
+    return instance();
+}
+
+HeadsetControl *HeadsetControl::instance()
+{
+    return globalInstance;
 }
 
 QString HeadsetControl::version() const
@@ -256,10 +271,6 @@ void HeadsetControl::addDevice(HeadsetControlDevice *device)
 
     m_devices.append(device);
     Q_EMIT devicesChanged();
-
-    if (!HeadsetKontrolConfig::instance()->deviceChangeNotification()) {
-        return;
-    }
 
     auto notification = new KNotification(u"newDeviceFound"_s, KNotification::CloseOnTimeout, this);
     notification->setAutoDelete(true);

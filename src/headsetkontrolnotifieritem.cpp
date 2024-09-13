@@ -16,35 +16,6 @@ HeadsetKontrolNotifierItem::HeadsetKontrolNotifierItem(HeadsetKontrolApplication
     : KStatusNotifierItem{parent}
     , m_parent{parent}
 {
-    // QMenu *menu = new QMenu();
-
-    // auto viewAction = new QAction(i18nc("@action:inmenu", "Show"), parent);
-    // connect(viewAction, &QAction::triggered, this, &HeadsetKontrolNotifierItem::showWindow);
-    // connect(this, &QSystemTrayIcon::activated, this, [this](QSystemTrayIcon::ActivationReason reason) {
-    //     if (reason == QSystemTrayIcon::Trigger) {
-    //         Q_EMIT showWindow();
-    //     }
-    // });
-    // menu->addAction(viewAction);
-
-    // auto settingAction = new QAction(i18nc("@action:inmenu", "Settings"), parent);
-    // connect(settingAction, &QAction::triggered, this, &HeadsetKontrolNotifierItem::showSettings);
-    // menu->addAction(settingAction);
-
-    // menu->addSeparator();
-
-    // auto quitAction = new QAction(i18nc("@action:inmenu", "Quit"), parent);
-    // quitAction->setIcon(QIcon::fromTheme(QStringLiteral("application-exit")));
-    // connect(quitAction, &QAction::triggered, QCoreApplication::instance(), QCoreApplication::quit);
-
-    // menu->addAction(quitAction);
-
-    // setContextMenu(menu);
-
-    // setIcon(QIcon::fromTheme(QStringLiteral("headsetkontrol")));
-
-    // show();
-
     m_menu = new QMenu();
 
     setStandardActionsEnabled(false);
@@ -53,14 +24,23 @@ HeadsetKontrolNotifierItem::HeadsetKontrolNotifierItem(HeadsetKontrolApplication
     setContextMenu(m_menu);
 
     m_menu->insertSection(nullptr, i18nc("@title:menu", "Help"));
-    m_menu->addAction(m_parent->actionCollection()->action(KStandardAction::name(KStandardAction::AboutApp)));
-    m_menu->addAction(m_parent->actionCollection()->action(KStandardAction::name(KStandardAction::ReportBug)));
+    m_menu->addAction(m_parent->aboutAction());
+    m_menu->addAction(m_parent->reportBugAction());
+
+    m_menu->insertSection(nullptr, i18nc("@title:menu", "Actions"));
+    m_menu->addAction(m_parent->startHeadsetControlAction());
+    m_menu->addAction(m_parent->stopHeadsetControlAction());
+    m_menu->addAction(m_parent->refreshHeadsetControlAction());
 
     m_menu->insertSection(nullptr, i18nc("@title:menu", "Settings"));
-    m_menu->addAction(m_parent->actionCollection()->action(KStandardAction::name(KStandardAction::Preferences)));
+    m_menu->addAction(m_parent->configureKeyBindingsAction());
+    m_menu->addAction(m_parent->configureAction());
+    m_menu->addAction(m_parent->configureNotificationsAction());
 
     m_menu->addSeparator();
-    m_menu->addAction(m_parent->actionCollection()->action(KStandardAction::name(KStandardAction::Quit)));
+    m_menu->addAction(m_parent->quitAction());
+
+    connect(this, &HeadsetKontrolNotifierItem::activateRequested, parent, &HeadsetKontrolApplication::showWindow);
 }
 
 HeadsetKontrolNotifierItem::~HeadsetKontrolNotifierItem()
