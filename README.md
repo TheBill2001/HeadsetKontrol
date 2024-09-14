@@ -25,7 +25,7 @@ Qt version 6.5.0 or above with these modules:
 * Widgets
 * DBus
 
-KDE Framework 6.0.0 or above with these modules:
+KDE Framework 6.5.0 or above with these modules:
 
 * ECM (for CMake)
 * Kirigami
@@ -41,15 +41,13 @@ KDE Framework 6.0.0 or above with these modules:
 
 1. Arch Linux
 ```
-pacman -Syu extra-cmake-modules kirigami kirigami-addons ki18n kcoreaddons kconfig kdbusaddons knotifications kiconthemes
+pacman -Syu extra-cmake-modules kirigami kirigami-addons ki18n kcoreaddons kconfig kdbusaddons knotifications kiconthemes kstatusnotifieritem kxmlgui knotifyconfig
 ```
 
 2. Fedora
 ```
-dnf install extra-cmake-modules kf6-kirigami-devel kf6-kirigami-addons kf6-ki18n-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kdbusaddons-devel kf6-knotifications-devel kf6-kiconthemes-devel 
+dnf install extra-cmake-modules kf6-kirigami-devel kf6-kirigami-addons-devel kf6-ki18n-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kdbusaddons-devel kf6-knotifications-devel kf6-kiconthemes-devel kf6-kstatusnotifieritem-devel kf6-kxmlgui-devel kf6-knotifyconfig-devel
 ```
-
-**NOTE August 18<sup>th</sup>, 2024**: HeadsetKontrol need KirigamiAddons 1.3.0 or newer. At the time of writing, Fedora 40 only have 1.2.1.
 
 ### 2.3 Build steps
 - Create and enter build directory.
@@ -62,9 +60,11 @@ dnf install extra-cmake-modules kf6-kirigami-devel kf6-kirigami-addons kf6-ki18n
 - Build the program.
 
    ```
-   cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Release ..
+   cmake -DCMAKE_INSTALL_PREFIX:PATH=install-prefix -DCMAKE_BUILD_TYPE=Release ..
    make
    ```
+
+   > :information: NOTE: `install-prefix` is denpendent on distro. For Arch Linux, it is `/usr`
 
 ### 2.4 Install
 
