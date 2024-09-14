@@ -15,21 +15,14 @@
         <entry name="AutoStart" type="Bool">
             <default>false</default>
         </entry>
+
+        <entry name="Primary" type="StringList">
+        </entry>
     </group>
 
     <group name="UserInterface">
         <entry name="ShowCountdownProgress" type="Bool">
             <default>false</default>
-        </entry>
-    </group>
-
-    <group name="Notification">
-        <entry name="BatteryNotification" type="Bool">
-            <default>true</default>
-        </entry>
-
-        <entry name="DeviceChangeNotification" type="Bool">
-            <default>true</default>
         </entry>
     </group>
 

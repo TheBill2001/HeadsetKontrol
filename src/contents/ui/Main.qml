@@ -32,7 +32,13 @@ Kirigami.ApplicationWindow {
                 separator: true
             },
             Kirigami.Action {
+                fromQAction: App.configureKeyBindingsAction
+            },
+            Kirigami.Action {
                 fromQAction: App.configureAction
+            },
+            Kirigami.Action {
+                fromQAction: App.configureNotificationsAction
             },
             Kirigami.Action {
                 separator: true
@@ -71,16 +77,22 @@ Kirigami.ApplicationWindow {
     Connections {
         target: App
         function onShowWindow() {
-            root.show()
-            root.raise()
+            root.restore()
         }
 
         function onShowSettings() {
+            root.restore()
             root.openSettingsPage()
         }
 
         function onShowAbout() {
+            root.restore()
             root.openSettingsPage("about")
+        }
+
+        function onShowDevice(device) {
+            root.restore()
+            root.openDeviceDetailPage(device)
         }
     }
 
@@ -102,5 +114,10 @@ Kirigami.ApplicationWindow {
         }
 
         root.pageStack.push(deviceDetailPage)
+    }
+
+    function restore() {
+        root.show()
+        root.raise()
     }
 }

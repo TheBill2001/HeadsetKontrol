@@ -67,6 +67,7 @@ target_link_libraries(headsetkontrol
         KF6::IconThemes
         KF6::StatusNotifierItem
         KF6::XmlGui
+        KF6::NotifyConfig
 )
 
 install(TARGETS headsetkontrol ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

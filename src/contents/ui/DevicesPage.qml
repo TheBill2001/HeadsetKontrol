@@ -12,19 +12,13 @@ Kirigami.ScrollablePage {
 
     actions: [
         Kirigami.Action {
-            icon.name: HeadsetControl.isRunning ? "media-playback-stop" : "media-playback-start"
-            text: HeadsetControl.isRunning ? i18nc(
-                                                 "@action:intoolbar stop update headsetcontrol",
-                                                 "Stop") : i18nc(
-                                                 "@action:intoolbar start update headsetcontrol",
-                                                 "Start")
-            onTriggered: HeadsetControl.isRunning ? HeadsetControl.stop(
-                                                        ) : HeadsetControl.start()
+            fromQAction: App.startHeadsetControlAction
         },
         Kirigami.Action {
-            icon.name: "view-refresh"
-            text: i18nc("@action:intoolbar", "Refresh")
-            onTriggered: HeadsetControl.refresh()
+            fromQAction: App.stopHeadsetControlAction
+        },
+        Kirigami.Action {
+            fromQAction: App.refreshHeadsetControlAction
         }
     ]
 

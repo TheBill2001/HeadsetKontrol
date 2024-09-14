@@ -23,6 +23,7 @@ public:
     int level() const;
 
     void update(const QVariantHash &hash);
+    QString batteryIconName() const;
 
 Q_SIGNALS:
     void statusChanged();

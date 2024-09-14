@@ -21,7 +21,10 @@ class HeadsetControl : public QObject
     Q_PROPERTY(qint32 countDownTime READ countDownTime NOTIFY countDownTimeChanged FINAL)
     Q_PROPERTY(bool isRunning READ isRunning NOTIFY isRunningChanged FINAL)
 public:
-    explicit HeadsetControl(QObject *parent = nullptr);
+    explicit HeadsetControl(QObject *parent);
+
+    static HeadsetControl *create(QQmlEngine *, QJSEngine *);
+    static HeadsetControl *instance();
 
     QString version() const;
     QString apiVersion() const;
@@ -34,6 +37,8 @@ public:
 
     qint32 countDownTime() const;
     bool isRunning() const;
+
+    HeadsetControlDevice *getDevice(const QString &vendorId, const QString &productId);
 
 public Q_SLOTS:
     void start();
@@ -85,7 +90,6 @@ private:
     void addDevice(HeadsetControlDevice *device);
     void removeDevice(HeadsetControlDevice *device);
     void clearDevices();
-    HeadsetControlDevice *getDevice(const QString &vendorId, const QString &productId);
 };
 
 #endif

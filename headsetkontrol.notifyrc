@@ -7,11 +7,14 @@ DesktopEntry=headsetkontrol
 [Event/batteryStatus]
 Name=Battery status
 Action=Popup|Taskbar
+Comment=Battery level changed
 
 [Event/newDeviceFound]
 Name=New device found
 Action=Popup|Taskbar
+Comment=Devices list changed with new device added
 
 [Event/deviceRemoved]
 Name=Device removed
 Action=Popup|Taskbar
+Comment=Devices list changed with device removed

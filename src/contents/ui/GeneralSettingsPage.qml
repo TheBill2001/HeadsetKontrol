@@ -47,22 +47,4 @@ KirigamiFormCard.FormCardPage {
             onCheckedChanged: Config.showCountdownProgress = checked
         }
     }
-
-    KirigamiFormCard.FormHeader {
-        title: i18nc("@title:group", "Notifications")
-    }
-
-    KirigamiFormCard.FormCard {
-        KirigamiFormCard.FormSwitchDelegate {
-            text: i18nc("@option:check", "Battery notification")
-            checked: Config.batteryNotification
-            onCheckedChanged: Config.batteryNotification = checked
-        }
-
-        KirigamiFormCard.FormSwitchDelegate {
-            text: i18nc("@option:check", "Device change notification")
-            checked: Config.deviceChangeNotification
-            onCheckedChanged: Config.deviceChangeNotification = checked
-        }
-    }
 }

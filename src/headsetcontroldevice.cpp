@@ -2,6 +2,8 @@
 
 #include <QTimer>
 
+#include <KLocalizedString>
+
 #include "headsetcontrol.h"
 #include "headsetkontrolconfig.h"
 
@@ -11,8 +13,29 @@ HeadsetControlDevice::HeadsetControlDevice(HeadsetControl *parent)
     : QObject{parent}
     , m_battery{new HeadsetControlDeviceBattery(this)}
     , m_headsetControl{parent}
-    , m_config{HeadsetKontrolConfig::instance()->sharedConfig()}
 {
+    m_reApplyAction = new QAction(this);
+    m_reApplyAction->setIcon(QIcon::fromTheme(u"dialog-ok-apply"_s));
+    m_reApplyAction->setText(i18nc("@action apply all", "Re-apply all"));
+    m_reApplyAction->setToolTip(i18nc("@info:tooltip apply all", "Re-apply all settings"));
+    connect(m_reApplyAction, &QAction::triggered, this, &HeadsetControlDevice::reApply);
+
+    m_setPrimaryAction = new QAction(this);
+    m_setPrimaryAction->setIcon(QIcon::fromTheme(u"favorite"_s));
+    m_setPrimaryAction->setCheckable(true);
+    m_setPrimaryAction->setText(i18nc("@action", "Mark as primary"));
+    m_setPrimaryAction->setToolTip(i18nc("@info:tooltip apply all", "Mark device as primary device"));
+    connect(m_setPrimaryAction, &QAction::triggered, this, &HeadsetControlDevice::setPrimary);
+    connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::PrimaryChanged, this, [this]() {
+        bool isPrimary = false;
+        auto primary = HeadsetKontrolConfig::instance()->primary();
+        if (primary.length() > 0 && primary.at(0) == vendorId()) {
+            if (primary.length() > 1 && primary.at(1) == productId()) {
+                isPrimary = true;
+            }
+        }
+        m_setPrimaryAction->setChecked(isPrimary);
+    });
 }
 
 HeadsetControlDevice::~HeadsetControlDevice()
@@ -160,6 +183,21 @@ void HeadsetControlDevice::update(const QVariantHash &hash)
     setCapabilities(hash.value(u"capabilities"_s, QStringList()).toStringList());
     battery()->update(hash.value(u"battery"_s, QStringList()).toHash());
 
+    if (product().length() > 0) {
+        m_setPrimaryAction->setData(product());
+    } else {
+        m_setPrimaryAction->setData(device());
+    }
+
+    bool isPrimary = false;
+    auto primary = HeadsetKontrolConfig::instance()->primary();
+    if (primary.length() > 0 && primary.at(0) == vendorId()) {
+        if (primary.length() > 1 && primary.at(1) == productId()) {
+            isPrimary = true;
+        }
+    }
+    m_setPrimaryAction->setChecked(isPrimary);
+
     auto errors = hash.value(u"errors"_s, QString()).toStringList();
     for (auto const &error : std::as_const(errors)) {
         Q_EMIT errorOccurred(error);
@@ -261,6 +299,16 @@ void HeadsetControlDevice::setMicrophoneVolume(int volume)
     applyMicrophoneVolume(volume);
 }
 
+QAction *HeadsetControlDevice::reApplyAction() const
+{
+    return m_reApplyAction;
+}
+
+QAction *HeadsetControlDevice::setPrimaryAction() const
+{
+    return m_setPrimaryAction;
+}
+
 void HeadsetControlDevice::playNotification(const QString &audioId)
 {
     if (m_capabilities.testFlag(NotificationSound)) {
@@ -281,6 +329,11 @@ void HeadsetControlDevice::reApply()
     applyRotateToMute(rotateToMute(), true);
     applyMicrophoneBrightness(microphoneBrightness(), true);
     applyMicrophoneVolume(microphoneVolume(), true);
+}
+
+void HeadsetControlDevice::setPrimary()
+{
+    HeadsetKontrolConfig::instance()->setPrimary({vendorId(), productId()});
 }
 
 void HeadsetControlDevice::setStatus(const QString &newStatus)
@@ -428,17 +481,14 @@ void HeadsetControlDevice::applyMicrophoneVolume(int volume, bool force)
 
 void HeadsetControlDevice::writeConfig(const QString &key, const QVariant &value)
 {
-    auto vendorConfigGroup = m_config->group(vendorId());
+    auto vendorConfigGroup = HeadsetKontrolConfig::instance()->config()->group(vendorId());
     auto productConfigGroup = vendorConfigGroup.group(productId());
     productConfigGroup.writeEntry(key, value);
-    // QTimer::singleShot(0, this, [&]() {
-    //     productConfigGroup.sync();
-    // });
 }
 
 QVariant HeadsetControlDevice::readConfig(const QString &key, const QVariant &defaultValue) const
 {
-    auto vendorConfigGroup = m_config->group(vendorId());
+    auto vendorConfigGroup = HeadsetKontrolConfig::instance()->config()->group(vendorId());
     auto productConfigGroup = vendorConfigGroup.group(productId());
     return productConfigGroup.readEntry(key, defaultValue);
 }
