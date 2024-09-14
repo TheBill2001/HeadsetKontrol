@@ -36,6 +36,9 @@ KDE Framework 6.5.0 or above with these modules:
 * DBusAddons
 * Notifications
 * IconThemes
+* StatusNotifierItem
+* XmlGui
+* NotifyConfig
 
 ### 2.2 Installing dependencies
 
@@ -64,7 +67,7 @@ dnf install extra-cmake-modules kf6-kirigami-devel kf6-kirigami-addons-devel kf6
    make
    ```
 
-   > :information: NOTE: `install-prefix` is denpendent on distro. For Arch Linux, it is `/usr`
+   > **NOTE**: `install-prefix` is denpendent on distro. For Arch Linux, it is `/usr`.
 
 ### 2.4 Install
 
