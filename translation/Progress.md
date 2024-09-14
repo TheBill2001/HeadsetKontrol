@@ -1,3 +1,3 @@
 |  Locale  |  Lines  | % Done|
 |----------|---------|-------|
-| Template |      87 |       |
+| Template |      90 |       |

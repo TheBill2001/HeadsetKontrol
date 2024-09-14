@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: HeadsetKontrol\n"
 "Report-Msgid-Bugs-To: https://gitlab.com/TheBill2001/HeadsetKontrol/-/issues\n"
-"POT-Creation-Date: 2024-08-18 04:43+0700\n"
+"POT-Creation-Date: 2024-09-14 07:52+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,16 +33,6 @@ msgstr ""
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@title:window"
 msgid "Device details"
-msgstr ""
-
-#: ../src/contents/ui/DeviceDetailPage.qml
-msgctxt "@action:intoolbar apply all"
-msgid "Apply all"
-msgstr ""
-
-#: ../src/contents/ui/DeviceDetailPage.qml
-msgctxt "@info:tooltip apply all"
-msgid "Apply all settings"
 msgstr ""
 
 #: ../src/contents/ui/DeviceDetailPage.qml
@@ -228,21 +218,6 @@ msgid "Devices"
 msgstr ""
 
 #: ../src/contents/ui/DevicesPage.qml
-msgctxt "@action:intoolbar stop update headsetcontrol"
-msgid "Stop"
-msgstr ""
-
-#: ../src/contents/ui/DevicesPage.qml
-msgctxt "@action:intoolbar start update headsetcontrol"
-msgid "Start"
-msgstr ""
-
-#: ../src/contents/ui/DevicesPage.qml
-msgctxt "@action:intoolbar"
-msgid "Refresh"
-msgstr ""
-
-#: ../src/contents/ui/DevicesPage.qml
 msgctxt "@info"
 msgid "This is empty"
 msgstr ""
@@ -283,6 +258,11 @@ msgstr ""
 
 #: ../src/contents/ui/GeneralSettingsPage.qml
 msgctxt "@option:check"
+msgid "Run in background"
+msgstr ""
+
+#: ../src/contents/ui/GeneralSettingsPage.qml
+msgctxt "@option:check"
 msgid "Start minimized"
 msgstr ""
 
@@ -304,21 +284,6 @@ msgstr ""
 #: ../src/contents/ui/GeneralSettingsPage.qml
 msgctxt "@option:check"
 msgid "Show countdown progress"
-msgstr ""
-
-#: ../src/contents/ui/GeneralSettingsPage.qml
-msgctxt "@title:group"
-msgid "Notifications"
-msgstr ""
-
-#: ../src/contents/ui/GeneralSettingsPage.qml
-msgctxt "@option:check"
-msgid "Battery notification"
-msgstr ""
-
-#: ../src/contents/ui/GeneralSettingsPage.qml
-msgctxt "@option:check"
-msgid "Device change notification"
 msgstr ""
 
 #: ../src/contents/ui/HeadsetControlSettingsPage.qml
@@ -377,16 +342,6 @@ msgctxt "@title:window"
 msgid "Control your headset"
 msgstr ""
 
-#: ../src/contents/ui/Main.qml
-msgctxt "@action:button"
-msgid "Settings"
-msgstr ""
-
-#: ../src/contents/ui/Main.qml
-msgctxt "@action:button"
-msgid "Quit"
-msgstr ""
-
 #: ../src/contents/ui/SettingsView.qml
 msgctxt "@action:inmenu"
 msgid "General"
@@ -437,19 +392,79 @@ msgctxt "@info:status"
 msgid "Battery is at %1%."
 msgstr ""
 
-#: ../src/headsetkontroltrayicon.cpp
-msgctxt "@action:inmenu"
-msgid "Show"
+#: ../src/headsetcontroldevice.cpp
+msgctxt "@action apply all"
+msgid "Re-apply all"
 msgstr ""
 
-#: ../src/headsetkontroltrayicon.cpp
-msgctxt "@action:inmenu"
+#: ../src/headsetcontroldevice.cpp
+msgctxt "@info:tooltip apply all"
+msgid "Re-apply all settings"
+msgstr ""
+
+#: ../src/headsetcontroldevice.cpp
+msgctxt "@action"
+msgid "Mark as primary"
+msgstr ""
+
+#: ../src/headsetcontroldevice.cpp
+msgctxt "@info:tooltip apply all"
+msgid "Mark device as primary device"
+msgstr ""
+
+#: ../src/headsetkontrolapplication.cpp
+msgctxt "@action stop update headsetcontrol"
+msgid "Stop"
+msgstr ""
+
+#: ../src/headsetkontrolapplication.cpp
+msgctxt "@action start update headsetcontrol"
+msgid "Start"
+msgstr ""
+
+#: ../src/headsetkontrolapplication.cpp
+msgctxt "@action refresh headsetcontrol"
+msgid "Refresh"
+msgstr ""
+
+#: ../src/headsetkontrolconfig.cpp
+msgctxt "@info:shell"
+msgid "Empty HeadsetControl executable path. Attempting to auto-detect..."
+msgstr ""
+
+#: ../src/headsetkontrolconfig.cpp
+msgctxt "@info:shell"
+msgid "PATH environment variable is empty. Cannot auto-detect HeadsetControl executable path."
+msgstr ""
+
+#: ../src/headsetkontrolconfig.cpp
+msgctxt "@info:shell"
+msgid "Found HeadsetControl executable path: %1"
+msgstr ""
+
+#: ../src/headsetkontrolnotifieritem.cpp
+msgctxt "@title:menu"
+msgid "Help"
+msgstr ""
+
+#: ../src/headsetkontrolnotifieritem.cpp
+msgctxt "@title:menu"
+msgid "Actions"
+msgstr ""
+
+#: ../src/headsetkontrolnotifieritem.cpp
+msgctxt "@title:menu"
+msgid "Show device"
+msgstr ""
+
+#: ../src/headsetkontrolnotifieritem.cpp
+msgctxt "@title:menu"
+msgid "Select primary device"
+msgstr ""
+
+#: ../src/headsetkontrolnotifieritem.cpp
+msgctxt "@title:menu"
 msgid "Settings"
-msgstr ""
-
-#: ../src/headsetkontroltrayicon.cpp
-msgctxt "@action:inmenu"
-msgid "Quit"
 msgstr ""
 
 #: ../src/main.cpp
