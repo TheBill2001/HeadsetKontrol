@@ -4,7 +4,6 @@
 #include <KNotification>
 
 #include "headsetcontroldevice.h"
-#include "headsetkontrolconfig.h"
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -55,6 +54,20 @@ void HeadsetControlDeviceBattery::update(const QVariantHash &hash)
     setLevel(hash.value(u"level"_s, -1).toInt());
 }
 
+QString HeadsetControlDeviceBattery::batteryIconName() const
+{
+    if (this->level() < 0 || !(status() == Charging || status() == Available)) {
+        return u"headsetkontrol"_s;
+    }
+
+    auto level = 10 * ((this->level() + 5) / 10);
+    if (status() == Charging) {
+        return u"headsetkontrol-battery-%1-charging"_s.arg(level, 3, 10, '0'_L1);
+    } else {
+        return u"headsetkontrol-battery-%1"_s.arg(level, 3, 10, '0'_L1);
+    }
+}
+
 void HeadsetControlDeviceBattery::setLevel(int newLevel)
 {
     if (m_level == newLevel)
@@ -81,19 +94,7 @@ void HeadsetControlDeviceBattery::setLevel(int newLevel)
         notification->setText(i18nc("@info:status", "Battery is at %1%.", level()));
     }
 
-    if (level() < 0) {
-        notification->setIconName(u"headsetkontrol"_s);
-    } else if (level() < 10) {
-        notification->setIconName(u"headsetkontrol_battery_empty"_s);
-    } else if (level() < 35) {
-        notification->setIconName(u"headsetkontrol_battery_low"_s);
-    } else if (level() < 65) {
-        notification->setIconName(u"headsetkontrol_battery_medium"_s);
-    } else if (level() < 90) {
-        notification->setIconName(u"headsetkontrol_battery_high"_s);
-    } else {
-        notification->setIconName(u"headsetkontrol_battery_full"_s);
-    }
+    notification->setIconName(batteryIconName());
 
     notification->sendEvent();
 }

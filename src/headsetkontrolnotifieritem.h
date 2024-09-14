@@ -7,6 +7,7 @@
 
 class KActionCollection;
 
+class HeadsetControlDevice;
 class HeadsetKontrolApplication;
 class HeadsetKontrolNotifierItem : public KStatusNotifierItem
 {
@@ -15,10 +16,19 @@ public:
     HeadsetKontrolNotifierItem(HeadsetKontrolApplication *parent = nullptr);
     ~HeadsetKontrolNotifierItem();
 
+private Q_SLOTS:
+    void onDevicesChanged();
+    void updatePrimaryDevice();
+
 private:
     HeadsetKontrolApplication *m_parent;
+    HeadsetControlDevice *m_primaryDevice = nullptr;
 
     QMenu *m_menu;
+    QMenu *m_deviceListMenu;
+    QMenu *m_devicePrimaryMenu;
+
+    void setPrimaryDevice(HeadsetControlDevice *device);
 };
 
 #endif // HEADSETKONTROLNOTIFIERITEM_H

@@ -20,7 +20,7 @@ HeadsetKontrolApplication::HeadsetKontrolApplication(QObject *parent)
     setObjectName(u"HeadsetKontrol"_s);
 
     QDBusConnection::sessionBus().registerService(u"com.gitlab.thebill2001.headsetkontrol"_s);
-    QDBusConnection::sessionBus().registerObject(u"/HeadsetKontrol"_s, this, QDBusConnection::ExportScriptableContents);
+    QDBusConnection::sessionBus().registerObject(u"/HeadsetKontrol"_s, this, QDBusConnection::QDBusConnection::ExportScriptableInvokables);
 
     connect(HeadsetKontrolConfig::instance(), &HeadsetKontrolConfig::RunInBackgroundChanged, this, &HeadsetKontrolApplication::onRunInBackgroundChanged);
 

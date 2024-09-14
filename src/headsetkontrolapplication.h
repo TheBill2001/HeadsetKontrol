@@ -6,6 +6,7 @@
 
 #include "headsetkontrolnotifieritem.h"
 
+class HeadsetControlDevice;
 class HeadsetKontrolApplication : public QObject
 {
     Q_OBJECT
@@ -25,8 +26,8 @@ public:
     explicit HeadsetKontrolApplication(QObject *parent = nullptr);
     ~HeadsetKontrolApplication();
 
-    Q_SCRIPTABLE qint64 pid() const;
-    Q_SCRIPTABLE void restore();
+    Q_SCRIPTABLE Q_INVOKABLE qint64 pid() const;
+    Q_SCRIPTABLE Q_INVOKABLE void restore();
 
     KActionCollection *actionCollection() const;
 
@@ -48,6 +49,7 @@ Q_SIGNALS:
     void showSettings();
     void showAbout();
     void actionsChanged();
+    void showDevice(HeadsetControlDevice *device);
 
 private Q_SLOTS:
     void onRunInBackgroundChanged();

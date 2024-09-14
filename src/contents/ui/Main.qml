@@ -89,6 +89,11 @@ Kirigami.ApplicationWindow {
             root.restore()
             root.openSettingsPage("about")
         }
+
+        function onShowDevice(device) {
+            root.restore()
+            root.openDeviceDetailPage(device)
+        }
     }
 
     DeviceDetailPage {

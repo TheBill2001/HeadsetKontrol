@@ -15,6 +15,9 @@
         <entry name="AutoStart" type="Bool">
             <default>false</default>
         </entry>
+
+        <entry name="Primary" type="StringList">
+        </entry>
     </group>
 
     <group name="UserInterface">

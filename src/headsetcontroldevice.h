@@ -1,6 +1,7 @@
 #ifndef HEADSETCONTROLDEVICE_H
 #define HEADSETCONTROLDEVICE_H
 
+#include <QAction>
 #include <QQmlEngine>
 #include <QTimer>
 
@@ -34,6 +35,9 @@ class HeadsetControlDevice : public QObject
     Q_PROPERTY(bool rotateToMute READ rotateToMute WRITE setRotateToMute NOTIFY rotateToMuteChanged FINAL)
     Q_PROPERTY(int microphoneBrightness READ microphoneBrightness WRITE setMicrophoneBrightness NOTIFY microphoneBrightnessChanged FINAL)
     Q_PROPERTY(int microphoneVolume READ microphoneVolume WRITE setMicrophoneVolume NOTIFY microphoneVolumeChanged FINAL)
+
+    Q_PROPERTY(QAction *reApplyAction READ reApplyAction CONSTANT FINAL)
+    Q_PROPERTY(QAction *setPrimaryAction READ setPrimaryAction CONSTANT FINAL)
 public:
     explicit HeadsetControlDevice(HeadsetControl *parent = nullptr);
     ~HeadsetControlDevice();
@@ -101,9 +105,13 @@ public:
     int microphoneVolume() const;
     void setMicrophoneVolume(int volume);
 
+    QAction *reApplyAction() const;
+    QAction *setPrimaryAction() const;
+
 public Q_SLOTS:
     void playNotification(const QString &audioId);
     void reApply();
+    void setPrimary();
 
 Q_SIGNALS:
     void chatMixChanged();
@@ -143,7 +151,9 @@ private:
     Capabilities m_capabilities;
 
     HeadsetControl *m_headsetControl;
-    KSharedConfig::Ptr m_config;
+
+    QAction *m_reApplyAction;
+    QAction *m_setPrimaryAction;
 
     void setChatMix(int newChatMix);
     void setCapabilities(const QStringList &newCapabilities);

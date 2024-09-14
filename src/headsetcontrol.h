@@ -38,6 +38,8 @@ public:
     qint32 countDownTime() const;
     bool isRunning() const;
 
+    HeadsetControlDevice *getDevice(const QString &vendorId, const QString &productId);
+
 public Q_SLOTS:
     void start();
     void stop();
@@ -88,7 +90,6 @@ private:
     void addDevice(HeadsetControlDevice *device);
     void removeDevice(HeadsetControlDevice *device);
     void clearDevices();
-    HeadsetControlDevice *getDevice(const QString &vendorId, const QString &productId);
 };
 
 #endif

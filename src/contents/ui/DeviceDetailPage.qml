@@ -15,16 +15,22 @@ KirigamiFormCard.FormCardPage {
 
     actions: [
         Kirigami.Action {
-            icon.name: "dialog-ok-apply"
-            text: i18nc("@action:intoolbar apply all", "Apply all")
-            tooltip: i18nc("@info:tooltip apply all", "Apply all settings")
-            onTriggered: {
-                if (deviceDetailPage.device) {
-                    deviceDetailPage.device.reApply()
-                }
-            }
+            id: reApplyAction
+        },
+        Kirigami.Action {
+            id: setPrimaryAction
         }
     ]
+
+    Connections {
+        target: deviceDetailPage
+        function onDeviceChanged() {
+            if (device) {
+                reApplyAction.fromQAction = device.reApplyAction
+                setPrimaryAction.fromQAction = device.setPrimaryAction
+            }
+        }
+    }
 
     header: Kirigami.InlineMessage {
         id: headerMessage
