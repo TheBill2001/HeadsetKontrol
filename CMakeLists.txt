@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 # Project info
-project(HeadsetKontrol VERSION 2.0.2 LANGUAGES CXX)
+project(HeadsetKontrol VERSION 2.0.3 LANGUAGES CXX)
 
 set(QT6_MIN_VERSION "6.5.0")
 set(KF6_MIN_VERSION "6.0.0")
