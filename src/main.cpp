@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
         QQuickStyle::setStyle(u"org.kde.desktop"_s);
     }
 
-    KLocalizedString::setApplicationDomain("com.gitlab.thebill2001.headsetkontrol");
+    KLocalizedString::setApplicationDomain("headsetkontrol");
 
     KAboutData aboutData(u"headsetkontrol"_s,
                          u"Headset Kontrol"_s,
