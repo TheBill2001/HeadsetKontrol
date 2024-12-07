@@ -9,6 +9,12 @@
 
 using namespace Qt::Literals::StringLiterals;
 
+#ifdef Q_OS_WIN
+#define PATH_ENV_SEP ";"_L1
+#else
+#define PATH_ENV_SEP ":"_L1
+#endif
+
 Q_APPLICATION_STATIC(HeadsetKontrolConfig, s_config, QCoreApplication::instance())
 
 HeadsetKontrolConfig::HeadsetKontrolConfig(QObject *parent)
@@ -36,7 +42,7 @@ HeadsetKontrolConfig::HeadsetKontrolConfig(QObject *parent)
                 qInfo() << i18nc("@info:shell", "PATH environment variable is empty. Cannot auto-detect HeadsetControl executable path.");
             }
 
-            auto paths = pathsString.split(u":"_s);
+            auto paths = pathsString.split(PATH_ENV_SEP);
             for (const auto &path : std::as_const(paths)) {
                 QDir dir(path);
                 dir.setNameFilters({u"headsetcontrol"_s});
