@@ -9,7 +9,7 @@
 #include <QUrl>
 
 #include <KAboutData>
-#include <KDBusAddons/KDBusService>
+#include <KDBusService>
 #include <KIconTheme>
 #include <KLocalizedContext>
 #include <KLocalizedString>
