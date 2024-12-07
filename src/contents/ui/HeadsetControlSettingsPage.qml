@@ -24,13 +24,13 @@ KirigamiFormCard.FormCardPage {
             target: HeadsetControl
 
             function onProcessErrorOccurred(error) {
-                headerMessage.showError(error)
+                headerMessage.showError(error);
             }
         }
 
         function showError(error) {
-            text = error
-            visible = true
+            text = error;
+            visible = true;
         }
     }
 
@@ -41,8 +41,7 @@ KirigamiFormCard.FormCardPage {
     KirigamiFormCard.FormCard {
         KirigamiFormCard.FormButtonDelegate {
             icon.name: "document-open"
-            text: i18nc("@action:button",
-                        "Select HeadsetControl excutable path")
+            text: i18nc("@action:button", "Select HeadsetControl executable path")
 
             onClicked: fileDialog.open()
         }
@@ -90,12 +89,11 @@ KirigamiFormCard.FormCardPage {
             onValueChanged: Config.updateRate = value * 1000
 
             textFromValue: function (value, locale) {
-                return i18ncp("@item:valuesuffix", "%1 second",
-                              "%1 seconds", value)
+                return i18ncp("@item:valuesuffix", "%1 second", "%1 seconds", value);
             }
             valueFromText: function (text, locale) {
-                const matches = text.match(/\d+/)
-                return matches ? parseInt(matches.join('')) : 0
+                const matches = text.match(/\d+/);
+                return matches ? parseInt(matches.join('')) : 0;
             }
         }
     }
@@ -103,8 +101,7 @@ KirigamiFormCard.FormCardPage {
     Dialogs.FileDialog {
         id: fileDialog
         fileMode: Dialogs.FileDialog.OpenFile
-        currentFolder: StandardPaths.standardLocations(
-                           StandardPaths.HomeLocation)[0]
+        currentFolder: StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
 
         onAccepted: Config.setExecutablePathUrl(selectedFile)
     }

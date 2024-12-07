@@ -161,7 +161,7 @@ Kirigami.ScrollablePage {
                                         case DeviceBattery.Available:
                                             return `${deviceCard.modelData.battery.level}%`;
                                         case DeviceBattery.Charging:
-                                            return deviceCard.modelData.battery.level > 0 ? i18nc("@label:textbox", "Charging %1", `${deviceCard.modelData.battery.level}%`) : i18n("Charging");
+                                            return deviceCard.modelData.battery.level > 0 ? i18nc("@label:textbox", "Charging %1%", deviceCard.modelData.battery.level) : i18n("Charging");
                                         default:
                                             return i18nc("@label:textbox", "Unavailable");
                                         }

@@ -249,9 +249,6 @@ rm "$DIR/LINGUAS"
 # Populate Progress.md
 echoGray "[translate/merge] Updating translate/Progress.md"
 sed -i -E 's`share\/plasma\/plasmoids\/(.+)\/translate`share/plasma/plasmoids/'"${appName}"'/translate`' ./Progress.md
-if [[ "$website" == *"github.com"* ]]; then
-	sed -i -E 's`\[new issue\]\(https:\/\/github\.com\/(.+)\/(.+)\/issues\/new\)`[new issue]('"${website}"'/issues/new)`' ./Progress.md
-fi
 sed -i '/^|/ d' ./Progress.md # Remove status table from Progress
 cat ./Status.md >> ./Progress.md
 rm ./Status.md

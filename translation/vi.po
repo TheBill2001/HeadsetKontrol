@@ -1,559 +1,590 @@
-# Translation of HeadsetKontrol in LANGUAGE
+# SPDX-FileCopyrightText: 2024 Translation of HeadsetKontrol in LANGUAGE
 # Copyright (C) 2024
 # This file is distributed under the same license as the HeadsetKontrol package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
+# SPDX-FileCopyrightText: 2024 tuantran 1632001
+# SPDX-FileCopyrightText: 2024 Tr ần
+# SPDX-FileCopyrightText: 2024 Tr ần
+# SPDX-FileCopyrightText: 2024 Tr ần
+# SPDX-FileCopyrightText: 2024 Tr ần
+# SPDX-FileCopyrightText: 2024 Tr ần
+# SPDX-FileCopyrightText: 2024 Tr ần
+# SPDX-FileCopyrightText: 2024 Tr ần
+# SPDX-FileCopyrightText: 2024 Tr ần
+# SPDX-FileCopyrightText: 2024 Tr ần
+# SPDX-FileCopyrightText: 2024 Tr ần
+# SPDX-FileCopyrightText: 2024 Tr ần
 msgid ""
 msgstr ""
 "Project-Id-Version: HeadsetKontrol\n"
 "Report-Msgid-Bugs-To: https://gitlab.com/TheBill2001/HeadsetKontrol/-/issues\n"
 "POT-Creation-Date: 2024-12-07 11:39+0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2024-12-07 12:25+0700\n"
+"Last-Translator: Trần Nam Tuấn <tuantran1632001@gmail.com>\n"
+"Language-Team: English <kde-i18n-doc@kde.org>\n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Lokalize 24.08.3\n"
 
 #: ../headsetkontrol.desktop ../src/main.cpp
-msgid "Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework"
+msgid ""
+"Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework"
 msgstr ""
+"Giao diện cho HeadsetControl (bởi Sapd) được viết bằng Kirigami và KDE Framewo"
+"rk"
 
 #: ../headsetkontrol.desktop
 msgid "headsetkontrol;headsetcontrol;headset"
-msgstr ""
+msgstr "headsetkontrol;headsetcontrol;tai nghe"
 
 #: ../headsetkontrol.desktop
 msgid "HeadsetKontrol"
-msgstr ""
+msgstr "HeadsetKontrol"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@title:window"
 msgid "Device details"
-msgstr ""
+msgstr "Chi tiết thiết bị"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@title:group"
 msgid "Information"
-msgstr ""
+msgstr "Thông tin"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@label:textbox"
 msgid "Product"
-msgstr ""
+msgstr "Sản phẩm"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@label:textbox"
 msgid "Product ID"
-msgstr ""
+msgstr "Mã sản phẩm"
 
 #: ../src/contents/ui/DeviceDetailPage.qml ../src/contents/ui/DevicesPage.qml
 msgctxt "@label:textbox"
 msgid "Vendor"
-msgstr ""
+msgstr "Hảng"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@label:textbox"
 msgid "Vendor ID"
-msgstr ""
+msgstr "Mã hảng"
 
 #: ../src/contents/ui/DeviceDetailPage.qml ../src/contents/ui/DevicesPage.qml
 msgctxt "@label:textbox"
 msgid "Device"
-msgstr ""
+msgstr "Thiết bị"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@title:group"
 msgid "Chat-Mix"
-msgstr ""
+msgstr "Chat-Mix"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@label"
 msgid "Chat-Mix level"
-msgstr ""
+msgstr "Mức độ Chat-Mix"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@title:group"
 msgid "Battery"
-msgstr ""
+msgstr "Pin"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@label"
 msgid "Battery status"
-msgstr ""
+msgstr "Trạng thái pin"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@item battery status"
 msgid "Available"
-msgstr ""
+msgstr "Có"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@item battery status"
 msgid "Charging"
-msgstr ""
+msgstr "Sạc"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@item battery status"
 msgid "Unavailable"
-msgstr ""
+msgstr "Không có"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@label"
 msgid "Battery level"
-msgstr ""
+msgstr "Mức pin"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@title:group"
 msgid "Configurations"
-msgstr ""
+msgstr "Cấu hình"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@option:check"
 msgid "Lights"
-msgstr ""
+msgstr "Đèn"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@option:check"
 msgid "Voice prompts"
-msgstr ""
+msgstr "Lời nhắc thoại"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@label:spinbox"
 msgid "Sidetone"
-msgstr ""
+msgstr "Âm phụ"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@label:spinbox"
 msgid "Inactive time"
-msgstr ""
+msgstr "Thời gian không hoạt động"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@item:valuesuffix"
 msgid "%1 minute"
 msgid_plural "%1 minutes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 phút"
+msgstr[1] "%1 phút"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@label:textbox"
 msgid "Notification sound"
-msgstr ""
+msgstr "Notification sound"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@info:placeholder"
 msgid "Sound ID (depends on device)"
-msgstr ""
+msgstr "ID âm thanh (tùy thuộc vào thiết bị)"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@action:button"
 msgid "Play"
-msgstr ""
+msgstr "Phát"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@info"
 msgid "Sound ID cannot be empty."
-msgstr ""
+msgstr "ID âm thanh không được để trống."
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@title:group"
 msgid "Equalizer"
-msgstr ""
+msgstr "Bộ chỉnh âm"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@label:textbox"
 msgid "Equalizer curve"
-msgstr ""
+msgstr "Đường cong chỉnh âm"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@info:placeholder"
 msgid "Values separated by spaces, or commas"
-msgstr ""
+msgstr "Các giá trị được phân tách bằng dấu cách hoặc dấu phẩy"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@action:button"
 msgid "Apply"
-msgstr ""
+msgstr "Áp dụng"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@info"
 msgid "Equalizer curve cannot be empty."
-msgstr ""
+msgstr "Đường cong chỉnh âm không được để trống."
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@label:listbox"
 msgid "Equalizer preset"
-msgstr ""
+msgstr "Đặt trước bộ chỉnh âm"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@item:inlistbox"
 msgid "Default"
-msgstr ""
+msgstr "Mặc định"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@item:inlistbox"
 msgid "Preset %1"
-msgstr ""
+msgstr "Đặt trước %1"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@title:group"
 msgid "Microphone"
-msgstr ""
+msgstr "Micrô"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@label:slider"
 msgid "Microphone mute light brightness"
-msgstr ""
+msgstr "Độ sáng đèn tắt tiếng micrô"
 
 #: ../src/contents/ui/DeviceDetailPage.qml
 msgctxt "@label:slider"
 msgid "Microphone volume"
-msgstr ""
+msgstr "Âm lượng micrô"
 
 #: ../src/contents/ui/DevicesPage.qml
 msgctxt "@title:window"
 msgid "Devices"
-msgstr ""
+msgstr "Thiết bị"
 
 #: ../src/contents/ui/DevicesPage.qml
 msgctxt "@info"
 msgid "This is empty"
-msgstr ""
+msgstr "Nơi này trống rỗng"
 
 #: ../src/contents/ui/DevicesPage.qml
 msgctxt "@label:textbox"
 msgid "Device %1"
-msgstr ""
+msgstr "Thiết bị %1"
 
 #: ../src/contents/ui/DevicesPage.qml
 msgctxt "@label:textbox"
 msgid "Chat-Mix"
-msgstr ""
+msgstr "Chat-Mix"
 
 #: ../src/contents/ui/DevicesPage.qml
 msgctxt "@label"
 msgid "Battery"
-msgstr ""
+msgstr "Pin"
 
 #: ../src/contents/ui/DevicesPage.qml
 msgctxt "@label:textbox"
 msgid "Charging %1%"
-msgstr ""
+msgstr "Đang sạc %1%"
 
 #: ../src/contents/ui/DevicesPage.qml
 msgid "Charging"
-msgstr ""
+msgstr "Đang sạc"
 
 #: ../src/contents/ui/DevicesPage.qml
 msgctxt "@label:textbox"
 msgid "Unavailable"
-msgstr ""
+msgstr "Không có"
 
 #: ../src/contents/ui/GeneralSettingsPage.qml
 msgctxt "@title:group"
 msgid "General"
-msgstr ""
+msgstr "Chung"
 
 #: ../src/contents/ui/GeneralSettingsPage.qml
 msgctxt "@option:check"
 msgid "Run in background"
-msgstr ""
+msgstr "Run in background"
 
 #: ../src/contents/ui/GeneralSettingsPage.qml
 msgctxt "@option:check"
 msgid "Start minimized"
-msgstr ""
+msgstr "Thu nhỏ khi khởi chạy"
 
 #: ../src/contents/ui/GeneralSettingsPage.qml
 msgctxt "@option:check"
 msgid "Autostart"
-msgstr ""
+msgstr "Tự khởi động"
 
 #: ../src/contents/ui/GeneralSettingsPage.qml
 msgctxt "@title:group"
 msgid "User interface"
-msgstr ""
+msgstr "Giao diện người dùng"
 
 #: ../src/contents/ui/GeneralSettingsPage.qml
 msgctxt "@info:usagetip"
 msgid "Can cause high CPU usage"
-msgstr ""
+msgstr "Có thể sử dụng nhiều CPU"
 
 #: ../src/contents/ui/GeneralSettingsPage.qml
 msgctxt "@option:check"
 msgid "Show countdown progress"
-msgstr ""
+msgstr "Hiển thị tiến trình đếm ngược"
 
 #: ../src/contents/ui/HeadsetControlSettingsPage.qml
 msgctxt "@title:group"
 msgid "HeadsetControl path"
-msgstr ""
+msgstr "Đường dẫn HeadsetControl"
 
-#: ../src/contents/ui/HeadsetControlSettingsPage.qml
+#: ../src/contents/ui/HeadsetexecutablettingsPage.qml
 msgctxt "@action:button"
 msgid "Select HeadsetControl executable path"
-msgstr ""
+msgstr "Chọn đường dẫn thực thi của HeadphoneControl"
 
 #: ../src/contents/ui/HeadsetControlSettingsPage.qml
 msgid "Path"
-msgstr ""
+msgstr "Đường dẫn"
 
 #: ../src/contents/ui/HeadsetControlSettingsPage.qml
 msgctxt "@label:textbox"
 msgid "Version"
-msgstr ""
+msgstr "Phiên bản"
 
 #: ../src/contents/ui/HeadsetControlSettingsPage.qml
 msgctxt "@label:textbox"
 msgid "API version"
-msgstr ""
+msgstr "Phiên bản API"
 
 #: ../src/contents/ui/HeadsetControlSettingsPage.qml
 msgctxt "@label:textbox"
 msgid "HID API version"
-msgstr ""
+msgstr "Phiên bản API HID"
 
 #: ../src/contents/ui/HeadsetControlSettingsPage.qml
 msgctxt "@title:group"
 msgid "Update rate"
-msgstr ""
+msgstr "Mức độ cập nhật"
 
 #: ../src/contents/ui/HeadsetControlSettingsPage.qml
 msgctxt "@info:usagetip"
 msgid "From 0 to 3600, 0 means disabled."
-msgstr ""
+msgstr "Từ 0 đến 3600, 0 nghĩa là bị vô hiệu hóa."
 
 #: ../src/contents/ui/HeadsetControlSettingsPage.qml
 msgctxt "@label:spinbox"
 msgid "Update rate"
-msgstr ""
+msgstr "Mức độ cập nhật"
 
 #: ../src/contents/ui/HeadsetControlSettingsPage.qml
 msgctxt "@item:valuesuffix"
 msgid "%1 second"
 msgid_plural "%1 seconds"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%1 giây"
+msgstr[1] "%1 giây"
 
 #: ../src/contents/ui/Main.qml
 msgctxt "@title:window"
 msgid "Control your headset"
-msgstr ""
+msgstr "Điều khiển tai nghe của bạn"
 
 #: ../src/contents/ui/SettingsView.qml
 msgctxt "@action:inmenu"
 msgid "General"
-msgstr ""
+msgstr "Chung"
 
 #: ../src/contents/ui/SettingsView.qml
 msgctxt "@action:inmenu"
 msgid "HeadsetControl"
-msgstr ""
+msgstr "HeadsetControl"
 
 #: ../src/contents/ui/SettingsView.qml
 msgctxt "@action:inmenu"
 msgid "Shortcuts"
-msgstr ""
+msgstr "Phím tắt"
 
 #: ../src/contents/ui/SettingsView.qml
 msgctxt "@title:group"
 msgid "Shortcuts"
-msgstr ""
+msgstr "Phím tắt"
 
 #: ../src/contents/ui/SettingsView.qml
 msgctxt "@action:inmenu"
 msgid "About"
-msgstr ""
+msgstr "Giới thiệu"
 
 #: ../src/contents/ui/SettingsView.qml
 msgctxt "@title:group"
 msgid "About"
-msgstr ""
+msgstr "Giới thiệu"
 
 #: ../src/headsetcontrol.cpp
 msgctxt "@info:shell"
-msgid "Failed to parse headsetcontrol output, JSON error '%1' at position '%2': '%3'."
+msgid ""
+"Failed to parse headsetcontrol output, JSON error '%1' at position '%2': '%3'."
 msgstr ""
+"Không thể phân tích cú pháp đầu ra của headsetcontrol, lỗi JSON '%1' tại vị tr"
+"í '%2': '%3'."
 
 #: ../src/headsetcontrol.cpp
 msgctxt "@info:shell"
-msgid "Failed to parse headsetcontrol output, JSON error '%1' at position '%2'."
+msgid ""
+"Failed to parse headsetcontrol output, JSON error '%1' at position '%2'."
 msgstr ""
+"Không thể phân tích cú pháp đầu ra của headsetcontrol, lỗi JSON '%1' tại vị tr"
+"í '%2'."
 
 #: ../src/headsetcontrol.cpp
 msgctxt "@info:shell"
-msgid "Failed to parse headsetcontrol output, Expecting root element to be an object: '%1'."
+msgid ""
+"Failed to parse headsetcontrol output, Expecting root element to be an object:"
+" '%1'."
 msgstr ""
+"Không thể phân tích cú pháp đầu ra của headsetcontrol, Mong đợi phần tử gốc là"
+" một đối tượng: '%1'."
 
 #: ../src/headsetcontrol.cpp
 msgctxt "@info:shell"
-msgid "Failed to parse headsetcontrol output, Expecting root element to be an object."
+msgid ""
+"Failed to parse headsetcontrol output, Expecting root element to be an object."
 msgstr ""
+"Không thể phân tích cú pháp đầu ra của headsetcontrol, Mong đợi phần tử gốc là"
+" một đối tượng."
 
 #: ../src/headsetcontrol.cpp
 msgctxt "@info:status"
 msgid "New device found"
-msgstr ""
+msgstr "Đã tìm thấy thiết bị mới"
 
 #: ../src/headsetcontrol.cpp
 msgctxt "@info:status"
 msgid "Device %1 found."
-msgstr ""
+msgstr "Đã tìm thấy thiết bị %1."
 
 #: ../src/headsetcontrol.cpp
 msgctxt "@info:status"
 msgid "Device removed"
-msgstr ""
+msgstr "Thiết bị đã được gỡ bỏ"
 
 #: ../src/headsetcontrol.cpp
 msgctxt "@info:status"
 msgid "Device %1 removed."
-msgstr ""
+msgstr "Đã gỡ bỏ thiết bị %1."
 
 #: ../src/headsetcontroldevicebattery.cpp
 msgctxt "@info:status"
 msgid "Battery is charging."
-msgstr ""
+msgstr "Pin đang sạc."
 
 #: ../src/headsetcontroldevicebattery.cpp
 msgctxt "@info:status"
 msgid "Battery is charging at %1%."
-msgstr ""
+msgstr "Pin đang sạc ở mức %1%."
 
 #: ../src/headsetcontroldevicebattery.cpp
 msgctxt "@info:status"
 msgid "Battery is at %1%."
-msgstr ""
+msgstr "Pin ở mức %1%."
 
 #: ../src/headsetcontroldevice.cpp
 msgctxt "@action apply all"
 msgid "Re-apply all"
-msgstr ""
+msgstr "Áp dụng lại tất cả"
 
 #: ../src/headsetcontroldevice.cpp
 msgctxt "@info:tooltip apply all"
 msgid "Re-apply all settings"
-msgstr ""
+msgstr "Áp dụng lại tất cả các thiết lập"
 
 #: ../src/headsetcontroldevice.cpp
 msgctxt "@action"
 msgid "Mark as primary"
-msgstr ""
+msgstr "Đánh dấu là chính"
 
 #: ../src/headsetcontroldevice.cpp
 msgctxt "@info:tooltip apply all"
 msgid "Mark device as primary device"
-msgstr ""
+msgstr "Đánh dấu thiết bị là thiết bị chính"
 
 #: ../src/headsetkontrolapplication.cpp
 msgctxt "@action stop update headsetcontrol"
 msgid "Stop"
-msgstr ""
+msgstr "Dừng"
 
 #: ../src/headsetkontrolapplication.cpp
 msgctxt "@action start update headsetcontrol"
 msgid "Start"
-msgstr ""
+msgstr "Bắt đầu"
 
 #: ../src/headsetkontrolapplication.cpp
 msgctxt "@action refresh headsetcontrol"
 msgid "Refresh"
-msgstr ""
+msgstr "Làm mới"
 
 #: ../src/headsetkontrolconfig.cpp
 msgctxt "@info:shell"
 msgid "Empty HeadsetControl executable path. Attempting to auto-detect..."
-msgstr ""
+msgstr "Đường dẫn thực thi HeadsetControl trống. Đang thử tự động phát hiện..."
 
 #: ../src/headsetkontrolconfig.cpp
 msgctxt "@info:shell"
-msgid "PATH environment variable is empty. Cannot auto-detect HeadsetControl executable path."
+msgid ""
+"PATH environment variable is empty. Cannot auto-detect HeadsetControl executab"
+"le path."
 msgstr ""
+"Biến môi trường PATH trống. Không thể tự động phát hiện đường dẫn thực thi Hea"
+"dsetControl."
 
 #: ../src/headsetkontrolconfig.cpp
 msgctxt "@info:shell"
 msgid "Found HeadsetControl executable path: %1"
-msgstr ""
+msgstr "Đã tìm thấy đường dẫn thực thi HeadsetControl: %1"
 
 #: ../src/headsetkontrolnotifieritem.cpp
 msgctxt "@title:menu"
 msgid "Help"
-msgstr ""
+msgstr "Giúp đỡ"
 
 #: ../src/headsetkontrolnotifieritem.cpp
 msgctxt "@title:menu"
 msgid "Actions"
-msgstr ""
+msgstr "Hành động"
 
 #: ../src/headsetkontrolnotifieritem.cpp
 msgctxt "@title:menu"
 msgid "Show device"
-msgstr ""
+msgstr "Hiển thị thiết bị"
 
 #: ../src/headsetkontrolnotifieritem.cpp
 msgctxt "@title:menu"
 msgid "Select primary device"
-msgstr ""
+msgstr "Chọn thiết bị chính"
 
 #: ../src/headsetkontrolnotifieritem.cpp
 msgctxt "@title:menu"
 msgid "Settings"
-msgstr ""
+msgstr "Cài đặt"
 
 #: ../src/headsetkontrolnotifieritem.cpp
 msgctxt "@info:tooltip"
 msgid "No device found"
-msgstr ""
+msgstr "Không tìm thấy thiết bị"
 
 #: ../src/headsetkontrolnotifieritem.cpp
 msgctxt "@info:tooltip"
 msgid "Device: %1"
-msgstr ""
+msgstr "Thiết bị: %1"
 
 #: ../src/headsetkontrolnotifieritem.cpp
 msgctxt "@info:tooltip"
 msgid "Battery: %1%"
-msgstr ""
+msgstr "Pin: %1%"
 
 #: ../src/headsetkontrolnotifieritem.cpp
 msgctxt "@info:tooltip"
 msgid "Battery: Charging"
-msgstr ""
+msgstr "Pin: Sạc"
 
 #: ../src/headsetkontrolnotifieritem.cpp
 msgctxt "@info:tooltip"
 msgid "Chat-Mix: %1"
-msgstr ""
+msgstr "Chat-Mix: %1"
 
 #: ../src/headsetkontrolnotifieritem.cpp
 msgctxt "@info:tooltip"
 msgid "Found %1 other device"
 msgid_plural "Found %1 other devices"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Đã tìm thấy %1 thiết bị khác"
+msgstr[1] "Đã tìm thấy %1 thiết bị khác"
 
 #: ../src/main.cpp
 msgid "Trần Nam Tuấn"
-msgstr ""
+msgstr "Trần Nam Tuấn"
 
 #: ../src/main.cpp
 msgctxt "@info:credit"
 msgid "Developer, Maintainer"
-msgstr ""
+msgstr "Người phát triển, Người bảo trì"
 
 #: ../src/processqueue.cpp
 msgctxt "@info:shell"
 msgid "headsetcontrol exit with code %1: %2."
-msgstr ""
+msgstr "headsetcontrol thoát với mã %1: %2."
 
 #: ../src/processqueue.cpp
 msgctxt "@info:shell"
 msgid "headsetcontrol exit with code %1."
-msgstr ""
+msgstr "headsetcontrol thoát với mã %1."
 
 #: ../src/processqueue.cpp
 msgctxt "@info:shell"
 msgid "headsetcontrol process error: %1."
-msgstr ""
+msgstr "Lỗi quy trình headsetcontrol: %1."
