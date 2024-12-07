@@ -104,6 +104,43 @@ void HeadsetKontrolNotifierItem::updatePrimaryDevice()
     setPrimaryDevice(device);
 }
 
+void HeadsetKontrolNotifierItem::update()
+{
+    QStringList subtitles;
+
+    if (m_primaryDevice == nullptr) {
+        setIconByName(u"headsetkontrol"_s);
+
+        subtitles << i18nc("@info:tooltip", "No device found");
+    } else {
+        setIconByName(m_primaryDevice->battery()->batteryIconName());
+
+        subtitles << i18nc("@info:tooltip", "Device: %1", m_primaryDevice->device());
+
+        if (m_primaryDevice->battery()->status() == HeadsetControlDeviceBattery::Available
+            || m_primaryDevice->battery()->status() == HeadsetControlDeviceBattery::Charging) {
+            if (m_primaryDevice->battery()->level() >= 0) {
+                subtitles << i18nc("@info:tooltip", "Battery: %1%", m_primaryDevice->battery()->level());
+            } else {
+                subtitles << i18nc("@info:tooltip", "Battery: Charging");
+            }
+        }
+
+        if (m_primaryDevice->capabilities().testFlag(HeadsetControlDevice::ChatMix)) {
+            subtitles << i18nc("@info:tooltip", "Chat-Mix: %1", m_primaryDevice->chatMix());
+        }
+
+        if (HeadsetControl::instance()->devices().length() > 1) {
+            subtitles
+                << (u"<i>%1</i>"_s)
+                       .arg(i18ncp("@info:tooltip", "Found %1 other device", "Found %1 other devices", HeadsetControl::instance()->devices().length() - 1));
+        }
+    }
+
+    setToolTipTitle(KAboutData::applicationData().displayName());
+    setToolTipSubTitle(subtitles.join("<br>"_L1));
+}
+
 void HeadsetKontrolNotifierItem::setPrimaryDevice(HeadsetControlDevice *device)
 {
     if (m_primaryDevice != nullptr)
@@ -111,16 +148,13 @@ void HeadsetKontrolNotifierItem::setPrimaryDevice(HeadsetControlDevice *device)
 
     m_primaryDevice = device;
 
-    if (m_primaryDevice == nullptr)
-        return setIconByName(u"headsetkontrol"_s);
+    if (m_primaryDevice != nullptr) {
+        connect(m_primaryDevice->battery(), &HeadsetControlDeviceBattery::levelChanged, this, &HeadsetKontrolNotifierItem::update);
+        connect(m_primaryDevice->battery(), &HeadsetControlDeviceBattery::statusChanged, this, &HeadsetKontrolNotifierItem::update);
+        if (m_primaryDevice->capabilities().testFlag(HeadsetControlDevice::ChatMix)) {
+            connect(m_primaryDevice, &HeadsetControlDevice::chatMixChanged, this, &HeadsetKontrolNotifierItem::update);
+        }
+    }
 
-    connect(m_primaryDevice->battery(), &HeadsetControlDeviceBattery::levelChanged, this, [this]() {
-        setIconByName(m_primaryDevice->battery()->batteryIconName());
-    });
-
-    connect(m_primaryDevice->battery(), &HeadsetControlDeviceBattery::statusChanged, this, [this]() {
-        setIconByName(m_primaryDevice->battery()->batteryIconName());
-    });
-
-    setIconByName(m_primaryDevice->battery()->batteryIconName());
+    update();
 }

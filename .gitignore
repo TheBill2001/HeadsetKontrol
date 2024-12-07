@@ -5,6 +5,10 @@ build/
 # QtCreator
 *.txt.user
 
+# Clang
+.cache
+.clangd
+
 # qmlls
 *.qmlls.ini
 

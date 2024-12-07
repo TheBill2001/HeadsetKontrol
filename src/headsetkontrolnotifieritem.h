@@ -19,6 +19,7 @@ public:
 private Q_SLOTS:
     void onDevicesChanged();
     void updatePrimaryDevice();
+    void update();
 
 private:
     HeadsetKontrolApplication *m_parent;
