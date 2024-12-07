@@ -7,6 +7,8 @@ import com.gitlab.thebill2001.headsetkontrol
 StatefulApplication.StatefulWindow {
     id: root
 
+    objectName: "root"
+
     windowName: i18nc("@title:window", "Control your headset")
 
     minimumWidth: Kirigami.Units.gridUnit * 20

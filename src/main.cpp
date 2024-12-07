@@ -1,8 +1,6 @@
 #include <KLocalizedTranslator>
 #include <QApplication>
 #include <QCommandLineParser>
-#include <QDBusConnection>
-#include <QDBusMessage>
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -28,31 +26,6 @@ int main(int argc, char *argv[])
     qSetMessagePattern(QStringLiteral("[%{time yyyy-MM-dd h:mm:ss}] [%{type}] %{message}"));
 #endif
 
-    auto message = QDBusMessage::createMethodCall(QStringLiteral("com.gitlab.thebill2001.headsetkontrol"),
-                                                  QStringLiteral("/HeadsetKontrol"),
-                                                  QString(),
-                                                  QStringLiteral("pid"));
-    auto reply = QDBusConnection::sessionBus().call(message);
-
-    if (reply.type() == QDBusMessage::ReplyMessage) {
-        auto args = reply.arguments();
-        auto val = args.at(0).toLongLong();
-        qInfo() << "Found running instance:" << val;
-
-        auto message = QDBusMessage::createMethodCall(QStringLiteral("com.gitlab.thebill2001.headsetkontrol"),
-                                                      QStringLiteral("/HeadsetKontrol"),
-                                                      QString(),
-                                                      QStringLiteral("restore"));
-        auto reply = QDBusConnection::sessionBus().call(message);
-
-        if (reply.type() == QDBusMessage::ReplyMessage)
-            qInfo() << "Restore instance:" << val;
-        else
-            qFatal("Cannot restore instance: %lld\n", val);
-
-        return 0;
-    }
-
     KIconTheme::initTheme();
 
     QApplication app(argc, argv);
@@ -62,8 +35,6 @@ int main(int argc, char *argv[])
     }
 
     KLocalizedString::setApplicationDomain("com.gitlab.thebill2001.headsetkontrol");
-
-    qInfo().noquote() << u"Start new instance. PID: %1"_s.arg(QString::number(app.applicationPid()));
 
     KAboutData aboutData(u"headsetkontrol"_s,
                          u"Headset Kontrol"_s,
@@ -91,6 +62,14 @@ int main(int argc, char *argv[])
     QCoreApplication::installTranslator(new KLocalizedTranslator(&app));
 
     QQmlApplicationEngine engine;
+
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [&service](QObject *object) {
+        if (object && object->objectName() == "root"_L1) {
+            QObject::connect(&service, &KDBusService::activateRequested, object, [object]() {
+                QMetaObject::invokeMethod(object, "restore", Qt::QueuedConnection);
+            });
+        }
+    });
 
     engine.rootContext()->setContextObject(new KLocalizedContext(&engine));
     engine.loadFromModule("com.gitlab.thebill2001.headsetkontrol", "Main");
