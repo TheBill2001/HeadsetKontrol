@@ -61,13 +61,13 @@ target_link_libraries(headsetkontrol
         KF6::I18n
         KF6::CoreAddons
         KF6::ConfigCore
-        KF6::ConfigGui
         KF6::DBusAddons
         KF6::Notifications
         KF6::IconThemes
         KF6::StatusNotifierItem
-        KF6::XmlGui
         KF6::NotifyConfig
+
+        KirigamiAddonsStatefulApp
 )
 
 install(TARGETS headsetkontrol ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

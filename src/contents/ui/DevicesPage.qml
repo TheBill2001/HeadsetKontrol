@@ -8,17 +8,19 @@ import com.gitlab.thebill2001.headsetkontrol
 Kirigami.ScrollablePage {
     id: devicesPage
 
+    required property App app
+
     title: i18nc("@title:window", "Devices")
 
     actions: [
         Kirigami.Action {
-            fromQAction: App.startHeadsetControlAction
+            fromQAction: app.action(App.HeadsetControlStart)
         },
         Kirigami.Action {
-            fromQAction: App.stopHeadsetControlAction
+            fromQAction: app.action(App.HeadsetControlStop)
         },
         Kirigami.Action {
-            fromQAction: App.refreshHeadsetControlAction
+            fromQAction: app.action(App.HeadsetControlRefresh)
         }
     ]
 
@@ -32,8 +34,7 @@ Kirigami.ScrollablePage {
         to: 1
         value: HeadsetControl.countDownTime / Config.updateRate
 
-        visible: Config.showCountdownProgress
-                 && HeadsetControl.countDownTime > 0
+        visible: Config.showCountdownProgress && HeadsetControl.countDownTime > 0
 
         implicitHeight: Kirigami.Units.gridUnit * 0.25
 
@@ -59,18 +60,18 @@ Kirigami.ScrollablePage {
         Connections {
             target: HeadsetControl
             function onParsingErrorOccurred(error) {
-                footerMessage.showError(error)
+                footerMessage.showError(error);
             }
 
             function onProcessErrorOccurred(error) {
-                footerMessage.showError(error)
+                footerMessage.showError(error);
             }
         }
 
         function showError(error) {
             if (devicesPage.isCurrentPage) {
-                text = error
-                visible = true
+                text = error;
+                visible = true;
             }
         }
     }
@@ -101,38 +102,29 @@ Kirigami.ScrollablePage {
 
                     banner {
                         titleIcon: "headsetkontrol"
-                        title: modelData.product ? modelData.product : i18nc(
-                                                       "@label:textbox",
-                                                       "Device %1", index)
+                        title: modelData.product ? modelData.product : i18nc("@label:textbox", "Device %1", index)
                     }
 
-                    highlighted: !devicesPage.isCurrentPage
-                                 && root.selectedDevice == modelData
+                    highlighted: !devicesPage.isCurrentPage && root.selectedDevice == modelData
 
                     contentItem: ColumnLayout {
                         Kirigami.FormLayout {
                             Layout.fillWidth: true
 
                             Controls.Label {
-                                Kirigami.FormData.label: i18nc(
-                                                             "@label:textbox",
-                                                             "Device") + ":"
+                                Kirigami.FormData.label: i18nc("@label:textbox", "Device") + ":"
                                 text: deviceCard.modelData.device
                                 visible: deviceCard.modelData.device
                             }
 
                             Controls.Label {
-                                Kirigami.FormData.label: i18nc(
-                                                             "@label:textbox",
-                                                             "Vendor") + ":"
+                                Kirigami.FormData.label: i18nc("@label:textbox", "Vendor") + ":"
                                 text: deviceCard.modelData.vendor
                                 visible: deviceCard.modelData.vendor
                             }
 
                             RowLayout {
-                                Kirigami.FormData.label: i18nc(
-                                                             "@label:textbox",
-                                                             "Chat-Mix") + ":"
+                                Kirigami.FormData.label: i18nc("@label:textbox", "Chat-Mix") + ":"
 
                                 visible: deviceCard.modelData.capabilities & Device.ChatMix
 
@@ -150,8 +142,7 @@ Kirigami.ScrollablePage {
                             }
 
                             RowLayout {
-                                Kirigami.FormData.label: i18nc("@label",
-                                                               "Battery") + ":"
+                                Kirigami.FormData.label: i18nc("@label", "Battery") + ":"
 
                                 visible: deviceCard.modelData.capabilities & Device.Battery
 
@@ -168,17 +159,11 @@ Kirigami.ScrollablePage {
                                     text: {
                                         switch (deviceCard.modelData.battery.status) {
                                         case DeviceBattery.Available:
-                                            return `${deviceCard.modelData.battery.level}%`
+                                            return `${deviceCard.modelData.battery.level}%`;
                                         case DeviceBattery.Charging:
-                                            return deviceCard.modelData.battery.level
-                                                    > 0 ? i18nc(
-                                                              "@label:textbox",
-                                                              "Charging %1",
-                                                              `${deviceCard.modelData.battery.level}%`) : i18n(
-                                                              "Charging")
+                                            return deviceCard.modelData.battery.level > 0 ? i18nc("@label:textbox", "Charging %1", `${deviceCard.modelData.battery.level}%`) : i18n("Charging");
                                         default:
-                                            return i18nc("@label:textbox",
-                                                         "Unavailable")
+                                            return i18nc("@label:textbox", "Unavailable");
                                         }
                                     }
                                 }

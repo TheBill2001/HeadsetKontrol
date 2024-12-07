@@ -5,9 +5,7 @@
 #include <QTimer>
 
 #include <KAboutData>
-#include <KActionCollection>
 #include <KLocalizedString>
-#include <KStandardAction>
 
 #include "headsetcontrol.h"
 #include "headsetkontrolapplication.h"
@@ -27,13 +25,13 @@ HeadsetKontrolNotifierItem::HeadsetKontrolNotifierItem(HeadsetKontrolApplication
     setContextMenu(m_menu);
 
     m_menu->insertSection(nullptr, i18nc("@title:menu", "Help"));
-    m_menu->addAction(m_parent->aboutAction());
-    m_menu->addAction(m_parent->reportBugAction());
+    m_menu->addAction(m_parent->action(HeadsetKontrolApplication::AboutApp));
+    m_menu->addAction(m_parent->action(HeadsetKontrolApplication::ReportBug));
 
     m_menu->insertSection(nullptr, i18nc("@title:menu", "Actions"));
-    m_menu->addAction(m_parent->startHeadsetControlAction());
-    m_menu->addAction(m_parent->stopHeadsetControlAction());
-    m_menu->addAction(m_parent->refreshHeadsetControlAction());
+    m_menu->addAction(m_parent->action(HeadsetKontrolApplication::HeadsetControlStart));
+    m_menu->addAction(m_parent->action(HeadsetKontrolApplication::HeadsetControlStop));
+    m_menu->addAction(m_parent->action(HeadsetKontrolApplication::HeadsetControlRefresh));
 
     m_deviceListMenu = new QMenu();
     m_deviceListMenu->setTitle(i18nc("@title:menu", "Show device"));
@@ -48,12 +46,12 @@ HeadsetKontrolNotifierItem::HeadsetKontrolNotifierItem(HeadsetKontrolApplication
     connect(HeadsetControl::instance(), &HeadsetControl::devicesChanged, this, &HeadsetKontrolNotifierItem::onDevicesChanged);
 
     m_menu->insertSection(nullptr, i18nc("@title:menu", "Settings"));
-    m_menu->addAction(m_parent->configureKeyBindingsAction());
-    m_menu->addAction(m_parent->configureAction());
-    m_menu->addAction(m_parent->configureNotificationsAction());
+    m_menu->addAction(m_parent->action(HeadsetKontrolApplication::KeyBindings));
+    m_menu->addAction(m_parent->action(HeadsetKontrolApplication::Preferences));
+    m_menu->addAction(m_parent->action(HeadsetKontrolApplication::ConfigureNotifications));
 
     m_menu->addSeparator();
-    m_menu->addAction(m_parent->quitAction());
+    m_menu->addAction(m_parent->action(HeadsetKontrolApplication::Quit));
 
     connect(this, &HeadsetKontrolNotifierItem::activateRequested, parent, &HeadsetKontrolApplication::showWindow);
 

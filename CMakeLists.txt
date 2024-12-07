@@ -5,6 +5,7 @@ project(HeadsetKontrol VERSION 2.0.3 LANGUAGES CXX)
 
 set(QT6_MIN_VERSION "6.5.0")
 set(KF6_MIN_VERSION "6.0.0")
+set(KIRIGAMI_ADDONS_MIN_VERSION "1.3.0")
 
 # Standard KDE project config
 find_package(ECM 6.0.0 REQUIRED NO_MODULE)
@@ -43,7 +44,6 @@ find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
     Notifications
     IconThemes
     StatusNotifierItem
-    XmlGui
     NotifyConfig
 )
 
@@ -51,9 +51,10 @@ find_package(KF6 1.3.0 REQUIRED COMPONENTS KirigamiAddons)
 
 qt_policy(SET QTP0001 NEW)
 
-ecm_find_qmlmodule(org.kde.kirigami REQUIRED)
-ecm_find_qmlmodule(org.kde.kirigamiaddons.settings REQUIRED)
-ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard REQUIRED)
+ecm_find_qmlmodule(org.kde.kirigami ${KF6_MIN_VERSION} REQUIRED)
+ecm_find_qmlmodule(org.kde.kirigamiaddons.settings ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
+ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
+ecm_find_qmlmodule(org.kde.kirigamiaddons.statefulapp ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
 
 # Subdir to sources
 add_subdirectory(src)

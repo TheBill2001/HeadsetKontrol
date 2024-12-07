@@ -1,64 +1,57 @@
 #ifndef HEADSETKONTROLAPPLICATION_H
 #define HEADSETKONTROLAPPLICATION_H
 
+#include "headsetkontrolnotifieritem.h"
+
 #include <QAction>
 #include <QQmlEngine>
 
-#include "headsetkontrolnotifieritem.h"
+#include <AbstractKirigamiApplication>
+#include <KStandardActions>
 
 class HeadsetControlDevice;
-class HeadsetKontrolApplication : public QObject
+class HeadsetKontrolApplication : public AbstractKirigamiApplication
 {
     Q_OBJECT
+    QML_ELEMENT
     QML_NAMED_ELEMENT(App)
-    QML_SINGLETON
-
-    Q_PROPERTY(QAction *quitAction READ quitAction CONSTANT FINAL)
-    Q_PROPERTY(QAction *configureAction READ configureAction CONSTANT FINAL)
-    Q_PROPERTY(QAction *configureNotificationsAction READ configureNotificationsAction CONSTANT FINAL)
-    Q_PROPERTY(QAction *aboutAction READ aboutAction CONSTANT FINAL)
-    Q_PROPERTY(QAction *configureKeyBindingsAction READ configureKeyBindingsAction CONSTANT FINAL)
-    Q_PROPERTY(QAction *reportBugAction READ reportBugAction CONSTANT FINAL)
-    Q_PROPERTY(QAction *startHeadsetControlAction READ startHeadsetControlAction CONSTANT FINAL)
-    Q_PROPERTY(QAction *stopHeadsetControlAction READ stopHeadsetControlAction CONSTANT FINAL)
-    Q_PROPERTY(QAction *refreshHeadsetControlAction READ refreshHeadsetControlAction CONSTANT FINAL)
 public:
+    enum AppAction {
+        AboutApp,
+        KCommandBar,
+        KeyBindings = KStandardActions::KeyBindings,
+        Preferences = KStandardActions::Preferences,
+        ReportBug = KStandardActions::ReportBug,
+        ConfigureNotifications = KStandardActions::ConfigureNotifications,
+        Quit = KStandardActions::Quit,
+
+        // HeadsetControl actions
+        HeadsetControlStop,
+        HeadsetControlStart,
+        HeadsetControlRefresh
+    };
+    Q_ENUM(AppAction)
+
     explicit HeadsetKontrolApplication(QObject *parent = nullptr);
     ~HeadsetKontrolApplication();
 
-    Q_SCRIPTABLE Q_INVOKABLE qint64 pid() const;
-    Q_SCRIPTABLE Q_INVOKABLE void restore();
+    Q_INVOKABLE QAction *action(AppAction id);
 
-    KActionCollection *actionCollection() const;
-
-    QAction *quitAction() const;
-    QAction *configureAction() const;
-    QAction *configureNotificationsAction() const;
-    QAction *configureKeyBindingsAction() const;
-    QAction *aboutAction() const;
-    QAction *reportBugAction() const;
-    QAction *startHeadsetControlAction() const;
-    QAction *stopHeadsetControlAction() const;
-    QAction *refreshHeadsetControlAction() const;
-
-public Q_SLOTS:
-    void quit();
+    QList<KirigamiActionCollection *> actionCollections() const override;
 
 Q_SIGNALS:
     void showWindow();
-    void showSettings();
-    void showAbout();
-    void actionsChanged();
     void showDevice(HeadsetControlDevice *device);
 
-private Q_SLOTS:
-    void onRunInBackgroundChanged();
+protected:
+    void setupActions() override;
 
 private:
     HeadsetKontrolNotifierItem *m_notifierItem;
-    KActionCollection *m_actionCollection;
+    KirigamiActionCollection *m_headsetcontrolActionCollection;
 
-    void initAction();
+private Q_SLOTS:
+    void updateNotifierItem();
 };
 
 #endif // HEADSETKONTROLAPPLICATION_H

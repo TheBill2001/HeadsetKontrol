@@ -1,20 +1,28 @@
 import QtQuick
 import org.kde.kirigami as Kirigami
+import org.kde.kirigamiaddons.statefulapp as StatefulApplication
 
 import com.gitlab.thebill2001.headsetkontrol
 
-Kirigami.ApplicationWindow {
+StatefulApplication.StatefulWindow {
     id: root
 
-    title: i18nc("@title:window", "Control your headset")
+    windowName: i18nc("@title:window", "Control your headset")
 
     minimumWidth: Kirigami.Units.gridUnit * 20
     minimumHeight: Kirigami.Units.gridUnit * 10
 
-    width: Kirigami.Units.gridUnit * 45
-    height: Kirigami.Units.gridUnit * 35
-
     property Device selectedDevice: null
+
+    application: App {
+        id: app
+
+        configurationView: SettingsView {
+            id: settingsView
+
+            shortcutModel: app.shortcutsModel
+        }
+    }
 
     globalDrawer: Kirigami.GlobalDrawer {
         id: globalDrawer
@@ -23,76 +31,63 @@ Kirigami.ApplicationWindow {
 
         actions: [
             Kirigami.Action {
-                fromQAction: App.aboutAction
+                fromQAction: app.action(App.AboutApp)
             },
             Kirigami.Action {
-                fromQAction: App.reportBugAction
-            },
-            Kirigami.Action {
-                separator: true
-            },
-            Kirigami.Action {
-                fromQAction: App.configureKeyBindingsAction
-            },
-            Kirigami.Action {
-                fromQAction: App.configureAction
-            },
-            Kirigami.Action {
-                fromQAction: App.configureNotificationsAction
+                fromQAction: app.action(App.ReportBug)
             },
             Kirigami.Action {
                 separator: true
             },
             Kirigami.Action {
-                fromQAction: App.quitAction
+                fromQAction: app.action(App.KeyBindings)
+            },
+            Kirigami.Action {
+                fromQAction: app.action(App.Preferences)
+            },
+            Kirigami.Action {
+                fromQAction: app.action(App.ConfigureNotifications)
+            },
+            Kirigami.Action {
+                separator: true
+            },
+            Kirigami.Action {
+                fromQAction: app.action(App.Quit)
             }
         ]
     }
 
     pageStack.initialPage: DevicesPage {
         id: devicesPage
+
+        app: app
     }
 
     onVisibleChanged: {
         if (visible)
-            HeadsetControl.startCountDownUpdateTimer()
+            HeadsetControl.startCountDownUpdateTimer();
         else
-            HeadsetControl.stopCountDownUpdateTimer()
+            HeadsetControl.stopCountDownUpdateTimer();
     }
 
     Component.onCompleted: {
         if (Config.runInBackground) {
-            root.visible = !Config.startMinimized
+            root.visible = !Config.startMinimized;
         } else {
-            root.visible = true
+            root.visible = true;
         }
-    }
-
-    SettingsView {
-        id: settingsView
-
-        window: root
     }
 
     Connections {
-        target: App
+        target: app
+
         function onShowWindow() {
-            root.restore()
-        }
-
-        function onShowSettings() {
-            root.restore()
-            root.openSettingsPage()
-        }
-
-        function onShowAbout() {
-            root.restore()
-            root.openSettingsPage("about")
+            root.restore();
         }
 
         function onShowDevice(device) {
-            root.restore()
-            root.openDeviceDetailPage(device)
+            root.restore();
+            root.openDeviceDetailPage(device);
         }
     }
 
@@ -103,21 +98,21 @@ Kirigami.ApplicationWindow {
     }
 
     function openSettingsPage(module = null) {
-        settingsView.open(module ? module : '')
+        settingsView.open(module ? module : '');
     }
 
     function openDeviceDetailPage(device) {
-        root.selectedDevice = device
+        root.selectedDevice = device;
 
         while (root.pageStack.depth > 1) {
-            root.pageStack.pop()
+            root.pageStack.pop();
         }
 
-        root.pageStack.push(deviceDetailPage)
+        root.pageStack.push(deviceDetailPage);
     }
 
     function restore() {
-        root.show()
-        root.raise()
+        root.show();
+        root.raise();
     }
 }
