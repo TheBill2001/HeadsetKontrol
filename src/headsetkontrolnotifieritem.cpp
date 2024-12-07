@@ -1,8 +1,5 @@
-#include <QCoreApplication>
-#include <QDebug>
 #include <QDesktopServices>
 #include <QMenu>
-#include <QTimer>
 
 #include <KAboutData>
 #include <KLocalizedString>

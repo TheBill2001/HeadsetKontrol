@@ -1,6 +1,6 @@
-#include <QDebug>
-
 #include "processqueue.h"
+
+#include <KLocalizedString>
 
 using namespace Qt::Literals::StringLiterals;
 
@@ -53,9 +53,9 @@ void ProcessQueue::start()
             if (exitStatus != QProcess::QProcess::NormalExit) {
                 auto error = QString::fromUtf8(p_process->readAllStandardError());
                 if (!error.isEmpty()) {
-                    error = u"headsetcontrol exit with code %1: %2."_s.arg(QString::number(exitCode), error);
+                    error = i18nc("@info:shell", "headsetcontrol exit with code %1: %2.", exitCode, error);
                 } else {
-                    error = u"headsetcontrol exit with code %1."_s.arg(QString::number(exitCode));
+                    error = i18nc("@info:shell", "headsetcontrol exit with code %1.", exitCode);
                 }
                 qWarning().noquote() << error;
                 Q_EMIT errorOccurred(error);
@@ -69,7 +69,7 @@ void ProcessQueue::start()
 
         connect(p_process, &QProcess::errorOccurred, this, [=](QProcess::ProcessError error) {
             Q_UNUSED(error)
-            auto errorStr = u"headsetcontrol process error: %1."_s.arg(p_process->errorString());
+            auto errorStr = i18nc("@info:shell", "headsetcontrol process error: %1.", p_process->errorString());
             qWarning().noquote() << errorStr;
             Q_EMIT errorOccurred(errorStr);
             Q_EMIT outputReady({});

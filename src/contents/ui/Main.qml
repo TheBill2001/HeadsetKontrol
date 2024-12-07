@@ -12,7 +12,7 @@ StatefulApplication.StatefulWindow {
     windowName: i18nc("@title:window", "Control your headset")
 
     minimumWidth: Kirigami.Units.gridUnit * 20
-    minimumHeight: Kirigami.Units.gridUnit * 10
+    minimumHeight: Kirigami.Units.gridUnit * 20
 
     property Device selectedDevice: null
 

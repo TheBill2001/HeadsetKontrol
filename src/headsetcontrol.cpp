@@ -169,17 +169,19 @@ void HeadsetControl::onUpdated(const QByteArray &data)
     bool hasError = false;
 
     if (jsonError.error != QJsonParseError::NoError) {
-        qWarning().noquote() << u"Failed to parse headsetcontrol output, JSON error '%1' at position '%2': '%3'."_s.arg(jsonError.errorString(),
-                                                                                                                        QString::number(jsonError.offset),
-                                                                                                                        QString::fromUtf8(data));
+        qWarning() << i18nc("@info:shell",
+                            "Failed to parse headsetcontrol output, JSON error '%1' at position '%2': '%3'.",
+                            jsonError.errorString(),
+                            jsonError.offset,
+                            QString::fromUtf8(data));
         errorString =
-            u"Failed to parse headsetcontrol output, JSON error '%1' at position '%2'."_s.arg(jsonError.errorString(), QString::number(jsonError.offset));
+            i18nc("@info:shell", "Failed to parse headsetcontrol output, JSON error '%1' at position '%2'.", jsonError.errorString(), jsonError.offset);
         hasError = true;
     }
 
     if (!hasError && !doc.isObject()) {
-        qWarning().noquote() << u"Failed to parse headsetcontrol output, Expecting root element to be an object: '%1'."_s.arg(QString::fromUtf8(data));
-        errorString = u"Failed to parse headsetcontrol output, Expecting root element to be an object."_s;
+        qWarning() << i18nc("@info:shell", "Failed to parse headsetcontrol output, Expecting root element to be an object: '%1'.", QString::fromUtf8(data));
+        errorString = i18nc("@info:shell", "Failed to parse headsetcontrol output, Expecting root element to be an object.");
         hasError = true;
     }
 

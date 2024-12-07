@@ -41,15 +41,15 @@ int main(int argc, char *argv[])
                          QStringLiteral(HEADSETKONTROL_VERSION_STRING),
                          i18n("Interface for HeadsetControl (by Sapd) written with Kirigami and KDE Framework"),
                          KAboutLicense::GPL_V3,
-                         QStringLiteral("Trần Nam Tuấn (c) 2024"),
+                         u"Trần Nam Tuấn (c) 2024"_s,
                          QString(),
-                         QStringLiteral("https://gitlab.com/TheBill2001/HeadsetKontrol"),
-                         QStringLiteral("https://gitlab.com/TheBill2001/HeadsetKontrol/-/issues"));
+                         "https://gitlab.com/TheBill2001/HeadsetKontrol"_L1,
+                         "https://gitlab.com/TheBill2001/HeadsetKontrol/-/issues"_L1);
     aboutData.addAuthor(i18n("Trần Nam Tuấn"),
                         i18nc("@info:credit", "Developer, Maintainer"),
-                        QStringLiteral("tuantran1632001@gmail.com"),
-                        QStringLiteral("https://gitlab.com/TheBill2001"));
-    aboutData.setDesktopFileName(u"headsetkontrol"_s);
+                        "tuantran1632001@gmail.com"_L1,
+                        "https://gitlab.com/TheBill2001"_L1);
+    aboutData.setDesktopFileName("headsetkontrol"_L1);
     aboutData.setOrganizationDomain("thebill2001.gitlab.com");
 
     KAboutData::setApplicationData(aboutData);

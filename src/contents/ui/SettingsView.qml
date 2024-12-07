@@ -24,7 +24,7 @@ KirigamiSettings.ConfigurationView {
         },
         KirigamiSettings.ConfigurationModule {
             moduleId: "shortcuts"
-            text: i18nc("@action:button", "Shortcuts")
+            text: i18nc("@action:inmenu", "Shortcuts")
             icon.name: "configure-shortcuts"
             page: () => Qt.createComponent("org.kde.kirigamiaddons.statefulapp.private", 'ShortcutsEditor')
             initialProperties: () => ({
@@ -36,7 +36,8 @@ KirigamiSettings.ConfigurationView {
             moduleId: "about"
             text: i18nc("@action:inmenu", "About")
             icon.name: "help-about"
-            page: () => Qt.createComponent("com.gitlab.thebill2001.headsetkontrol", "AboutSettingsPage")
+            page: () => Qt.createComponent("org.kde.kirigamiaddons.formcard", "AboutPage")
+            category: i18nc("@title:group", "About")
         }
     ]
 

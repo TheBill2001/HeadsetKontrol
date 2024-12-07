@@ -23,7 +23,6 @@ ecm_target_qml_sources(headsetkontrol
     SOURCES
         contents/ui/Main.qml
         contents/ui/DevicesPage.qml
-        contents/ui/AboutSettingsPage.qml
         contents/ui/HeadsetControlSettingsPage.qml
         contents/ui/GeneralSettingsPage.qml
         contents/ui/SettingsView.qml
