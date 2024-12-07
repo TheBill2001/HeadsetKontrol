@@ -13,7 +13,13 @@ class HeadsetControlDeviceBattery : public QObject
     Q_PROPERTY(Status status READ status NOTIFY statusChanged FINAL)
     Q_PROPERTY(int level READ level NOTIFY levelChanged FINAL)
 public:
-    enum Status { Available, Unavailable, Charging, HidError, Timeout };
+    enum Status {
+        Available,
+        Unavailable,
+        Charging,
+        HidError,
+        Timeout
+    };
     Q_ENUM(Status)
 
     explicit HeadsetControlDeviceBattery(HeadsetControlDevice *parent);
@@ -33,10 +39,11 @@ private:
     HeadsetControlDevice *m_device;
     Status m_status;
     int m_level;
-    int m_oldLevel;
+    int m_lastNotifyLevel;
 
     void setStatus(const QString &newStatus);
     void setLevel(int newLevel);
+    void notify();
 };
 
 #endif // HEADSETCONTROLDEVICEBATTERY_H

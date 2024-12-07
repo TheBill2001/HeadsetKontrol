@@ -11,7 +11,7 @@ HeadsetControlDeviceBattery::HeadsetControlDeviceBattery(HeadsetControlDevice *p
     : QObject{parent}
     , m_device{parent}
     , m_level{-1}
-    , m_oldLevel{-1}
+    , m_lastNotifyLevel{-1}
 {
 }
 
@@ -73,13 +73,25 @@ void HeadsetControlDeviceBattery::setLevel(int newLevel)
     if (m_level == newLevel)
         return;
 
-    if (abs(m_level - m_oldLevel) > 10) {
-        m_oldLevel = m_level;
-    }
-
     m_level = newLevel;
     Q_EMIT levelChanged();
 
+    auto shouldNotify = abs(m_level - m_lastNotifyLevel) >= 10;
+
+    if (m_level <= 0 || m_level >= 100) {
+        if (m_lastNotifyLevel != m_level) {
+            shouldNotify = true;
+        }
+    }
+
+    if (shouldNotify) {
+        m_lastNotifyLevel = m_level;
+        notify();
+    }
+}
+
+void HeadsetControlDeviceBattery::notify()
+{
     auto notification = new KNotification(QStringLiteral("batteryStatus"), KNotification::CloseOnTimeout, this);
     notification->setAutoDelete(true);
     notification->setTitle(m_device->device());
@@ -95,6 +107,5 @@ void HeadsetControlDeviceBattery::setLevel(int newLevel)
     }
 
     notification->setIconName(batteryIconName());
-
     notification->sendEvent();
 }
