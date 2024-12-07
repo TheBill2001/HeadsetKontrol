@@ -37,19 +37,18 @@ KDE Framework 6.5.0 or above with these modules:
 * Notifications
 * IconThemes
 * StatusNotifierItem
-* XmlGui
 * NotifyConfig
 
 ### 2.2 Installing dependencies
 
 1. Arch Linux
 ```
-pacman -Syu extra-cmake-modules kirigami kirigami-addons ki18n kcoreaddons kconfig kdbusaddons knotifications kiconthemes kstatusnotifieritem kxmlgui knotifyconfig
+pacman -Syu extra-cmake-modules kirigami kirigami-addons ki18n kcoreaddons kconfig kdbusaddons knotifications kiconthemes kstatusnotifieritem knotifyconfig
 ```
 
 2. Fedora
 ```
-dnf install extra-cmake-modules kf6-kirigami-devel kf6-kirigami-addons-devel kf6-ki18n-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kdbusaddons-devel kf6-knotifications-devel kf6-kiconthemes-devel kf6-kstatusnotifieritem-devel kf6-kxmlgui-devel kf6-knotifyconfig-devel
+dnf install extra-cmake-modules kf6-kirigami-devel kf6-kirigami-addons-devel kf6-ki18n-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kdbusaddons-devel kf6-knotifications-devel kf6-kiconthemes-devel kf6-kstatusnotifieritem-devel kf6-knotifyconfig-devel
 ```
 
 ### 2.3 Build steps
