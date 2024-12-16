@@ -51,10 +51,10 @@ find_package(KF6 1.3.0 REQUIRED COMPONENTS KirigamiAddons)
 
 qt_policy(SET QTP0001 NEW)
 
-ecm_find_qmlmodule(org.kde.kirigami ${KF6_MIN_VERSION} REQUIRED)
-ecm_find_qmlmodule(org.kde.kirigamiaddons.settings ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
-ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
-ecm_find_qmlmodule(org.kde.kirigamiaddons.statefulapp ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
+ecm_find_qmlmodule(org.kde.kirigami ${KF6_MIN_VERSION})
+ecm_find_qmlmodule(org.kde.kirigamiaddons.settings ${KIRIGAMI_ADDONS_MIN_VERSION})
+ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard ${KIRIGAMI_ADDONS_MIN_VERSION})
+ecm_find_qmlmodule(org.kde.kirigamiaddons.statefulapp ${KIRIGAMI_ADDONS_MIN_VERSION})
 
 # Subdir to sources
 add_subdirectory(src)
