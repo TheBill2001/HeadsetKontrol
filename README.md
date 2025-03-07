@@ -43,12 +43,49 @@ KDE Framework 6.5.0 or above with these modules:
 
 1. Arch Linux
 ```
-pacman -Syu extra-cmake-modules kirigami kirigami-addons ki18n kcoreaddons kconfig kdbusaddons knotifications kiconthemes kstatusnotifieritem knotifyconfig
+pacman -Syu \
+   extra-cmake-modules \
+   kirigami \
+   kirigami-addons \
+   ki18n \
+   kcoreaddons \
+   kconfig \
+   kdbusaddons \
+   knotifications \
+   kiconthemes \
+   kstatusnotifieritem \
+   knotifyconfig
 ```
 
 2. Fedora
 ```
-dnf install extra-cmake-modules kf6-kirigami-devel kf6-kirigami-addons-devel kf6-ki18n-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kdbusaddons-devel kf6-knotifications-devel kf6-kiconthemes-devel kf6-kstatusnotifieritem-devel kf6-knotifyconfig-devel
+dnf install \
+   extra-cmake-modules \
+   kf6-kirigami-devel \
+   kf6-kirigami-addons-devel \
+   kf6-ki18n-devel \
+   kf6-kcoreaddons-devel \
+   kf6-kconfig-devel \
+   kf6-kdbusaddons-devel \
+   kf6-knotifications-devel \
+   kf6-kiconthemes-devel \
+   kf6-kstatusnotifieritem-devel \
+   kf6-knotifyconfig-devel
+```
+
+3. Debian 12
+```
+sudo apt install extra-cmake-modules \
+   libkirigami-dev \
+   kirigami-addons-dev \
+   libkf6i18n-dev \
+   libkf6coreaddons-dev \
+   libkf6notifyconfig-dev \
+   libkf6dbusaddons-dev \
+   libkf6notifications-dev \
+   libkf6iconthemes-dev \
+   libkf6statusnotifieritem-dev \
+   libkf6notifyconfig-dev
 ```
 
 ### 2.3 Build steps
@@ -66,7 +103,7 @@ dnf install extra-cmake-modules kf6-kirigami-devel kf6-kirigami-addons-devel kf6
    make
    ```
 
-   > **NOTE**: `install-prefix` is denpendent on distro. For Arch Linux, it is `/usr`.
+   > **NOTE**: `install-prefix` is denpendent on distro. For Arch Linux, it is `/usr`. For Debian 12, it is `/usr/local`.
 
 ### 2.4 Install
 
