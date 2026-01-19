@@ -1,57 +1,24 @@
-#ifndef HEADSETKONTROLAPPLICATION_H
-#define HEADSETKONTROLAPPLICATION_H
+// SPDX-FileCopyrightText: 2026 Trần Nam Tuấn <tuantran1632001@gmail.com>
+// SPDX-License-Identifier: GPL-2.0-or-later
 
-#include "headsetkontrolnotifieritem.h"
-
-#include <QAction>
-#include <QQmlEngine>
+#pragma once
 
 #include <AbstractKirigamiApplication>
-#include <KStandardActions>
+#include <QQmlEngine>
 
-class HeadsetControlDevice;
+using namespace Qt::StringLiterals;
+
 class HeadsetKontrolApplication : public AbstractKirigamiApplication
 {
     Q_OBJECT
     QML_ELEMENT
-    QML_NAMED_ELEMENT(App)
+
 public:
-    enum AppAction {
-        AboutApp,
-        KCommandBar,
-        KeyBindings = KStandardActions::KeyBindings,
-        Preferences = KStandardActions::Preferences,
-        ReportBug = KStandardActions::ReportBug,
-        ConfigureNotifications = KStandardActions::ConfigureNotifications,
-        Quit = KStandardActions::Quit,
-
-        // HeadsetControl actions
-        HeadsetControlStop,
-        HeadsetControlStart,
-        HeadsetControlRefresh
-    };
-    Q_ENUM(AppAction)
-
     explicit HeadsetKontrolApplication(QObject *parent = nullptr);
-    ~HeadsetKontrolApplication();
-
-    Q_INVOKABLE QAction *action(AppAction id);
-
-    QList<KirigamiActionCollection *> actionCollections() const override;
 
 Q_SIGNALS:
-    void showWindow();
-    void showDevice(HeadsetControlDevice *device);
-
-protected:
-    void setupActions() override;
+    void incrementCounter();
 
 private:
-    HeadsetKontrolNotifierItem *m_notifierItem;
-    KirigamiActionCollection *m_headsetcontrolActionCollection;
-
-private Q_SLOTS:
-    void updateNotifierItem();
+    void setupActions() override;
 };
-
-#endif // HEADSETKONTROLAPPLICATION_H

@@ -1,72 +1,55 @@
-qt_add_executable(headsetkontrol)
+# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-FileCopyrightText: 2026 Trần Nam Tuấn <tuantran1632001@gmail.com>
 
-set_source_files_properties(../headsetkontrol.desktop PROPERTIES
-    QT_RESOURCE_ALIAS headsetkontrol.desktop
-)
+add_subdirectory(settings)
 
-qt_add_resources(headsetkontrol "resources"
-    PREFIX "/resources"
-    FILES
-        ../headsetkontrol.desktop
-)
-
-ecm_add_qml_module(headsetkontrol
-    URI com.gitlab.thebill2001.headsetkontrol
-    VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    IMPORTS
-        org.kde.kirigami
-        org.kde.kirigamiaddons.settings
+qt_add_library(headsetkontrol_static STATIC)
+ecm_add_qml_module(headsetkontrol_static
+    URI org.kde.headsetkontrol
+    GENERATE_PLUGIN_SOURCE
+    QML_FILES
+        qml/Main.qml
+    DEPENDENCIES
         org.kde.kirigamiaddons.formcard
+        org.kde.kirigamiaddons.statefulapp
+        org.kde.kirigami
+        org.kde.headsetkontrol.settings
 )
 
-ecm_target_qml_sources(headsetkontrol
-    SOURCES
-        contents/ui/Main.qml
-        contents/ui/DevicesPage.qml
-        contents/ui/HeadsetControlSettingsPage.qml
-        contents/ui/GeneralSettingsPage.qml
-        contents/ui/SettingsView.qml
-        contents/ui/DeviceDetailPage.qml
-        contents/ui/FormTextFieldWithButtonDelegate.qml
-        contents/ui/FormSliderDelegate.qml
+target_sources(headsetkontrol_static PRIVATE
+    headsetkontrolapplication.cpp
+    headsetkontrolapplication.h
 )
 
-target_sources(headsetkontrol PRIVATE
-    main.cpp
-    processqueue.h processqueue.cpp
-    headsetcontrol.h headsetcontrol.cpp
-    headsetkontrolconfig.h headsetkontrolconfig.cpp
-    headsetkontrolnotifieritem.h headsetkontrolnotifieritem.cpp
-    headsetcontroldevice.h headsetcontroldevice.cpp
-    headsetcontroldevicebattery.h headsetcontroldevicebattery.cpp
-    headsetkontrolapplication.h headsetkontrolapplication.cpp
+target_link_libraries(headsetkontrol_static PUBLIC
+    Qt6::Quick
+    KF6::I18n
+    KF6::CoreAddons
+    KF6::ConfigGui
+    KirigamiAddonsStatefulApp
 )
+target_include_directories(headsetkontrol_static PUBLIC ${CMAKE_BINARY_DIR})
 
-kconfig_add_kcfg_files(headsetkontrol GENERATE_MOC headsetkontrolconfigbase.kcfgc)
+if (ANDROID)
+    kirigami_package_breeze_icons(ICONS
+        list-add
+        help-about
+        application-exit
+        applications-graphics
+    )
+else()
+    target_link_libraries(headsetkontrol_static PUBLIC Qt::Widgets)
+endif()
 
-target_link_libraries(headsetkontrol
-    PRIVATE
-        # Qt stuffs
-        Qt6::Core
-        Qt6::Gui
-        Qt6::Quick
-        Qt6::Qml
-        Qt6::QuickControls2
-        Qt6::Widgets
-        Qt6::DBus
+kconfig_add_kcfg_files(headsetkontrol_static GENERATE_MOC headsetkontrolconfig.kcfgc)
 
-        # KDE stuffs
-        KF6::Kirigami
-        KF6::I18n
-        KF6::CoreAddons
-        KF6::ConfigCore
-        KF6::DBusAddons
-        KF6::Notifications
-        KF6::IconThemes
-        KF6::StatusNotifierItem
-        KF6::NotifyConfig
-
-        KirigamiAddonsStatefulApp
+add_executable(headsetkontrol main.cpp)
+target_link_libraries(headsetkontrol PUBLIC
+    KirigamiApp
+    headsetkontrol_static
+    headsetkontrol_staticplugin
+    headsetkontrol_settings
+    headsetkontrol_settingsplugin
 )
-
 install(TARGETS headsetkontrol ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+ecm_add_android_apk(headsetkontrol ANDROID_DIR ${CMAKE_SOURCE_DIR}/android)

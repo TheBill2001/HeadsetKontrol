@@ -1,13 +1,13 @@
 ######### IDE #########
-build
-build/
+build*/
+compile_commands.json
+CMakeUserPresets.json
 
 # QtCreator
 *.txt.user
 
 # Clang
 .cache
-.clangd
 
 # qmlls
 *.qmlls.ini
@@ -16,8 +16,5 @@ build/
 *.kdev4
 *.kate-swp
 
-# KDE stuff
+# KDE stuffs
 .clang-format
-
-# VSCode
-.vscode
