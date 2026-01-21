@@ -1,2 +1,4 @@
-CompileFlags
-    Remove: [-f*]
+CompileFlags:
+  Remove:
+    - -f*
+    - -mno-direct-extern-access

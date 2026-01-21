@@ -1,0 +1,26 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb-dap",
+            "request": "launch",
+            "name": "(LLDB) Launch",
+            "program": "${command:cmake.launchTargetPath}",
+            "cwd": "${workspaceRoot}",
+            "console": "integratedTerminal",
+            "preLaunchTask": "CMake: build",
+            "env": {
+                "QT_LOGGING_RULES": "com.thebill2001.headsetkontrol.debug=true"
+            }
+        },
+        {
+            "type": "lldb-dap",
+            "request": "attach",
+            "name": "(LLDB) Attach",
+            "program": "${command:cmake.launchTargetPath}"
+        }
+    ]
+}

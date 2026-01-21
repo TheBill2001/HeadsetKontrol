@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: CC0-1.0
+# SPDX-FileCopyrightText: 2026 Trần Nam Tuấn <tuantran1632001@gmail.com>
+[Desktop Entry]
+Name=HeadsetKontrol
+Comment=Control your headsets with HeadsetControl.
+Keywords=headsetkontrol;headsetcontrol;headset
+Version=1.0
+Exec=@KDE_INSTALL_FULL_BINDIR@/headsetkontrol@HEADSETKONTROL_DESKTOP_ARGS@
+Icon=headsetkontrol
+Type=Application
+Terminal=false
+StartupNotify=true
+Categories=Qt;KDE;Utility;System;Settings
+X-DBUS-ServiceName=com.thebill2001.headsetkontrol
+X-KDE-SubstituteUID=false

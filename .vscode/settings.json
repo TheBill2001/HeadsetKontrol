@@ -1,0 +1,25 @@
+{
+    "clangd.arguments": [
+        "--log=error",
+        "--background-index",
+        "--limit-results=1000",
+        "--completion-style=bundled",
+        "--header-insertion=never"
+    ],
+    "[cpp]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+    },
+    "[c]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+    },
+    "[qml]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "theqtcompany.qt-qml"
+    },
+    "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+    "yaml.schemas": {
+        "https://www.schemastore.org/clangd.json": "file:///home/tuantran1632001/Projects/HeadsetKontrol/headsetkontrol/.clangd"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "recommendations": [
+        "gruntfuggly.todo-tree",
+        "jeff-hykin.better-cpp-syntax",
+        "llvm-vs-code-extensions.lldb-dap",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "ms-vscode.cmake-tools",
+        "ms-vscode.cpptools-themes",
+        "theqtcompany.qt-core",
+        "theqtcompany.qt-cpp",
+        "theqtcompany.qt-qml",
+        "thebill2001.vscode-clazy",
+        "godot42.cmantic-forked"
+    ]
+}

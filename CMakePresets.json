@@ -1,0 +1,100 @@
+{
+    "version": 5,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 28,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "debug",
+            "displayName": "Debug",
+            "description": "Debug build",
+            "binaryDir": "${sourceDir}/build/debug",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+                "QT_QML_GENERATE_QMLLS_INI": true,
+                "CMAKE_BUILD_TYPE": "Debug",
+                "ENABLE_CLAZY": true,
+                "BUILD_TESTING": true
+            },
+            "environment": {
+                "CLAZY_CHECKS": "level0,level1"
+            }
+        },
+        {
+            "name": "debug-vendored",
+            "displayName": "Debug (Vendored)",
+            "description": "Debug build (vendored)",
+            "binaryDir": "${sourceDir}/build/debug-vendored",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+                "QT_QML_GENERATE_QMLLS_INI": true,
+                "CMAKE_BUILD_TYPE": "Debug",
+                "ENABLE_CLAZY": true,
+                "BUILD_TESTING": true,
+                "USE_VENDORED_LIB": true
+            },
+            "environment": {
+                "CLAZY_CHECKS": "level0,level1"
+            }
+        },
+        {
+            "name": "release",
+            "displayName": "Release",
+            "description": "Release build",
+            "binaryDir": "${sourceDir}/build/release",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+                "CMAKE_BUILD_TYPE": "Release",
+                "ENABLE_CLAZY": false,
+                "BUILD_TESTING": true
+            },
+            "environment": {
+                "CLAZY_CHECKS": "level0,level1"
+            }
+        },
+        {
+            "name": "release-vendored",
+            "displayName": "Release ( Vendored)",
+            "description": "Release build (vendored)",
+            "binaryDir": "${sourceDir}/build/release-vendored",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": true,
+                "CMAKE_BUILD_TYPE": "Release",
+                "ENABLE_CLAZY": false,
+                "BUILD_TESTING": true,
+                "USE_VENDORED_LIB": true
+            },
+            "environment": {
+                "CLAZY_CHECKS": "level0,level1"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "debug",
+            "displayName": "Debug",
+            "configurePreset": "debug",
+            "inheritConfigureEnvironment": true
+        },
+        {
+            "name": "debug-vendored",
+            "displayName": "Debug (Vendored)",
+            "configurePreset": "debug-vendored",
+            "inheritConfigureEnvironment": true
+        },
+        {
+            "name": "release",
+            "displayName": "Release",
+            "configurePreset": "release",
+            "inheritConfigureEnvironment": true
+        },
+        {
+            "name": "release-vendored",
+            "displayName": "Release (Vendored)",
+            "configurePreset": "release-vendored",
+            "inheritConfigureEnvironment": true
+        }
+    ]
+}

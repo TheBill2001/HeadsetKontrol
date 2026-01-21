@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SPDX-License-Identifier: CC0-1.0
+  SPDX-FileCopyrightText: 2026 Trần Nam Tuấn <tuantran1632001@gmail.com>
+ -->
+<component type="desktop-application">
+    <id>com.thebill2001.headsetkontrol</id>
+    <name>HeadsetKontrol</name>
+    <summary>Control your headsets with HeadsetControl.</summary>
+    <metadata_license>CC0-1.0</metadata_license>
+    <project_license>GPL-3.0-or-later</project_license>
+    <developer id="thebill2001.com">
+        <name>Trần Nam Tuấn</name>
+        <url>https://gitlab.com/TheBill2001/headsetkontrol</url>
+    </developer>
+    <description>
+        <p>Interface for <a href="https://github.com/Sapd/HeadsetControl">HeadsetControl</a> written with Kirigami and KDE Framework.</p>
+        <ul>
+            <li>Monitor headsets information.</li>
+            <li>Battery level notification.</li>
+            <li>Set headsets specific settings.</li>
+        </ul>
+    </description>
+</component>
