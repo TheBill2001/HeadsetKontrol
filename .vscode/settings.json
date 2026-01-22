@@ -18,8 +18,19 @@
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "theqtcompany.qt-qml"
     },
-    "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
     "yaml.schemas": {
-        "https://www.schemastore.org/clangd.json": "file:///home/tuantran1632001/Projects/HeadsetKontrol/headsetkontrol/.clangd"
-    }
+        "https://www.schemastore.org/clangd.json": "${workspaceFolder}/.clangd",
+        "https://www.schemastore.org/clang-tidy.json": "${workspaceFolder}/.clang-tidy",
+        "https://www.schemastore.org/clang-format-21.x.json": "${workspaceFolder}/.clang-format"
+    },
+    "cmake.copyCompileCommands": "${workspaceFolder}/compile_commands.json",
+    "cmake.exportCompileCommandsFile": true,
+    "cmake.configureSettings": {
+        "QT_QML_GENERATE_QMLLS_INI": true,
+        "BUILD_TESTING": true,
+        "USE_VENDORED_LIB": true
+    },
+    "cmake.options.statusBarVisibility": "visible",
+    "cmake.buildDirectory": "${workspaceFolder}/builds/${buildKit}/${buildType}",
+    "cmake.useCMakePresets": "never"
 }

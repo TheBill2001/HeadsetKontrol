@@ -21,8 +21,7 @@ Checks: "*,
         -readability-redundant-access-specifiers,
         -cppcoreguidelines-owning-memory,
         -bugprone-easily-swappable-parameters,
-        -*-magic-numbers
-"
+        -*-magic-numbers"
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
 FormatStyle:     none

@@ -4,8 +4,13 @@
 #include "hkbattery.hpp"
 
 #include "hkhcutils_p.hpp"
+#include "hkmacros_p.hpp"
 
 #include <QDebug>
+
+#include <KLocalizedString>
+
+HK_ASSERT_COPYABLE_MOVEABLE(HKBattery)
 
 QDebug operator<<(QDebug debug, const HKBattery &battery)
 {
@@ -18,12 +23,12 @@ QDebug operator<<(QDebug debug, const HKBattery &battery)
         debug << ", " << battery.voltage() << "mV";
     }
 
-    if (battery.hasTimeToFull()) {
-        debug << ", " << battery.timeToFull() << " minute(s) until full";
+    if (battery.hasTimeToEmpty()) {
+        debug << ", " << i18ncp("@info:shell time until battery empty debug message", "%1 minute until empty", "%1 minutes until empty", battery.timeToEmpty());
     }
 
-    if (battery.hasTimeToEmpty()) {
-        debug << ", " << battery.timeToEmpty() << " minute(s) until empty";
+    if (battery.hasTimeToFull()) {
+        debug << ", " << i18ncp("@info:shell time until battery full debug message", "%1 minute until full", "%1 minutes until full", battery.timeToFull());
     }
 
     debug << ")";

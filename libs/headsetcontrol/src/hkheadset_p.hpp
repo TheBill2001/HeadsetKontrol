@@ -18,6 +18,8 @@
 #include <QMutex>
 #include <QObjectBindableProperty>
 
+#include <KLocalizedString>
+
 class HKHeadset::InitData
 {
 public:
@@ -67,7 +69,7 @@ public:
             errors << makeError(result.error(), capability);
         } else {
             Q_UNLIKELY_BRANCH;
-            qCWarning(HKHC_LOGGING, "Result has neither value nor error!");
+            qCWarning(HKHC_LOGGING).noquote() << i18nc("@info:shell result from native library is invalid", "Result has neither value nor error!");
         }
         return T{};
     }

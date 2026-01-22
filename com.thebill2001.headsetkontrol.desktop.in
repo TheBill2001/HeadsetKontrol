@@ -11,5 +11,6 @@ Type=Application
 Terminal=false
 StartupNotify=true
 Categories=Qt;KDE;Utility;System;Settings
-X-DBUS-ServiceName=com.thebill2001.headsetkontrol
+DBusActivatable=true
+X-DBUS-ServiceName=@HK_APP_ID@
 X-KDE-SubstituteUID=false

@@ -6,6 +6,8 @@
 #include "hkhclogging_p.hpp"
 #include "hkmacros_p.hpp"
 
+#include <KLocalizedString>
+
 using namespace Qt::StringLiterals;
 
 HK_ASSERT_COPYABLE_MOVEABLE(HKHeadsetId)
@@ -23,12 +25,12 @@ quint16 parseId(QAnyStringView idStringView)
     auto value = idString.simplified().toLower().toUInt(&check, 16);
 
     if (!check) {
-        qWarning(HKHC_LOGGING, "Failed to parse device ID string: \"%s\"", qPrintable(idString));
+        qWarning(HKHC_LOGGING).noquote() << i18nc("@info:shell parse headset id", "Failed to parse device ID string: \"%1\"", idString);
         return 0;
     }
 
     if (value == 0 || value > std::numeric_limits<quint16>::max()) {
-        qWarning(HKHC_LOGGING, "Parsed ID string is out of range: \"%s\"", qPrintable(idString));
+        qWarning(HKHC_LOGGING).noquote() << i18nc("@info:shell parse headset id", "Parsed ID string is out of range: \"%1\"", idString);
         return 0;
     }
 
@@ -53,17 +55,17 @@ std::pair<quint16, quint16> parseIds(QAnyStringView headsetId)
     const auto productId = strings[1].simplified().toLower().toUInt(&check2, 16);
 
     if (!check1 || !check2) {
-        qWarning(HKHC_LOGGING, "Failed to parse device ID string: \"%s\"", qPrintable(headsetIdString));
+        qWarning(HKHC_LOGGING).noquote() << i18nc("@info:shell parse headset id", "Failed to parse device ID string: \"%1\"", headsetIdString);
         return std::make_pair<quint16, quint16>(0, 0);
     }
 
     if (vendorId == 0 || vendorId > std::numeric_limits<quint16>::max()) {
-        qWarning(HKHC_LOGGING, "Vendor ID is out of range for device ID string: \"%s\"", qPrintable(headsetIdString));
+        qWarning(HKHC_LOGGING).noquote() << i18nc("@info:shell parse headset id", "Vendor ID is out of range for device ID string: \"%1\"", headsetIdString);
         return std::make_pair<quint16, quint16>(0, 0);
     }
 
     if (productId == 0 || productId > std::numeric_limits<quint16>::max()) {
-        qWarning(HKHC_LOGGING, "Product ID is out of range for device ID string: \"%s\"", qPrintable(headsetIdString));
+        qWarning(HKHC_LOGGING).noquote() << i18nc("@info:shell parse headset id", "Product ID is out of range for device ID string: \"%1\"", headsetIdString);
         return std::make_pair<quint16, quint16>(0, 0);
     }
 

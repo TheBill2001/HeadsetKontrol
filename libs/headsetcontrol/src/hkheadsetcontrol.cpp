@@ -14,6 +14,8 @@
 #include <QCollator>
 #include <QThreadPool>
 
+#include <KLocalizedString>
+
 HKHeadsetControlPrivate::HKHeadsetControlPrivate(HKHeadsetControl *const q_ptr)
     : q_ptr{q_ptr}
     , version{[this] {
@@ -112,7 +114,7 @@ void HKHeadsetControlPrivate::refresh()
             });
 
             if (discoveredHeadsetIter == discoveredHeadsets.end()) {
-                qCInfo(HKHC_LOGGING, "Headset removed: %s (%s).", qPrintable((*oldHeadsetIter)->name()), qPrintable((*oldHeadsetIter)->id().toString()));
+                qCInfo(HKHC_LOGGING).noquote() << i18nc("@info:shell", "Headset removed: %1 (%2).", (*oldHeadsetIter)->name(), (*oldHeadsetIter)->id());
                 toDelete << *oldHeadsetIter;
                 oldHeadsetIter = oldHeadsets.erase(oldHeadsetIter);
             } else {
@@ -127,12 +129,12 @@ void HKHeadsetControlPrivate::refresh()
             auto *newHeadset = new HKHeadset(HKHeadset::InitData{.internalMutex = internalMutex, .internalHeadset = std::move(discoveredHeadset)});
             newHeadset->d_ptr->refresh();
             toAdded << newHeadset;
-            qCInfo(HKHC_LOGGING, "Headset added: %s (%s).", qPrintable(newHeadset->name()), qPrintable(newHeadset->id()));
+            qCInfo(HKHC_LOGGING).noquote() << i18nc("@info:shell", "Headset added: %1 (%2).", newHeadset->name(), newHeadset->id());
         }
         discoveredHeadsets.clear();
 
         for (auto *headset : std::as_const(toUpdate)) {
-            qCDebug(HKHC_LOGGING, "Headset updating: %s (%s).", qPrintable(headset->name()), qPrintable(headset->id()));
+            qCDebug(HKHC_LOGGING).noquote() << i18nc("@info:shell", "Headset updating: %1 (%2).", headset->name(), headset->id());
             headset->d_ptr->refresh();
         }
 

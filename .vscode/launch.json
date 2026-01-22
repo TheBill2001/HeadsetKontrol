@@ -5,22 +5,52 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "lldb-dap",
+            "name": "Debug Qt Application with cppdbg",
+            "type": "cppdbg",
             "request": "launch",
-            "name": "(LLDB) Launch",
             "program": "${command:cmake.launchTargetPath}",
-            "cwd": "${workspaceRoot}",
-            "console": "integratedTerminal",
-            "preLaunchTask": "CMake: build",
-            "env": {
-                "QT_LOGGING_RULES": "com.thebill2001.headsetkontrol.debug=true"
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "visualizerFile": "${command:qt-cpp.natvis}",
+            "showDisplayString": true,
+            "linux": {
+                "MIMode": "gdb",
+                "miDebuggerPath": "/usr/bin/gdb",
+                "sourceFileMap": {
+                    "/home/qt/work/qt": "${command:qt-cpp.sourceDirectory}"
+                }
+            },
+            "osx": {
+                "MIMode": "lldb",
+                "sourceFileMap": {
+                    "/Users/qt/work/qt": "${command:qt-cpp.sourceDirectory}"
+                }
+            },
+            "windows": {
+                "sourceFileMap": {
+                    "Q:/qt5_workdir/w/s": "${command:qt-cpp.sourceDirectory}",
+                    "C:/work/build/qt5_workdir/w/s": "${command:qt-cpp.sourceDirectory}",
+                    "c:/users/qt/work/qt": "${command:qt-cpp.sourceDirectory}",
+                    "c:/Users/qt/work/install": "${command:qt-cpp.sourceDirectory}",
+                    "/Users/qt/work/qt": "${command:qt-cpp.sourceDirectory}"
+                },
+                "environment": [
+                    {
+                        "name": "PATH",
+                        "value": "${env:PATH};${command:qt-cpp.qtDir}"
+                    },
+                    {
+                        "name": "QT_QPA_PLATFORM_PLUGIN_PATH",
+                        "value": "${command:qt-cpp.QT_QPA_PLATFORM_PLUGIN_PATH}"
+                    },
+                    {
+                        "name": "QML_IMPORT_PATH",
+                        "value": "${command:qt-cpp.QML_IMPORT_PATH}"
+                    }
+                ],
+                "MIMode": "gdb",
+                "miDebuggerPath": "${command:qt-cpp.minGWgdb}"
             }
-        },
-        {
-            "type": "lldb-dap",
-            "request": "attach",
-            "name": "(LLDB) Attach",
-            "program": "${command:cmake.launchTargetPath}"
         }
     ]
 }

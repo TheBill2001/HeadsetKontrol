@@ -51,21 +51,25 @@ include(KDEClangFormat)
 include(KDEGitCommitHooks)
 
 include(ECMFindQmlModule)
+include(ECMInstallIcons)
 include(ECMQmlModule)
 include(ECMQtDeclareLoggingCategory)
 include(ECMSetupVersion)
-
-ecm_setup_version(${PROJECT_VERSION}
-    VARIABLE_PREFIX HEADSETKONTROL
-    VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/version-headsetkontrol.h"
-)
 
 if (BUILD_TESTING)
     list(APPEND QT_EXTRA_COMPONENTS Test)
 endif()
 
 find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS Qml Widgets ${QT_EXTRA_COMPONENTS})
-find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS Kirigami CoreAddons Config I18n)
+
+find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
+    Config
+    CoreAddons
+    DBusAddons
+    I18n
+    Kirigami
+    WindowSystem
+)
 
 find_package(KF6KirigamiAddons ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
 set_package_properties(KF6KirigamiAddons PROPERTIES
@@ -87,17 +91,24 @@ ecm_find_qmlmodule(org.kde.kirigami ${QT6_MIN_VERSION} REQUIRED)
 ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
 ecm_find_qmlmodule(org.kde.kirigamiaddons.statefulapp ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
 
+set(HK_APP_ID "com.thebill2001.headsetkontrol")
+
+add_definitions(
+    -DHK_APP_ID="${HK_APP_ID}"
+    -DTRANSLATION_DOMAIN="${HK_APP_ID}"
+)
+
 add_subdirectory(libs)
-# add_subdirectory(src)
+add_subdirectory(app)
 
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
 
 unset(HEADSETKONTROL_DESKTOP_ARGS)
-configure_file(com.thebill2001.headsetkontrol.desktop.in com.thebill2001.headsetkontrol.desktop @ONLY)
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/com.thebill2001.headsetkontrol.desktop" DESTINATION ${KDE_INSTALL_APPDIR})
-install(FILES com.thebill2001.headsetkontrol.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
+configure_file("${HK_APP_ID}.desktop.in" "${HK_APP_ID}.desktop" @ONLY)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${HK_APP_ID}.desktop" DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES "${HK_APP_ID}.xml" DESTINATION ${KDE_INSTALL_METAINFODIR})
 # ki18n_install(po)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
@@ -108,6 +119,9 @@ kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 
 ecm_qt_install_logging_categories(
     EXPORT HeadsetKontrolLog
-    FILE com.thebill2001.headsetkontrol.categories
+    FILE "${HK_APP_ID}.categories"
     DESTINATION "${KDE_INSTALL_LOGGINGCATEGORIESDIR}"
 )
+
+file(GLOB_RECURSE ICON_FILES icons/*.svg)
+ecm_install_icons(ICONS ${ICON_FILES} DESTINATION ${KDE_INSTALL_ICONDIR})

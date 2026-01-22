@@ -21,14 +21,27 @@ add_library(HKHeadsetControl STATIC
     src/hkmacros_p.hpp
 )
 
+qt_extract_metatypes(HKHeadsetControl)
+
+ecm_add_qml_module(HKHeadsetControl
+    URI "${HK_APP_ID}.headsetcontrol"
+    VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}"
+    CLASS_NAME HKHeadsetControlPlugin
+    PLUGIN_TARGET HKHeadsetControlPlugin
+    GENERATE_PLUGIN_SOURCE
+    SOURCES
+        qml/types.hpp
+        qml/types.cpp
+)
+
 add_library(HeadsetKontrol::HeadsetControl ALIAS HKHeadsetControl)
 
-qt_extract_metatypes(HKHeadsetControl)
+add_library(HeadsetKontrol::HeadsetControlPlugin ALIAS HKHeadsetControlPlugin)
 
 ecm_qt_declare_logging_category(HKHeadsetControl
     HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/hkhclogging_p.hpp"
     IDENTIFIER HKHC_LOGGING
-    CATEGORY_NAME com.thebill2001.headsetkontrol.headsetcontrol
+    CATEGORY_NAME "${HK_APP_ID}.headsetcontrol"
     DESCRIPTION "HeadsetKontrol's HeadsetControl module"
     EXPORT HeadsetKontrolLog
 )
@@ -37,6 +50,7 @@ target_include_directories(HKHeadsetControl
     PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/include"
     PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/qml"
         "${CMAKE_CURRENT_BINARY_DIR}/src"
 )
 
@@ -44,5 +58,7 @@ target_link_libraries(HKHeadsetControl
     PUBLIC
         Qt6::Core
     PRIVATE
+        Qt6::Qml
+        KF6::I18n
         "${HEADSETCONTROL_TARGET}"
 )

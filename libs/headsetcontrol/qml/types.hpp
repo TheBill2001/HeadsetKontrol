@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Trần Nam Tuấn <tuantran1632001@gmail.com>
+// SPDX-License-Identifier: GPL-3.0-later
+
 #ifndef HKHC_TYPES_QML_HPP
 #define HKHC_TYPES_QML_HPP
 

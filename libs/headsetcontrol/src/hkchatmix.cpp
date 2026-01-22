@@ -3,7 +3,11 @@
 
 #include "hkchatmix.hpp"
 
+#include "hkmacros_p.hpp"
+
 #include <QDebug>
+
+HK_ASSERT_COPYABLE_MOVEABLE(HKChatMix)
 
 QDebug operator<<(QDebug debug, const HKChatMix &chatMix)
 {
