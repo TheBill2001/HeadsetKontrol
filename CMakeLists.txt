@@ -10,7 +10,10 @@ project(HeadsetKontrol
     LANGUAGES CXX
 )
 
+include(CMakeDependentOption)
+
 option(USE_VENDORED_LIB "Use vendored HeadsetControl library. This force static linking." OFF)
+cmake_dependent_option(BUILD_KCONFIG_UPDATE "Build kconf_update config migration" ON "LINUX" OFF)
 
 if(USE_VENDORED_LIB)
     set(USE_STATIC_LIB ON CACHE BOOL "Use static HeadsetControl library." FORCE)
@@ -50,7 +53,9 @@ include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDEClangFormat)
 include(KDEGitCommitHooks)
 
+include(ECMDeprecationSettings)
 include(ECMFindQmlModule)
+include(ECMGenerateExportHeader)
 include(ECMInstallIcons)
 include(ECMQmlModule)
 include(ECMQtDeclareLoggingCategory)
@@ -60,18 +65,20 @@ if (BUILD_TESTING)
     list(APPEND QT_EXTRA_COMPONENTS Test)
 endif()
 
-find_package(Qt6 ${QT6_MIN_VERSION} REQUIRED COMPONENTS Qml Widgets ${QT_EXTRA_COMPONENTS})
+find_package(Qt6 "${QT6_MIN_VERSION}" REQUIRED COMPONENTS Qml Widgets ${QT_EXTRA_COMPONENTS})
 
-find_package(KF6 ${KF6_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF6 "${KF6_MIN_VERSION}" REQUIRED COMPONENTS
     Config
     CoreAddons
     DBusAddons
     I18n
     Kirigami
+    Notifications
+    StatusNotifierItem
     WindowSystem
 )
 
-find_package(KF6KirigamiAddons ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
+find_package(KF6KirigamiAddons "${KIRIGAMI_ADDONS_MIN_VERSION}" REQUIRED)
 set_package_properties(KF6KirigamiAddons PROPERTIES
     TYPE REQUIRED
     PURPOSE "Required application components and runtime dependency"
@@ -87,31 +94,41 @@ else()
     set(HEADSETCONTROL_TARGET HeadsetControl::HeadsetControl)
 endif()
 
-ecm_find_qmlmodule(org.kde.kirigami ${QT6_MIN_VERSION} REQUIRED)
-ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
-ecm_find_qmlmodule(org.kde.kirigamiaddons.statefulapp ${KIRIGAMI_ADDONS_MIN_VERSION} REQUIRED)
+ecm_set_disabled_deprecation_versions(
+    QT "${QT6_MIN_VERSION}"
+    KF "${KF6_MIN_VERSION}"
+)
+
+ecm_find_qmlmodule(org.kde.kirigami "${KF6_MIN_VERSION}" REQUIRED)
+ecm_find_qmlmodule(org.kde.kirigamiaddons.formcard "${KIRIGAMI_ADDONS_MIN_VERSION}" REQUIRED)
+ecm_find_qmlmodule(org.kde.kirigamiaddons.settings "${KIRIGAMI_ADDONS_MIN_VERSION}" REQUIRED)
+ecm_find_qmlmodule(org.kde.kirigamiaddons.statefulapp "${KIRIGAMI_ADDONS_MIN_VERSION}" REQUIRED)
 
 set(HK_APP_ID "com.thebill2001.headsetkontrol")
 
 add_definitions(
     -DHK_APP_ID="${HK_APP_ID}"
-    -DTRANSLATION_DOMAIN="${HK_APP_ID}"
+    -DTRANSLATION_DOMAIN=HK_APP_ID
 )
 
-add_subdirectory(libs)
+add_subdirectory(lib)
 add_subdirectory(app)
+
+if(BUILD_KCONFIG_UPDATE)
+    add_subdirectory(kconfig_update)
+endif()
 
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
 
+feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
 unset(HEADSETKONTROL_DESKTOP_ARGS)
 configure_file("${HK_APP_ID}.desktop.in" "${HK_APP_ID}.desktop" @ONLY)
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${HK_APP_ID}.desktop" DESTINATION ${KDE_INSTALL_APPDIR})
-install(FILES "${HK_APP_ID}.xml" DESTINATION ${KDE_INSTALL_METAINFODIR})
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${HK_APP_ID}.desktop" DESTINATION "${KDE_INSTALL_APPDIR}")
+install(FILES "${HK_APP_ID}.xml" DESTINATION "${KDE_INSTALL_METAINFODIR}")
 # ki18n_install(po)
-
-feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES headsetcontrol/*.cpp headsetcontrol/*.hpp)
 kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
@@ -124,4 +141,6 @@ ecm_qt_install_logging_categories(
 )
 
 file(GLOB_RECURSE ICON_FILES icons/*.svg)
-ecm_install_icons(ICONS ${ICON_FILES} DESTINATION ${KDE_INSTALL_ICONDIR})
+ecm_install_icons(ICONS ${ICON_FILES} DESTINATION "${KDE_INSTALL_ICONDIR}")
+
+install(FILES headsetkontrol.notifyrc  DESTINATION "${KDE_INSTALL_KNOTIFYRCDIR}")

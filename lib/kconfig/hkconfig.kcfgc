@@ -1,0 +1,9 @@
+File=hkconfig.kcfg
+HeaderExtension=hpp
+ClassName=HKConfig
+Visibility=HK_EXPORT
+Singleton=true
+IncludeFiles=\"headsetkontrol_export.hpp\"
+Mutators=true
+DefaultValueGetters=true
+GenerateProperties=true

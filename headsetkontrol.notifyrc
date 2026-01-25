@@ -1,0 +1,11 @@
+[Global]
+IconName=headsetkontrol
+Name=HeadsetKontrol
+Comment=Control your headsets with HeadsetControl
+DesktopEntry=com.thebill2001.headsetkontrol
+
+[Event/runInBackgroundWithoutTrayIcon]
+Name=Running In Background
+Comment=Application runs in background
+Action=Popup
+Urgency=Normal

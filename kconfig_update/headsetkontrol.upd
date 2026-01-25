@@ -1,0 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Trần Nam Tuấn <tuantran1632001@gmail.com>
+# SPDX-License-Identifier: GPL-3.0-later
+
+Version=6
+
+Id=headsetkontrol-2.1.0-main-config
+Script=headsetkontrol-2.1.0-main-config

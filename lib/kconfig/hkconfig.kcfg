@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SPDX-License-Identifier: BSD-3-Clause
+  SPDX-FileCopyrightText: 2026 Trần Nam Tuấn <tuantran1632001@gmail.com>
+ -->
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+                          http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+    <group name="General">
+        <entry name="autoStart" key="AutoStart" type="Bool">
+            <default>false</default>
+        </entry>
+
+        <entry name="startMinimized" key="StartMinimized" type="Bool">
+            <default>false</default>
+        </entry>
+
+        <entry name="useTrayIcon" key="UseTrayIcon" type="Bool">
+            <default>true</default>
+        </entry>
+
+        <entry name="runInBackground" key="RunInBackground" type="Bool">
+            <default>true</default>
+        </entry>
+    </group>
+
+    <group name="UserInterface">
+        <entry name="showRefreshTimer" key="ShowRefreshTimer" type="Bool">
+            <default>false</default>
+        </entry>
+    </group>
+
+    <group name="Device">
+        <entry name="primaryDevice" key="PrimaryDevice" type="String">
+        </entry>
+    </group>
+
+    <group name="HeadsetControl">
+        <entry name="updateRate" key="UpdateRate" type="Int">
+            <min>0</min>
+            <default>5000</default>
+        </entry>
+
+        <entry name="timeout" key="Timeout" type="Int">
+            <min>0</min>
+            <default>500</default>
+        </entry>
+    </group>
+
+    <group name="DeveloperOptions">
+        <entry name="testDeviceEnabled" key="EnableTestDevice" type="Bool">
+            <default>false</default>
+        </entry>
+
+        <entry name="testProfile" key="TestProfile" type="Int">
+            <min>0</min>
+            <max>10</max>
+            <default>0</default>
+        </entry>
+    </group>
+</kcfg>

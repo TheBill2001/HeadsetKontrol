@@ -10,6 +10,8 @@
         "theqtcompany.qt-cpp",
         "theqtcompany.qt-qml",
         "thebill2001.vscode-clazy",
-        "godot42.cmantic-forked"
+        "godot42.cmantic-forked",
+        "decodetalkers.neocmakelsp-vscode",
+        "elijah-potter.harper"
     ]
 }

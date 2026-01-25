@@ -9,5 +9,5 @@ add_test(NAME test-device COMMAND test-device)
 
 target_link_libraries(test-device PRIVATE
     Qt6::Test
-    HeadsetKontrol::HeadsetControl
+    HeadsetKontrol::HeadsetKontrol
 )

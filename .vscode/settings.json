@@ -30,7 +30,6 @@
         "BUILD_TESTING": true,
         "USE_VENDORED_LIB": true
     },
-    "cmake.options.statusBarVisibility": "visible",
     "cmake.buildDirectory": "${workspaceFolder}/builds/${buildKit}/${buildType}",
     "cmake.useCMakePresets": "never"
 }
