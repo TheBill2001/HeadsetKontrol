@@ -7,10 +7,12 @@
 #include "headsetkontrol_export.hpp"
 
 #include <QMetaType>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 class HK_EXPORT HKChatMix
 {
     Q_GADGET
+    QML_VALUE_TYPE(hkChatMix)
     Q_PROPERTY(quint8 level MEMBER level FINAL)
     Q_PROPERTY(quint8 gameVolumePercent MEMBER gameVolumePercent FINAL)
     Q_PROPERTY(quint8 chatVolumePercent MEMBER chatVolumePercent FINAL)

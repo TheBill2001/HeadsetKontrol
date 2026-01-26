@@ -12,6 +12,7 @@
 
 #include <QApplicationStatic>
 #include <QCollator>
+#include <QQmlEngine>
 #include <QThreadPool>
 
 #include <KLocalizedString>
@@ -187,6 +188,14 @@ HKHeadsetControl::~HKHeadsetControl()
 HKHeadsetControl *HKHeadsetControl::instance()
 {
     return &g_static->instance;
+}
+
+HKHeadsetControl *HKHeadsetControl::create(QQmlEngine *engine, QJSEngine * /*unused*/)
+{
+    auto *const instance = HKHeadsetControl::instance();
+    Q_ASSERT(instance->thread() == engine->thread());
+    QQmlEngine::setObjectOwnership(instance, QQmlEngine::CppOwnership);
+    return instance;
 }
 
 QString HKHeadsetControl::version() noexcept

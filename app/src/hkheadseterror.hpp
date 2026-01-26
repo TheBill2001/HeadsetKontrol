@@ -13,6 +13,7 @@
 class HK_EXPORT HKHeadsetError
 {
     Q_GADGET
+    QML_NAMED_ELEMENT(hkHeadsetError)
     Q_PROPERTY(HKHeadset *headset MEMBER headset FINAL)
     Q_PROPERTY(HKHeadsetId headsetId MEMBER headsetId FINAL)
     Q_PROPERTY(QString headsetName MEMBER headsetName FINAL)

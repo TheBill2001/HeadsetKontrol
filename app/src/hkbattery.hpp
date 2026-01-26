@@ -8,11 +8,13 @@
 
 #include <QMetaType>
 #include <QPointer>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 class HKHeadset;
 class HK_EXPORT HKBattery
 {
     Q_GADGET
+    QML_VALUE_TYPE(hkBattery)
     Q_PROPERTY(quint8 level MEMBER level FINAL)
     Q_PROPERTY(HKBattery::BatteryStatus status MEMBER status FINAL)
     Q_PROPERTY(HKBattery::MicrophoneStatus microphoneStatus MEMBER microphoneStatus FINAL)

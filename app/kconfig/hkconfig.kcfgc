@@ -7,3 +7,4 @@ IncludeFiles=\"headsetkontrol_export.hpp\"
 Mutators=true
 DefaultValueGetters=true
 GenerateProperties=true
+QmlRegistration=true

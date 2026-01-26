@@ -7,12 +7,21 @@
 #include "headsetkontrol_export.hpp"
 
 #include <QObject>
+#include <QtQmlIntegration/qqmlintegration.h>
+
+class QQmlEngine;
+class QJSEngine;
 
 class HKHeadset;
+class HKHeadsetControlExtension;
 class HKHeadsetControlPrivate;
 class HK_EXPORT HKHeadsetControl : public QObject
 {
     Q_OBJECT
+    QML_SINGLETON
+    QML_ELEMENT
+    QML_FOREIGN(HKHeadsetControl)
+    QML_EXTENDED(HKHeadsetControlExtension)
     Q_PROPERTY(QString version READ version CONSTANT FINAL)
     Q_PROPERTY(QStringList supportedDevices READ supportedDevices CONSTANT FINAL)
     Q_PROPERTY(int updateRate READ updateRate WRITE setDeviceTimeout NOTIFY updateRateChanged BINDABLE bindableUpdateRate FINAL)
@@ -34,6 +43,7 @@ public:
     ~HKHeadsetControl() override;
 
     [[nodiscard]] static HKHeadsetControl *instance();
+    [[nodiscard]] static HKHeadsetControl *create(QQmlEngine *engine, QJSEngine * /*unused*/);
 
     [[nodiscard]] static QString version() noexcept;
     [[nodiscard]] static QStringList supportedDevices() noexcept;
@@ -84,5 +94,6 @@ Q_SIGNALS:
 };
 
 Q_MOC_INCLUDE("hkheadset.hpp")
+Q_MOC_INCLUDE("types.hpp")
 
 #endif // HKHEADSETCONTROL_HPP

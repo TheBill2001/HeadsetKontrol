@@ -7,10 +7,13 @@
 #include "headsetkontrol_export.hpp"
 
 #include <QMetaType>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 class HK_EXPORT HKHeadsetId
 {
     Q_GADGET
+    QML_VALUE_TYPE(hkHeadsetId)
+    QML_STRUCTURED_VALUE
     Q_PROPERTY(quint16 vendorId MEMBER vendorId FINAL)
     Q_PROPERTY(quint16 productId MEMBER productId FINAL)
 public:

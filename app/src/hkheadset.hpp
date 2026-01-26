@@ -7,6 +7,7 @@
 #include "headsetkontrol_export.hpp"
 
 #include <QObject>
+#include <QtQmlIntegration/qqmlintegration.h>
 
 class HKBattery;
 class HKChatMix;
@@ -17,6 +18,8 @@ class HKHeadsetPrivate;
 class HK_EXPORT HKHeadset : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_UNCREATABLE("Managed by HKHeadsetControl")
     Q_PROPERTY(HKHeadsetId id READ id CONSTANT FINAL)
     Q_PROPERTY(QString name READ name CONSTANT FINAL)
     Q_PROPERTY(HKHeadset::Capabilities capabilities READ capabilities NOTIFY capabilitiesChanged BINDABLE bindableCapabilities FINAL)

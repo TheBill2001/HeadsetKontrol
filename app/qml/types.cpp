@@ -3,14 +3,6 @@
 
 #include "types.hpp"
 
-HKConfig *HKConfigForeign::create(QQmlEngine *engine, QJSEngine * /*unused*/)
-{
-    auto *const instance = HKConfig::self();
-    Q_ASSERT(instance->thread() == engine->thread());
-    QQmlEngine::setObjectOwnership(instance, QQmlEngine::CppOwnership);
-    return instance;
-}
-
 HKHeadsetControlExtension::HKHeadsetControlExtension(QObject *parent)
     : QObject{parent}
     , m_parent{qobject_cast<HKHeadsetControl *>(parent)}
@@ -34,11 +26,3 @@ QQmlListProperty<HKHeadset> HKHeadsetControlExtension::headsets()
                 return static_cast<QList<HKHeadset *> *>(property->data)->at(index);
             }};
 };
-
-HKHeadsetControl *HKHeadsetControlForeign::create(QQmlEngine *engine, QJSEngine * /*unused*/)
-{
-    auto *const instance = HKHeadsetControl::instance();
-    Q_ASSERT(instance->thread() == engine->thread());
-    QQmlEngine::setObjectOwnership(instance, QQmlEngine::CppOwnership);
-    return instance;
-}
