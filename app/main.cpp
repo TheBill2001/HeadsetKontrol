@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
     KLocalizedString::setApplicationDomain(TRANSLATION_DOMAIN);
 
     KAboutData aboutData("headsetkontrol"_L1,
-                         "HeadsetKontrol"_L1,
+                         i18nc("application name", "HeadsetKontrol"),
                          QStringLiteral(HK_VERSION_STRING),
                          i18nc("@item:intext application description", "Control your headsets with HeadsetControl."),
                          KAboutLicense::GPL_V3,
@@ -87,9 +87,25 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18nc("name of maintainers", "Trần Nam Tuấn"),
                         i18nc("@info:credit", "Maintainer"),
                         "tuantran1632001@gmail.com"_L1,
-                        "https://gitlab.com/TheBill2001"_L1);
+                        "https://gitlab.com/TheBill2001"_L1,
+                        QUrl("https://gitlab.com/uploads/-/system/user/avatar/10312183/avatar.png"_L1));
 
-    aboutData.setTranslator(i18nc("name of translators", "Trần Nam Tuấn"), u"tuantran1632001@gmail.com"_s);
+    // This should be filled in the translation files.
+    aboutData.setTranslator(i18nc("NAME OF TRANSLATORS", "Your names"), i18nc("EMAIL OF TRANSLATORS", "Your emails"));
+
+    aboutData.addComponent(
+        i18nc("additional component name", "HeadsetControl"),
+        i18nc("HeadsetControl description",
+              "Sidetone and Battery status for Logitech G930, G533, G633, G933 SteelSeries Arctis 7/PRO 2019 and Corsair VOID (Pro) in Linux and MacOSX."),
+        HKHeadsetControl::version(),
+        "https://github.com/Sapd/HeadsetControl"_L1,
+        KAboutLicense::GPL_V3);
+
+    aboutData.addCredit(i18nc("name of HeadsetControl author", "Denis Arnst"),
+                        i18nc("HeadsetControl author task", "HeadsetControl author and maintainer"),
+                        "git@sapd.eu"_L1,
+                        "https://blog.arnst.cc"_L1,
+                        QUrl("https://avatars.githubusercontent.com/u/671752"_L1));
 
     aboutData.setOrganizationDomain("thebill2001.com");
     aboutData.setDesktopFileName(QLatin1StringView(HK_APP_ID));
@@ -157,6 +173,8 @@ int main(int argc, char *argv[])
         });
 
         checkConfigUpdate();
+
+        app.setQuitOnLastWindowClosed(!HKConfig::runInBackground());
 
         client->setUpdateRate(config->updateRate());
         client->setDeviceTimeout(config->timeout());

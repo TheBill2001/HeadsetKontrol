@@ -27,8 +27,7 @@
     "cmake.exportCompileCommandsFile": true,
     "cmake.configureSettings": {
         "QT_QML_GENERATE_QMLLS_INI": true,
-        "BUILD_TESTING": true,
-        "USE_VENDORED_LIB": true
+        "BUILD_TESTING": true
     },
     "cmake.buildDirectory": "${workspaceFolder}/builds/${buildKit}/${buildType}",
     "cmake.useCMakePresets": "never"

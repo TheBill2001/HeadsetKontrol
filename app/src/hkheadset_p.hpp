@@ -68,7 +68,7 @@ public:
             errors << makeError(result.error(), capability);
         } else {
             Q_UNLIKELY_BRANCH;
-            qCWarning(HK_LOGGING).noquote() << i18nc("@info:shell result from native library is invalid", "Result has neither value nor error!");
+            qCWarning(HK_LOGGING, "Result has neither value nor error!");
         }
         return T{};
     }

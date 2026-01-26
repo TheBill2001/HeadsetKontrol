@@ -230,7 +230,7 @@ void HKApplication::setupStatusNotifierItem()
         m_statusNotifierItem->setAssociatedWindow(window());
         m_statusNotifierItem->setStandardActionsEnabled(false);
         m_statusNotifierItem->setStatus(KStatusNotifierItem::Active);
-        m_statusNotifierItem->setIconByName(QStringLiteral(HK_APP_ID));
+        m_statusNotifierItem->setIconByName(u"headsetkontrol"_s);
 
         auto *const menu = m_statusNotifierItem->contextMenu();
         menu->addSection(i18nc("@title:menu", "Help"));

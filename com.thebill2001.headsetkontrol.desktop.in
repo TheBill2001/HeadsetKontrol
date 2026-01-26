@@ -11,6 +11,5 @@ Type=Application
 Terminal=false
 StartupNotify=true
 Categories=Qt;KDE;Utility;System;Settings
-DBusActivatable=true
 X-DBUS-ServiceName=@HK_APP_ID@
 X-KDE-SubstituteUID=false

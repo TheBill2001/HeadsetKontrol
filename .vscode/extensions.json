@@ -12,6 +12,7 @@
         "thebill2001.vscode-clazy",
         "godot42.cmantic-forked",
         "decodetalkers.neocmakelsp-vscode",
-        "elijah-potter.harper"
+        "elijah-potter.harper",
+        "mrorz.language-gettext"
     ]
 }

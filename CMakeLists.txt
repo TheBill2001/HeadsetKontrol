@@ -108,11 +108,11 @@ set(HK_APP_ID "com.thebill2001.headsetkontrol")
 
 add_definitions(
     -DHK_APP_ID="${HK_APP_ID}"
-    -DTRANSLATION_DOMAIN=HK_APP_ID
+    -DTRANSLATION_DOMAIN="headsetkontrol"
 )
 
-add_subdirectory(lib)
 add_subdirectory(app)
+add_subdirectory(po)
 
 if(BUILD_KCONFIG_UPDATE)
     add_subdirectory(kconfig_update)
@@ -122,15 +122,22 @@ if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
 
+#add_subdirectory(translate)
+
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 unset(HEADSETKONTROL_DESKTOP_ARGS)
-configure_file("${HK_APP_ID}.desktop.in" "${HK_APP_ID}.desktop" @ONLY)
+configure_file("${HK_APP_ID}.desktop.in" "${HK_APP_ID}.desktop.template" @ONLY)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${HK_APP_ID}.desktop" DESTINATION "${KDE_INSTALL_APPDIR}")
-install(FILES "${HK_APP_ID}.xml" DESTINATION "${KDE_INSTALL_METAINFODIR}")
-# ki18n_install(po)
 
-file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES headsetcontrol/*.cpp headsetcontrol/*.hpp)
+install(FILES "${HK_APP_ID}.xml" DESTINATION "${KDE_INSTALL_METAINFODIR}")
+
+file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES
+    lib/*.cpp
+    lib/*.hpp
+    app/*.cpp
+    app/*.hpp
+)
 kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 
@@ -143,4 +150,4 @@ ecm_qt_install_logging_categories(
 file(GLOB_RECURSE ICON_FILES icons/*.svg)
 ecm_install_icons(ICONS ${ICON_FILES} DESTINATION "${KDE_INSTALL_ICONDIR}")
 
-install(FILES headsetkontrol.notifyrc  DESTINATION "${KDE_INSTALL_KNOTIFYRCDIR}")
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/headsetkontrol.notifyrc"  DESTINATION "${KDE_INSTALL_KNOTIFYRCDIR}")

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: GPL-3.0-later
 
 import QtQuick
+import QtQuick.Layouts
 
 import org.kde.ki18n
 import org.kde.kirigami as Kirigami
@@ -91,7 +92,22 @@ StatefulApp.StatefulWindow {
     }
 
     pageStack.initialPage: Kirigami.Page {
-        title: "Hello, world!"
+        Kirigami.Theme.colorSet: Kirigami.Theme.View
+
+        Kirigami.PlaceholderMessage {
+            anchors.centerIn: parent
+
+            width: parent.width - (Kirigami.Units.largeSpacing * 4)
+            visible: true
+
+            icon.name: "headsetkontrol"
+            icon.width: Kirigami.Units.iconSizes.huge
+            icon.height: Kirigami.Units.iconSizes.huge
+
+            text: KI18n.i18nc("@title", "No Headset Selected")
+
+            Layout.alignment: Qt.AlignHCenter
+        }
     }
 
     Component.onCompleted: HKHeadsetControl.start()
