@@ -13,6 +13,8 @@ HKHeadsetControlExtension::HKHeadsetControlExtension(QObject *parent)
         m_headsets = value;
         Q_EMIT headsetsChanged(QPrivateSignal{});
     });
+
+    m_headsets = m_parent->headsets();
 }
 
 QQmlListProperty<HKHeadset> HKHeadsetControlExtension::headsets()

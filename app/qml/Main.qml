@@ -89,26 +89,77 @@ StatefulApp.StatefulWindow {
 
     globalDrawer: AppDrawer {
         id: appDrawer
-    }
 
-    pageStack.initialPage: Kirigami.Page {
-        Kirigami.Theme.colorSet: Kirigami.Theme.View
-
-        Kirigami.PlaceholderMessage {
-            anchors.centerIn: parent
-
-            width: parent.width - (Kirigami.Units.largeSpacing * 4)
-            visible: true
-
-            icon.name: "headsetkontrol"
-            icon.width: Kirigami.Units.iconSizes.huge
-            icon.height: Kirigami.Units.iconSizes.huge
-
-            text: KI18n.i18nc("@title", "No Headset Selected")
-
-            Layout.alignment: Qt.AlignHCenter
+        onCurrentHeadsetChanged: {
+            if (currentHeadset) {
+                if (root.pageStack.initialPage instanceof HeadsetPage) {
+                    (root.pageStack.initialPage as HeadsetPage).headset = currentHeadset;
+                } else {
+                    root.pageStack.initialPage = headsetPageComponent.createObject(null, {
+                        headset: currentHeadset
+                    });
+                }
+            } else {
+                root.pageStack.initialPage = welcomePageComponent.createObject(null);
+            }
         }
     }
 
+    pageStack.initialPage: welcomePageComponent.createObject(null)
+
     Component.onCompleted: HKHeadsetControl.start()
+
+    Component {
+        id: headsetPageComponent
+
+        HeadsetPage {}
+    }
+
+    Component {
+        id: welcomePageComponent
+
+        Kirigami.Page {
+            Kirigami.Theme.colorSet: Kirigami.Theme.View
+
+            ColumnLayout {
+                anchors.fill: parent
+                spacing: 0
+
+                Item {
+                    Layout.fillHeight: true
+                }
+
+                Kirigami.Icon {
+                    source: "headsetkontrol"
+
+                    implicitWidth: Kirigami.Units.iconSizes.huge
+                    implicitHeight: Kirigami.Units.iconSizes.huge
+
+                    Layout.preferredWidth: implicitWidth
+                    Layout.preferredHeight: implicitHeight
+                    Layout.alignment: Qt.AlignHCenter
+                }
+
+                Kirigami.Heading {
+                    text: KI18n.i18nc("@title", "HeadsetKontrol")
+                    type: Kirigami.Heading.Primary
+
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.topMargin: Kirigami.Units.largeSpacing
+                }
+
+                Kirigami.Heading {
+                    text: KI18n.i18nc("@info:placeholder", "No headset selected.")
+                    type: Kirigami.Heading.Secondary
+                    level: 3
+
+                    Layout.alignment: Qt.AlignHCenter
+                }
+
+                Item {
+                    Layout.fillHeight: true
+                }
+            }
+        }
+    }
 }

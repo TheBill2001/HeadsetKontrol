@@ -45,6 +45,7 @@ public:
     std::atomic<bool> updating{false};
 
     explicit HKHeadsetControlPrivate(HKHeadsetControl *const q_ptr);
+    ~HKHeadsetControlPrivate();
 
     void refresh();
 };

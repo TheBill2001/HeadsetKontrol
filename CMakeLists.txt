@@ -20,7 +20,7 @@ if(USE_VENDORED_LIB)
 
     include(FetchContent)
 
-    set(HEADSETCONTROL_HASH "6fe0cec4f8baeae5e6441489df02c395e39c6ae2"
+    set(HEADSETCONTROL_HASH "6611933e46bed1aec1b44ecba904e8efb9cb02cc"
         CACHE STRING "HeadsetControl commit hash for vendored lib."
     )
 
@@ -121,8 +121,6 @@ endif()
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
-
-#add_subdirectory(translate)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 

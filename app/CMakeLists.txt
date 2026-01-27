@@ -71,6 +71,8 @@ target_sources(HeadsetKontrolLib PRIVATE
     src/hkheadseterror.hpp
     src/hkheadsetid.cpp
     src/hkheadsetid.hpp
+    src/hkheadsetlistmodel.cpp
+    src/hkheadsetlistmodel.hpp
     src/hklogging.cpp
     src/hklogging.hpp
     src/hkmacros_p.hpp
@@ -78,12 +80,16 @@ target_sources(HeadsetKontrolLib PRIVATE
     src/hkobjectprivate_p.hpp
     src/hkqmlutils.cpp
     src/hkqmlutils.hpp
+    src/hkutils.cpp
+    src/hkutils.hpp
 )
 
 ecm_target_qml_sources(HeadsetKontrolLib SOURCES
     qml/AppDrawer.qml
+    qml/FormProgressBarDelegate.qml
     qml/GeneralConfigPage.qml
     qml/HeadsetControlConfigPage.qml
+    qml/HeadsetPage.qml
     qml/Main.qml
     qml/UserInterfaceConfigPage.qml
 )

@@ -25,7 +25,7 @@ class HK_EXPORT HKHeadset : public QObject
     Q_PROPERTY(HKHeadset::Capabilities capabilities READ capabilities NOTIFY capabilitiesChanged BINDABLE bindableCapabilities FINAL)
     Q_PROPERTY(QList<HKHeadsetError> errors READ errors NOTIFY errorsChanged BINDABLE bindableErrors FINAL)
     Q_PROPERTY(HKBattery battery READ battery NOTIFY batteryChanged BINDABLE bindableBattery FINAL)
-    Q_PROPERTY(HKChatMix chatmix READ chatMix NOTIFY chatMixChanged BINDABLE bindableChatMix FINAL)
+    Q_PROPERTY(HKChatMix chatMix READ chatMix NOTIFY chatMixChanged BINDABLE bindableChatMix FINAL)
 
     Q_DECLARE_PRIVATE(HKHeadset)
     HKHeadsetPrivate *const d_ptr;
@@ -79,6 +79,7 @@ public Q_SLOTS:
     void refresh();
 
 Q_SIGNALS:
+    void refreshDone(QPrivateSignal);
     void capabilitiesChanged(HKHeadset::Capabilities, QPrivateSignal);
     void errorsChanged(const QList<HKHeadsetError> &, QPrivateSignal);
     void errorsOccurred(const QList<HKHeadsetError> &, QPrivateSignal);

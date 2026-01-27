@@ -194,6 +194,8 @@ void HKHeadsetPrivate::refresh()
         battery = std::move(data).battery;
         chatMix = std::move(data).chatMix;
         this->errors = std::move(errors);
+
+        Q_EMIT q_func()->refreshDone(HKHeadset::QPrivateSignal{});
     });
 }
 

@@ -36,7 +36,7 @@ FormCard.FormCardPage {
                     model: HKHeadsetControl.supportedDevices
                     implicitWidth: Kirigami.Units.gridUnit * 25
 
-                    spacing: Kirigami.Units.mediumSpacing
+                    spacing: Kirigami.Units.smallSpacing
 
                     delegate: Kirigami.SelectableLabel {
                         required property int index

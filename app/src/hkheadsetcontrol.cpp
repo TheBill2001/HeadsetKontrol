@@ -95,6 +95,12 @@ HKHeadsetControlPrivate::HKHeadsetControlPrivate(HKHeadsetControl *const q_ptr)
     });
 }
 
+HKHeadsetControlPrivate::~HKHeadsetControlPrivate()
+{
+    // Explicitly delete
+    qDeleteAll(headsets.value());
+}
+
 void HKHeadsetControlPrivate::refresh()
 {
     if (updating) {
@@ -128,6 +134,8 @@ void HKHeadsetControlPrivate::refresh()
 
         for (auto &discoveredHeadset : discoveredHeadsets) {
             auto *newHeadset = new HKHeadset(HKHeadset::InitData{.internalMutex = internalMutex, .internalHeadset = std::move(discoveredHeadset)});
+            newHeadset->moveToThread(q_ptr->thread());
+            newHeadset->setParent(q_ptr);
             newHeadset->d_ptr->refresh();
             toAdded << newHeadset;
             qCInfo(HK_LOGGING, "Headset added: %s (%s).", qPrintable(newHeadset->name()), qPrintable(newHeadset->id()));

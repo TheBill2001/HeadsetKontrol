@@ -1,6 +1,8 @@
 // SPDX-FileCopyrightText: 2026 Trần Nam Tuấn <tuantran1632001@gmail.com>
 // SPDX-License-Identifier: GPL-3.0-later
 
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as QQC2
@@ -14,6 +16,7 @@ Kirigami.OverlayDrawer {
 
     property StatefulApp.StatefulWindow window: StatefulApp.StatefulWindow.window as StatefulApp.StatefulWindow
     property HKApplication application: window.application as HKApplication
+    property HKHeadset currentHeadset: null
 
     edge: Application.layoutDirection === Qt.RightToLeft ? Qt.RightEdge : Qt.LeftEdge
     modal: Kirigami.Settings.isMobile || (window.width < Kirigami.Units.gridUnit * 50 && !collapsed) // Only modal when not collapsed, otherwise collapsed won't show.
@@ -62,8 +65,61 @@ Kirigami.OverlayDrawer {
             }
         }
 
-        Item {
+        QQC2.ScrollView {
+            Layout.fillWidth: true
             Layout.fillHeight: true
+
+            ListView {
+                id: listView
+
+                clip: true
+                activeFocusOnTab: true
+                keyNavigationEnabled: true
+                Accessible.role: Accessible.List
+
+                onCurrentItemChanged: drawer.currentHeadset = (currentItem as HeadsetItemDelegate)?.headset ?? null
+
+                model: HKHeadsetListModel {}
+
+                delegate: HeadsetItemDelegate {}
+
+                Kirigami.PlaceholderMessage {
+                    anchors.centerIn: parent
+                    visible: listView.count <= 0
+
+                    text: KI18n.i18nc("@info:placeholder", "No headset found.")
+                }
+
+                QQC2.Menu {
+                    id: contextMenu
+
+                    readonly property HeadsetItemDelegate triggerItem: parent as HeadsetItemDelegate
+
+                    QQC2.MenuItem {
+                        action: Kirigami.Action {
+                            enabled: contextMenu.triggerItem ? (String(contextMenu.triggerItem.headsetId) !== HKConfig.primaryDevice) : false
+                            icon.name: "favorite-favorited"
+                            text: KI18n.i18nc("@action:inmenu", "Set as primary device")
+
+                            onTriggered: {
+                                if (contextMenu.triggerItem) {
+                                    HKConfig.primaryDevice = String(contextMenu.triggerItem.headsetId);
+                                }
+                            }
+                        }
+                    }
+
+                    QQC2.MenuItem {
+                        action: Kirigami.Action {
+                            icon.name: "dialog-ok-apply"
+                            text: KI18n.i18nc("@action:inmenu", "Apply device settings")
+
+                            // TODO
+                            onTriggered: {}
+                        }
+                    }
+                }
+            }
         }
 
         QQC2.ToolBar {
@@ -186,5 +242,80 @@ Kirigami.OverlayDrawer {
                 }
             }
         }
+    }
+
+    component HeadsetItemDelegate: QQC2.ItemDelegate {
+        id: delegate
+
+        required property int index
+        required property HKHeadset headset
+        required property hkHeadsetId headsetId
+        required property string headsetName
+        required property int headsetCapabilities
+        required property hkBattery headsetBattery
+        required property hkChatMix headsetChatMix
+
+        text: Kirigami.MnemonicData.richTextLabel
+        width: ListView.view.width
+        highlighted: ListView.isCurrentItem
+
+        QQC2.ContextMenu.menu: contextMenu
+
+        Kirigami.MnemonicData.label: headsetName
+        Kirigami.MnemonicData.enabled: enabled && visible
+        Kirigami.MnemonicData.controlType: Kirigami.MnemonicData.MenuItem
+
+        Accessible.name: Kirigami.MnemonicData.plainTextLabel
+        Accessible.role: Accessible.PageTab
+        Accessible.description: QQC2.ToolTip.text
+
+        QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
+        QQC2.ToolTip.visible: hovered
+        QQC2.ToolTip.text: {
+            let text = delegate.headsetName + `<ul><li>${KI18n.i18nc("@item:intext headset ID", "ID: %1", String(delegate.headsetId))}</li>`;
+            if (delegate.headsetCapabilities & HKHeadset.BatteryStatusCapability) {
+                if (delegate.headsetBattery.status <= 0) {
+                    text += `<li>${KI18n.i18nc("@item:intext", "Battery: %1", HKUtils.batteryStatusToLocaleString(delegate.headsetBattery))}</li>`;
+                } else if (delegate.headsetBattery.status === HKBattery.BatteryCharging) {
+                    text += `<li>${KI18n.i18nc("@item:intext", "Battery: %1% (%2)", delegate.headsetBattery.level, HKUtils.batteryStatusToLocaleString(delegate.headsetBattery))}</li>`;
+                } else {
+                    text += `<li>${KI18n.i18nc("@item:intext", "Battery: %1%", delegate.headsetBattery.level)}</li>`;
+                }
+            }
+            if (delegate.headsetCapabilities & HKHeadset.ChatMixStatusCapability) {
+                text += `<li>${KI18n.i18nc("@item:intext", "ChatMix: %1", delegate.headsetChatMix.level)}</li>`;
+            }
+            return text + '</ul>';
+        }
+
+        contentItem: RowLayout {
+            spacing: Kirigami.Units.mediumSpacing
+
+            Kirigami.IconTitleSubtitle {
+                id: iconTitleSubtitle
+
+                Layout.fillWidth: true
+
+                icon.name: delegate.headsetId == HKConfig.primaryDevice ? "favorite-favorited" : "" // qmllint disable equality-type-coercion
+                selected: delegate.highlighted || delegate.down
+                title: delegate.text
+                subtitle: String(delegate.headsetId)
+            }
+
+            Kirigami.Icon {
+                id: batteryIcon
+
+                color: iconTitleSubtitle.icon.color
+                implicitHeight: iconTitleSubtitle.icon.height
+                implicitWidth: iconTitleSubtitle.icon.width
+                selected: iconTitleSubtitle.selected
+                source: HKUtils.batteryIconName(delegate.headsetBattery)
+
+                Layout.preferredHeight: implicitHeight
+                Layout.preferredWidth: implicitWidth
+            }
+        }
+
+        onClicked: ListView.view.currentIndex = index
     }
 }
