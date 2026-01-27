@@ -23,6 +23,9 @@ class HK_EXPORT HKHeadset : public QObject
     Q_PROPERTY(HKHeadsetId id READ id CONSTANT FINAL)
     Q_PROPERTY(QString name READ name CONSTANT FINAL)
     Q_PROPERTY(HKHeadset::Capabilities capabilities READ capabilities NOTIFY capabilitiesChanged BINDABLE bindableCapabilities FINAL)
+    Q_PROPERTY(qsizetype capabilityCount READ capabilityCount BINDABLE bindableCapabilityCount FINAL) // NOLINT(clazy-qproperty-without-notify)
+    // NOLINTNEXTLINE(clazy-qproperty-without-notify)
+    Q_PROPERTY(QStringList capabilitiesLocaleStrings READ capabilitiesLocaleStrings BINDABLE bindableCapabilitiesLocaleStrings FINAL)
     Q_PROPERTY(QList<HKHeadsetError> errors READ errors NOTIFY errorsChanged BINDABLE bindableErrors FINAL)
     Q_PROPERTY(HKBattery battery READ battery NOTIFY batteryChanged BINDABLE bindableBattery FINAL)
     Q_PROPERTY(HKChatMix chatMix READ chatMix NOTIFY chatMixChanged BINDABLE bindableChatMix FINAL)
@@ -66,6 +69,12 @@ public:
     [[nodiscard]] QBindable<Capabilities> bindableCapabilities() const;
     [[nodiscard]] Capabilities capabilities() const;
 
+    [[nodiscard]] QBindable<qsizetype> bindableCapabilityCount() const;
+    [[nodiscard]] qsizetype capabilityCount() const;
+
+    [[nodiscard]] QBindable<QStringList> bindableCapabilitiesLocaleStrings() const;
+    [[nodiscard]] QStringList capabilitiesLocaleStrings() const;
+
     [[nodiscard]] QBindable<QList<HKHeadsetError>> bindableErrors() const;
     [[nodiscard]] QList<HKHeadsetError> errors() const;
 
@@ -75,11 +84,15 @@ public:
     [[nodiscard]] QBindable<HKChatMix> bindableChatMix() const;
     [[nodiscard]] HKChatMix chatMix() const;
 
+    [[nodiscard]] static QString capabilityToLocaleString(Capability capability);
+    [[nodiscard]] static QStringList capabilitiesToLocaleStrings(Capabilities capabilities);
+
 public Q_SLOTS:
     void refresh();
 
 Q_SIGNALS:
     void refreshDone(QPrivateSignal);
+    void refreshErrorOccurred(const QList<HKHeadsetError> &, QPrivateSignal);
     void capabilitiesChanged(HKHeadset::Capabilities, QPrivateSignal);
     void errorsChanged(const QList<HKHeadsetError> &, QPrivateSignal);
     void errorsOccurred(const QList<HKHeadsetError> &, QPrivateSignal);

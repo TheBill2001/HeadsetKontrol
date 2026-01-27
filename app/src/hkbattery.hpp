@@ -77,6 +77,12 @@ public:
     {
         return optionalTimeToFull.value_or(0);
     }
+
+    Q_INVOKABLE [[nodiscard]] QString iconName(bool styled = false, const QString &fallback = {}) const;
+
+    Q_INVOKABLE [[nodiscard]] QString batteryStatusToLocaleString() const;
+
+    [[nodiscard]] static QString batteryStatusToLocaleString(BatteryStatus status);
 };
 
 [[nodiscard]] constexpr std::partial_ordering operator<=>(const HKBattery &lhs, const HKBattery &rhs) noexcept

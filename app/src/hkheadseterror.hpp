@@ -22,6 +22,7 @@ class HK_EXPORT HKHeadsetError
     Q_PROPERTY(QString errorString MEMBER errorString FINAL)
     Q_PROPERTY(QString details MEMBER details FINAL)
     Q_PROPERTY(QDateTime timestamp MEMBER timestamp FINAL)
+    Q_PROPERTY(QString localeErrorString READ localeErrorString FINAL)
 public:
     enum Error : quint8 {
         Unknown = 0,
@@ -45,6 +46,10 @@ public:
     QString errorString;
     QString details;
     QDateTime timestamp;
+
+    [[nodiscard]] QString localeErrorString() const;
+
+    [[nodiscard]] static QString errorToLocaleString(Error error);
 
     friend bool operator==(const HKHeadsetError &lhs, const HKHeadsetError &rhs);
 };

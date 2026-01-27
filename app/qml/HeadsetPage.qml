@@ -55,7 +55,7 @@ FormCard.FormCardPage {
 
     FormCard.FormCard {
         FormCard.FormButtonDelegate {
-            text: KI18n.i18ncp("@lable:textbox", "%1 capability", "%1 capabilities", root.headset ? HKUtils.countCapabilities(root.headset.capabilities) : 0)
+            text: KI18n.i18ncp("@lable:textbox", "%1 capability", "%1 capabilities", root.headset?.capabilityCount ?? 0)
             description: KI18n.i18nc("@action:button", "View capabilities")
 
             onClicked: capabilitiesOverlaySheet.open()
@@ -68,7 +68,7 @@ FormCard.FormCardPage {
             parent: root
 
             ListView {
-                model: root.headset ? HKUtils.capabilityLocaleStringList(root.headset.capabilities) : []
+                model: root.headset?.capabilitiesLocaleStrings ?? []
                 implicitWidth: Kirigami.Units.gridUnit * 20
 
                 spacing: Kirigami.Units.smallSpacing
@@ -113,7 +113,7 @@ FormCard.FormCardPage {
             Layout.leftMargin: Kirigami.Units.largeSpacing
             Layout.rightMargin: Kirigami.Units.largeSpacing
 
-            text: root.headset ? HKUtils.batteryStatusToLocaleString(root.headset.battery) : ""
+            text: root.headset ? root.headset.battery.batteryStatusToLocaleString() : ""
             type: {
                 if (root.headset) {
                     if (root.headset.battery.status < HKBattery.BatteryUnavailable) {

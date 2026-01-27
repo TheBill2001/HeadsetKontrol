@@ -4,7 +4,9 @@
 #include "hkheadset.hpp"
 
 #include "hkheadset_p.hpp"
+#include "hkutils.hpp"
 
+#include <QCollator>
 #include <QThreadPool>
 
 namespace
@@ -133,6 +135,16 @@ HKHeadsetPrivate::HKHeadsetPrivate(HKHeadset::InitData &&initData, HKHeadset *co
 {
 }
 
+qsizetype HKHeadsetPrivate::countCapabilities() const
+{
+    return HKUtils::countFlags(capabilities.value());
+}
+
+QStringList HKHeadsetPrivate::getCapabilitiesLocaleStrings() const
+{
+    return HKHeadset::capabilitiesToLocaleStrings(capabilities.value());
+}
+
 HKHeadsetId HKHeadsetPrivate::getId() const
 {
     QMutexLocker lock(&internalMutex);
@@ -184,19 +196,31 @@ HKChatMix HKHeadsetPrivate::getChatMix(QList<HKHeadsetError> &errors) const
     });
 }
 
-void HKHeadsetPrivate::refresh()
+void HKHeadsetPrivate::refresh(bool block)
 {
     QList<HKHeadsetError> errors;
     Data data{.capabilities = getCapabilities(), .battery = getBattery(errors), .chatMix = getChatMix(errors)};
 
-    HKHeadset::staticMetaObject.invokeMethod(q_ptr, [this, data, errors = std::move(errors)]() mutable {
-        capabilities = std::move(data).capabilities;
-        battery = std::move(data).battery;
-        chatMix = std::move(data).chatMix;
-        this->errors = std::move(errors);
+    auto connectionType = Qt::AutoConnection;
+    if (QThread::currentThread() != q_ptr->thread()) {
+        connectionType = block ? Qt::BlockingQueuedConnection : Qt::AutoConnection;
+    }
 
-        Q_EMIT q_func()->refreshDone(HKHeadset::QPrivateSignal{});
-    });
+    q_ptr->metaObject()->invokeMethod(
+        q_ptr,
+        [this, data, errors = std::move(errors)]() mutable {
+            capabilities = std::move(data).capabilities;
+            battery = std::move(data).battery;
+            chatMix = std::move(data).chatMix;
+
+            if (!errors.isEmpty()) {
+                Q_EMIT q_func()->refreshErrorOccurred(errors, HKHeadset::QPrivateSignal{});
+            }
+            this->errors = std::move(errors);
+
+            Q_EMIT q_func()->refreshDone(HKHeadset::QPrivateSignal{});
+        },
+        connectionType);
 }
 
 HKHeadset::HKHeadset(InitData &&initData)
@@ -233,6 +257,30 @@ HKHeadset::Capabilities HKHeadset::capabilities() const
     return d->capabilities.value();
 }
 
+QBindable<qsizetype> HKHeadset::bindableCapabilityCount() const
+{
+    Q_D(const HKHeadset);
+    return &d->capabilityCount;
+}
+
+qsizetype HKHeadset::capabilityCount() const
+{
+    Q_D(const HKHeadset);
+    return d->capabilityCount.value();
+}
+
+QBindable<QStringList> HKHeadset::bindableCapabilitiesLocaleStrings() const
+{
+    Q_D(const HKHeadset);
+    return &d->capabilitiesLocaleStrings;
+}
+
+QStringList HKHeadset::capabilitiesLocaleStrings() const
+{
+    Q_D(const HKHeadset);
+    return d->capabilitiesLocaleStrings.value();
+}
+
 QBindable<QList<HKHeadsetError>> HKHeadset::bindableErrors() const
 {
     Q_D(const HKHeadset);
@@ -267,6 +315,62 @@ HKChatMix HKHeadset::chatMix() const
 {
     Q_D(const HKHeadset);
     return d->chatMix.value();
+}
+
+QString HKHeadset::capabilityToLocaleString(Capability capability)
+{
+    switch (capability) {
+    case HKHeadset::SidetoneCapability:
+        return i18nc("@item:intext headset capability", "Sidetone");
+    case HKHeadset::BatteryStatusCapability:
+        return i18nc("@item:intext headset capability", "Battery");
+    case HKHeadset::NotificationSoundCapability:
+        return i18nc("@item:intext headset capability", "Notification sounds");
+    case HKHeadset::LightsCapability:
+        return i18nc("@item:intext headset capability", "Lights");
+    case HKHeadset::InactiveTimeCapability:
+        return i18nc("@item:intext headset capability", "Inactive time");
+    case HKHeadset::ChatMixStatusCapability:
+        return i18nc("@item:intext headset capability", "ChatMix");
+    case HKHeadset::VoicePromptsCapability:
+        return i18nc("@item:intext headset capability", "Voice prompts");
+    case HKHeadset::RotateToMuteCapability:
+        return i18nc("@item:intext headset capability", "Rotate to mute");
+    case HKHeadset::EqualizerPresetCapability:
+        return i18nc("@item:intext headset capability", "Equalizer presets");
+    case HKHeadset::EqualizerCapability:
+        return i18nc("@item:intext headset capability", "Equalizer");
+    case HKHeadset::ParametricEqualizerCapability:
+        return i18nc("@item:intext headset capability", "Parametric equalizer");
+    case HKHeadset::MicrophoneMuteLedBrightnessCapability:
+        return i18nc("@item:intext headset capability", "Microphone mute led brightness");
+    case HKHeadset::MicrophoneVolumeCapability:
+        return i18nc("@item:intext headset capability", "Microphone volume");
+    case HKHeadset::VolumeLimiterCapability:
+        return i18nc("@item:intext headset capability", "Volume limiter");
+    case HKHeadset::BluetoothWhenPoweredOnCapability:
+        return i18nc("@item:intext headset capability", "Bluetooth when powered on");
+    case HKHeadset::BluetoothCallVolumeCapability:
+        return i18nc("@item:intext headset capability", "Bluetooth call volume");
+    default:
+        break;
+    }
+    return i18nc("@item:intext headset capability", "Unkown capability");
+}
+
+QStringList HKHeadset::capabilitiesToLocaleStrings(Capabilities capabilities)
+{
+    QStringList stringList;
+    const auto metaEnum = QMetaEnum::fromType<Capabilities>();
+    for (int i = 0; i < metaEnum.keyCount(); ++i) {
+        const auto value = Capability(metaEnum.value64(i).value_or(0));
+        if (capabilities.testFlag(value)) {
+            stringList << capabilityToLocaleString(value);
+        }
+    }
+    QCollator collator;
+    std::ranges::sort(stringList, collator);
+    return stringList;
 }
 
 void HKHeadset::refresh()

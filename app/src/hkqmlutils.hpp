@@ -4,7 +4,9 @@
 #ifndef HKQMLUTILS_HPP
 #define HKQMLUTILS_HPP
 
-#include "hkutils.hpp"
+#include "hkbattery.hpp"
+#include "hkheadset.hpp"
+#include "hkheadseterror.hpp"
 
 #include <QMetaEnum>
 #include <QObject>
@@ -19,34 +21,25 @@ public:
     Q_INVOKABLE [[nodiscard]] static qint32 localeStringToMilliseconds(const QString &text, const QLocale &locale);
     Q_INVOKABLE [[nodiscard]] static QString millisecondsToLocaleString(int value);
 
-    Q_INVOKABLE [[nodiscard]] Q_ALWAYS_INLINE static QString batteryStatusToLocaleString(const HKBattery &battery)
+    Q_INVOKABLE [[nodiscard]] Q_ALWAYS_INLINE static QString batteryStatusToLocaleString(HKBattery::BatteryStatus status)
     {
-        return HKUtils::batteryStatusToLocaleString(battery);
+        return HKBattery::batteryStatusToLocaleString(status);
     }
 
-    Q_INVOKABLE [[nodiscard]] Q_ALWAYS_INLINE static QString batteryIconName(const HKBattery &battery)
+    Q_INVOKABLE [[nodiscard]] Q_ALWAYS_INLINE static QString capabilityToLocaleString(HKHeadset::Capability capability)
     {
-        return HKUtils::batteryIconName(battery);
+        return HKHeadset::capabilityToLocaleString(capability);
     }
 
-    template<typename Enum>
-    [[nodiscard]] static qsizetype countFlags(QFlags<Enum> flags)
+    Q_INVOKABLE [[nodiscard]] Q_ALWAYS_INLINE static QStringList capabilitiesToLocaleStrings(HKHeadset::Capabilities capabilities)
     {
-        qsizetype count = 0;
-        const auto metaEnum = QMetaEnum::fromType<QFlags<Enum>>();
-        for (int i = 0; i < metaEnum.keyCount(); ++i) {
-            if (flags.testFlag(Enum(metaEnum.value(i)))) {
-                ++count;
-            }
-        }
-        return count;
+        return HKHeadset::capabilitiesToLocaleStrings(capabilities);
     }
 
-    Q_INVOKABLE [[nodiscard]] static qsizetype countCapabilities(quint64 caps);
-
-    Q_INVOKABLE [[nodiscard]] static QString capabilityLocaleString(quint64 cap);
-
-    Q_INVOKABLE [[nodiscard]] static QStringList capabilityLocaleStringList(quint64 caps);
+    Q_INVOKABLE [[nodiscard]] Q_ALWAYS_INLINE static QString headsetErrorToLocaleString(HKHeadsetError::Error error)
+    {
+        return HKHeadsetError::errorToLocaleString(error);
+    }
 };
 
 Q_MOC_INCLUDE(<QLocale>)

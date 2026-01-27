@@ -80,7 +80,6 @@ target_sources(HeadsetKontrolLib PRIVATE
     src/hkobjectprivate_p.hpp
     src/hkqmlutils.cpp
     src/hkqmlutils.hpp
-    src/hkutils.cpp
     src/hkutils.hpp
 )
 

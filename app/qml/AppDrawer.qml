@@ -275,9 +275,9 @@ Kirigami.OverlayDrawer {
             let text = delegate.headsetName + `<ul><li>${KI18n.i18nc("@item:intext headset ID", "ID: %1", String(delegate.headsetId))}</li>`;
             if (delegate.headsetCapabilities & HKHeadset.BatteryStatusCapability) {
                 if (delegate.headsetBattery.status <= 0) {
-                    text += `<li>${KI18n.i18nc("@item:intext", "Battery: %1", HKUtils.batteryStatusToLocaleString(delegate.headsetBattery))}</li>`;
+                    text += `<li>${KI18n.i18nc("@item:intext", "Battery: %1", delegate.headsetBattery.batteryStatusToLocaleString())}</li>`;
                 } else if (delegate.headsetBattery.status === HKBattery.BatteryCharging) {
-                    text += `<li>${KI18n.i18nc("@item:intext", "Battery: %1% (%2)", delegate.headsetBattery.level, HKUtils.batteryStatusToLocaleString(delegate.headsetBattery))}</li>`;
+                    text += `<li>${KI18n.i18nc("@item:intext", "Battery: %1% (%2)", delegate.headsetBattery.level, delegate.headsetBattery.batteryStatusToLocaleString())}</li>`;
                 } else {
                     text += `<li>${KI18n.i18nc("@item:intext", "Battery: %1%", delegate.headsetBattery.level)}</li>`;
                 }
@@ -309,7 +309,7 @@ Kirigami.OverlayDrawer {
                 implicitHeight: iconTitleSubtitle.icon.height
                 implicitWidth: iconTitleSubtitle.icon.width
                 selected: iconTitleSubtitle.selected
-                source: HKUtils.batteryIconName(delegate.headsetBattery)
+                source: delegate.headsetBattery.iconName()
 
                 Layout.preferredHeight: implicitHeight
                 Layout.preferredWidth: implicitWidth

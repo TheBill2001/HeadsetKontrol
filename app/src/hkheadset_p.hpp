@@ -42,6 +42,12 @@ public:
 
     HK_PRIVATE_BINDABLE_TRIVIAL_PROPERTY(HKHeadset, HKHeadset::Capabilities, capabilities) // NOLINT(clazy-incorrect-emit)
 
+    [[nodiscard]] qsizetype countCapabilities() const;
+    Q_OBJECT_COMPUTED_PROPERTY(HKHeadsetPrivate, qsizetype, capabilityCount, &HKHeadsetPrivate::countCapabilities)
+
+    [[nodiscard]] QStringList getCapabilitiesLocaleStrings() const;
+    Q_OBJECT_COMPUTED_PROPERTY(HKHeadsetPrivate, QStringList, capabilitiesLocaleStrings, &HKHeadsetPrivate::getCapabilitiesLocaleStrings)
+
     HK_PRIVATE_BINDABLE_PROPERTY(HKHeadset, QList<HKHeadsetError>, errors) // NOLINT(clazy-incorrect-emit)
 
     HK_PRIVATE_BINDABLE_PROPERTY(HKHeadset, HKBattery, battery) // NOLINT(clazy-incorrect-emit)
@@ -76,7 +82,7 @@ public:
     [[nodiscard]] HKBattery getBattery(QList<HKHeadsetError> &errors) const;
     [[nodiscard]] HKChatMix getChatMix(QList<HKHeadsetError> &errors) const;
 
-    void refresh();
+    void refresh(bool block = false);
 };
 
 #endif // HKHEADSET_P_HPP

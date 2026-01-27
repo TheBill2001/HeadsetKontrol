@@ -4,17 +4,22 @@
 #ifndef HKUTILS_HPP
 #define HKUTILS_HPP
 
-#include "headsetkontrol_export.hpp"
-
-#include <QString>
-
-class HKBattery;
+#include <QMetaEnum>
 
 namespace HKUtils
 {
-[[nodiscard]] HK_NO_EXPORT QString batteryIconName(const HKBattery &battery, QAnyStringView defaultIconName = {});
-
-[[nodiscard]] HK_NO_EXPORT QString batteryStatusToLocaleString(const HKBattery &battery);
+template<typename Enum>
+[[nodiscard]] static qsizetype countFlags(QFlags<Enum> flags)
+{
+    qsizetype count = 0;
+    const auto metaEnum = QMetaEnum::fromType<QFlags<Enum>>();
+    for (int i = 0; i < metaEnum.keyCount(); ++i) {
+        if (flags.testFlag(Enum(metaEnum.value(i)))) {
+            ++count;
+        }
+    }
+    return count;
+}
 } // namespace HKUtils
 
 #endif // HKUTILS_HPP
