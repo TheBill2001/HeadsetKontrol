@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.28)
 
 project(HeadsetKontrol
-    VERSION 2.1.0
+    VERSION 3.0.0
     DESCRIPTION "Control your headsets with HeadsetControl."
     HOMEPAGE_URL "https://gitlab.com/TheBill2001/headsetkontrol"
     LANGUAGES CXX
@@ -13,7 +13,7 @@ project(HeadsetKontrol
 include(CMakeDependentOption)
 
 option(USE_VENDORED_LIB "Use vendored HeadsetControl library. This force static linking." OFF)
-cmake_dependent_option(BUILD_KCONFIG_UPDATE "Build kconf_update config migration" ON "LINUX" OFF)
+cmake_dependent_option(USE_KCONFIG_UPDATE "Build kconf_update config migration" ON "LINUX" OFF)
 
 if(USE_VENDORED_LIB)
     set(USE_STATIC_LIB ON CACHE BOOL "Use static HeadsetControl library." FORCE)
@@ -65,7 +65,12 @@ if (BUILD_TESTING)
     list(APPEND QT_EXTRA_COMPONENTS Test)
 endif()
 
-find_package(Qt6 "${QT6_MIN_VERSION}" REQUIRED COMPONENTS Qml Widgets ${QT_EXTRA_COMPONENTS})
+find_package(Qt6 "${QT6_MIN_VERSION}" REQUIRED COMPONENTS
+    Qml
+    Quick
+    Widgets
+    ${QT_EXTRA_COMPONENTS}
+)
 
 find_package(KF6 "${KF6_MIN_VERSION}" REQUIRED COMPONENTS
     Config
@@ -111,10 +116,11 @@ add_definitions(
     -DTRANSLATION_DOMAIN="headsetkontrol"
 )
 
+add_subdirectory(libs)
 add_subdirectory(app)
 add_subdirectory(po)
 
-if(BUILD_KCONFIG_UPDATE)
+if(USE_KCONFIG_UPDATE)
     add_subdirectory(kconfig_update)
 endif()
 

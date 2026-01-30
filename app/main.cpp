@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: GPL-3.0-later
 
 #include "headsetkontrol_version.hpp"
+#include "hk_logging_p.hpp"
 #include "hkconfig.hpp"
 #include "hkconfigupdate.hpp"
 #include "hkdbusactivationevent.hpp"
 #include "hkheadsetcontrol.hpp"
-#include "hklogging.hpp"
 
 #include <QApplication>
 #include <QCommandLineParser>
@@ -22,50 +22,6 @@
 #include <KirigamiAppDefaults>
 
 using namespace Qt::Literals::StringLiterals;
-
-namespace
-{
-void checkConfigUpdate()
-{
-#ifdef Q_OS_LINUX
-    // Skip this if we are running in Plasma environment.
-    // Is there a more reliable way to achieve this?
-    if (qEnvironmentVariable("DESKTOP_SESSION") == "plasma"_L1) {
-        return;
-    } else {
-        const auto config = HKConfig::self()->sharedConfig();
-        const auto updates = HKConfigUpdate::updates();
-        const QString updateFile = "headsetkontrol.upd"_L1;
-        for (const auto &update : updates) {
-            config->checkUpdate(update.idString, updateFile);
-        }
-        config->sync();
-        HKConfig::self()->save();
-    }
-#else
-    const auto config = HKConfig::self()->sharedConfig();
-    const auto updates = HKConfigUpdate::updates();
-    const QString updateFile = "headsetkontrol.upd"_L1;
-    auto group = config->group("$Version"_L1);
-    QStringList ids = group.readEntry("update_info", QStringList{});
-
-    for (const auto &update : updates) {
-        QString cfgId = updateFile + ':'_L1 + update.idString;
-        if (!ids.contains(cfgId)) {
-            config->checkUpdate(update.idString, updateFile);
-            if (update() == EXIT_FAILURE) {
-                qCCritical(HK_LOGGING, "Failed to update config ID: %s", qPrintable(update.idString));
-            }
-            ids.append(std::move(cfgId));
-        }
-    }
-    group.writeEntry("update_info", ids);
-
-    config->sync();
-    HKConfig::self()->save();
-#endif
-}
-}
 
 int main(int argc, char *argv[])
 {
@@ -172,7 +128,7 @@ int main(int argc, char *argv[])
             client->setTestProfile(config->testProfile());
         });
 
-        checkConfigUpdate();
+        HKConfigUpdate::migrate();
 
         app.setQuitOnLastWindowClosed(!HKConfig::runInBackground());
 

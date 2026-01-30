@@ -8,7 +8,7 @@ install(FILES headsetkontrol.upd DESTINATION "${KDE_INSTALL_KCONFUPDATEDIR}")
 add_executable(headsetkontrol-2.1.0-main-config headsetkontrol-2.1.0-main-config.cpp)
 
 target_link_libraries(headsetkontrol-2.1.0-main-config PRIVATE
-    HeadsetKontrol::HeadsetKontrol
+    HK::Config
 )
 
 install(TARGETS headsetkontrol-2.1.0-main-config DESTINATION "${KDE_INSTALL_LIBDIR}/kconf_update_bin")

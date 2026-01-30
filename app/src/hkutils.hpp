@@ -4,22 +4,32 @@
 #ifndef HKUTILS_HPP
 #define HKUTILS_HPP
 
-#include <QMetaEnum>
+#include "hkbattery.hpp"
+#include "hkheadset.hpp"
+#include "hkheadseterror.hpp"
 
-namespace HKUtils
+#include <QObject>
+#include <QtQmlIntegration/qqmlintegration.h>
+
+class HKUtils : public QObject
 {
-template<typename Enum>
-[[nodiscard]] static qsizetype countFlags(QFlags<Enum> flags)
-{
-    qsizetype count = 0;
-    const auto metaEnum = QMetaEnum::fromType<QFlags<Enum>>();
-    for (int i = 0; i < metaEnum.keyCount(); ++i) {
-        if (flags.testFlag(Enum(metaEnum.value(i)))) {
-            ++count;
-        }
-    }
-    return count;
-}
-} // namespace HKUtils
+    Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
+public:
+    Q_INVOKABLE [[nodiscard]] static qint32 localeStringToMilliseconds(const QString &text, const QLocale &locale);
+    Q_INVOKABLE [[nodiscard]] static QString millisecondsToLocaleString(int value);
+
+    Q_INVOKABLE [[nodiscard]] static QString batteryIconName(const HKBattery &battery, bool styled = false, const QString &fallback = {});
+    Q_INVOKABLE [[nodiscard]] static QString batteryStatusToLocaleString(HKBattery::BatteryStatus status);
+
+    Q_INVOKABLE [[nodiscard]] static QString capabilityToLocaleString(HKHeadset::Capability capability);
+    Q_INVOKABLE [[nodiscard]] static QStringList capabilitiesToLocaleStrings(HKHeadset::Capabilities capabilities);
+
+    Q_INVOKABLE [[nodiscard]] static QString headsetErrorLocaleErrorString(const HKHeadsetError &error);
+    Q_INVOKABLE [[nodiscard]] static QString headsetErrorToLocaleString(HKHeadsetError::Error error);
+};
+
+Q_MOC_INCLUDE(<QLocale>)
 
 #endif // HKUTILS_HPP

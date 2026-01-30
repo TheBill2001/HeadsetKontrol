@@ -4,8 +4,6 @@
 #ifndef HKAPPLICATION_HPP
 #define HKAPPLICATION_HPP
 
-#include "headsetkontrol_export.hpp"
-
 #include <QObjectBindableProperty>
 #include <QPointer>
 
@@ -14,7 +12,7 @@
 class QQuickWindow;
 class KStatusNotifierItem;
 
-class HK_NO_EXPORT HKApplication : public AbstractKirigamiApplication
+class HKApplication : public AbstractKirigamiApplication
 {
     Q_OBJECT
     QML_ELEMENT
@@ -70,6 +68,5 @@ private:
 };
 
 Q_MOC_INCLUDE(<QQuickWindow>)
-Q_MOC_INCLUDE(<QUrl>)
 
 #endif // HKAPPLICATION_HPP

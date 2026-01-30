@@ -4,13 +4,11 @@
 #ifndef HKDBUSACTIVATIONEVENT_HPP
 #define HKDBUSACTIVATIONEVENT_HPP
 
-#include "headsetkontrol_export.hpp"
-
 #include <QEvent>
 #include <QUrl>
 #include <QVariant>
 
-class HK_EXPORT HKDBusActivateEvent : public QEvent
+class HKDBusActivateEvent : public QEvent
 {
     Q_GADGET
     Q_PROPERTY(QStringList arguments READ arguments CONSTANT FINAL)
@@ -30,7 +28,7 @@ private:
     QString m_workingDirectory;
 };
 
-class HK_EXPORT HKDBusActivateActionEvent : public QEvent
+class HKDBusActivateActionEvent : public QEvent
 {
     Q_GADGET
     Q_PROPERTY(QString actionName READ actionName CONSTANT FINAL)
@@ -50,7 +48,7 @@ private:
     QVariant m_parameter;
 };
 
-class HK_EXPORT HKDBusOpenEvent : public QEvent
+class HKDBusOpenEvent : public QEvent
 {
     Q_GADGET
     Q_PROPERTY(QList<QUrl> uris READ uris CONSTANT FINAL)

@@ -4,14 +4,12 @@
 #ifndef HKHEADSETLISTMODEL_HPP
 #define HKHEADSETLISTMODEL_HPP
 
-#include "headsetkontrol_export.hpp"
-
 #include <QAbstractListModel>
 
 #include <QtQmlIntegration/qqmlintegration.h>
 
 class HKHeadset;
-class HK_NO_EXPORT HKHeadsetListModel : public QAbstractListModel
+class HKHeadsetListModel : public QAbstractListModel
 {
     Q_OBJECT
     QML_ELEMENT

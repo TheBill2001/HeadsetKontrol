@@ -3,10 +3,10 @@
 
 #include "hkapplication.hpp"
 
+#include "hk_logging_p.hpp"
 #include "hkconfig.hpp"
 #include "hkdbusactivationevent.hpp"
 #include "hkheadsetcontrol.hpp"
-#include "hklogging.hpp"
 
 #include <QDesktopServices>
 #include <QQmlApplicationEngine>

@@ -68,7 +68,7 @@ FormCard.FormCardPage {
             parent: root
 
             ListView {
-                model: root.headset?.capabilitiesLocaleStrings ?? []
+                model: root.headset ? HKUtils.capabilitiesToLocaleStrings(root.headset.capabilities) : []
                 implicitWidth: Kirigami.Units.gridUnit * 20
 
                 spacing: Kirigami.Units.smallSpacing
@@ -113,7 +113,7 @@ FormCard.FormCardPage {
             Layout.leftMargin: Kirigami.Units.largeSpacing
             Layout.rightMargin: Kirigami.Units.largeSpacing
 
-            text: root.headset ? root.headset.battery.batteryStatusToLocaleString() : ""
+            text: root.headset ? HKUtils.batteryStatusToLocaleString(root.headset.battery.status) : ""
             type: {
                 if (root.headset) {
                     if (root.headset.battery.status < HKBattery.BatteryUnavailable) {

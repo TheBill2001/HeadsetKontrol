@@ -18,14 +18,14 @@
             QCOMPARE(headset->Data(), std::get<Type>(Data));                                                                                                   \
         } else {                                                                                                                                               \
             auto error = std::ranges::find_if(errors, [](const HKHeadsetError &error) {                                                                        \
-                return error.capability == Capability;                                                                                                         \
+                return error.capability() == Capability;                                                                                                       \
             });                                                                                                                                                \
             QCOMPARE_NE(error, errors.constEnd());                                                                                                             \
             const auto &expectedError = std::get<HKHeadsetError>(Data);                                                                                        \
-            QCOMPARE(error->capability, expectedError.capability);                                                                                             \
-            QCOMPARE(error->error, expectedError.error);                                                                                                       \
-            QCOMPARE(error->errorString, expectedError.errorString);                                                                                           \
-            QCOMPARE(error->details, expectedError.details);                                                                                                   \
+            QCOMPARE(error->capability(), expectedError.capability());                                                                                         \
+            QCOMPARE(error->error(), expectedError.error());                                                                                                   \
+            QCOMPARE(error->errorString(), expectedError.errorString());                                                                                       \
+            QCOMPARE(error->details(), expectedError.details());                                                                                               \
         }                                                                                                                                                      \
     }
 
@@ -62,38 +62,17 @@ Flags allFlags()
 
 [[nodiscard]] HKHeadsetError hidError(HKHeadset::Capability capability, QAnyStringView details)
 {
-    return {.headset = nullptr,
-            .headsetId = 0,
-            .headsetName = {},
-            .capability = capability,
-            .error = HKHeadsetError::HidError,
-            .errorString = u"HID communication error"_s,
-            .details = details.toString(),
-            .timestamp = {}};
+    return {nullptr, 0, {}, capability, HKHeadsetError::HidError, "HID communication error"_L1, details, {}};
 }
 
 [[nodiscard]] HKHeadsetError deviceOfflineError(HKHeadset::Capability capability, QAnyStringView details)
 {
-    return {.headset = nullptr,
-            .headsetId = 0,
-            .headsetName = {},
-            .capability = capability,
-            .error = HKHeadsetError::DeviceOffline,
-            .errorString = u"Device is offline or not responding"_s,
-            .details = details.toString(),
-            .timestamp = {}};
+    return {nullptr, 0, {}, capability, HKHeadsetError::DeviceOffline, "Device is offline or not responding"_L1, details, {}};
 }
 
 [[nodiscard]] HKHeadsetError timeoutError(HKHeadset::Capability capability, QAnyStringView details)
 {
-    return {.headset = nullptr,
-            .headsetId = 0,
-            .headsetName = {},
-            .capability = capability,
-            .error = HKHeadsetError::Timeout,
-            .errorString = u"Operation timed out"_s,
-            .details = details.toString(),
-            .timestamp = {}};
+    return {nullptr, 0, {}, capability, HKHeadsetError::Timeout, "Operation timed out"_L1, details, {}};
 }
 }
 
@@ -129,27 +108,16 @@ private Q_SLOTS:
             // Battery
             switch (i) {
             case 0:
-                row << BatteryResult{HKBattery{.level = 42,
-                                               .status = HKBattery::BatteryAvailable,
-                                               .microphoneStatus = HKBattery::MicrophoneUnknown,
-                                               .optionalVoltage = 3650,
-                                               .optionalTimeToEmpty = (42 * 720) / 100,
-                                               .optionalTimeToFull = {}}};
+                row << BatteryResult{HKBattery{42, HKBattery::BatteryAvailable, HKBattery::MicrophoneUnknown, 3650, (42 * 720) / 100, {}}};
                 break;
             case 1:
                 row << BatteryResult{hidError(HKHeadset::BatteryStatusCapability, u"Test error condition"_s)};
                 break;
             case 2:
-                row << BatteryResult{HKBattery{.level = 50,
-                                               .status = HKBattery::BatteryCharging,
-                                               .microphoneStatus = HKBattery::MicrophoneUnknown,
-                                               .optionalVoltage = 3800,
-                                               .optionalTimeToEmpty = {},
-                                               .optionalTimeToFull = ((100 - 50) * 120) / 100}};
+                row << BatteryResult{HKBattery{50, HKBattery::BatteryCharging, HKBattery::MicrophoneUnknown, 3800, {}, ((100 - 50) * 120) / 100}};
                 break;
             case 3:
-                row << BatteryResult{
-                    HKBattery{.level = 64, .status = HKBattery::BatteryAvailable, .optionalVoltage = {}, .optionalTimeToEmpty = {}, .optionalTimeToFull = {}}};
+                row << BatteryResult{HKBattery{64, HKBattery::BatteryAvailable, {}, {}, {}}};
                 break;
             case 4:
                 row << BatteryResult{deviceOfflineError(HKHeadset::BatteryStatusCapability, u"Test unavailable"_s)};
@@ -158,24 +126,13 @@ private Q_SLOTS:
                 row << BatteryResult{timeoutError(HKHeadset::BatteryStatusCapability, u"Test timeout"_s)};
                 break;
             case 6:
-                row << BatteryResult{HKBattery{.level = 100,
-                                               .status = HKBattery::BatteryAvailable,
-                                               .microphoneStatus = HKBattery::MicrophoneUnknown,
-                                               .optionalVoltage = 4200,
-                                               .optionalTimeToEmpty = 720,
-                                               .optionalTimeToFull = {}}};
+                row << BatteryResult{HKBattery{100, HKBattery::BatteryAvailable, HKBattery::MicrophoneUnknown, 4200, 720, {}}};
                 break;
             case 7:
-                row << BatteryResult{HKBattery{.level = 10,
-                                               .status = HKBattery::BatteryAvailable,
-                                               .microphoneStatus = HKBattery::MicrophoneUnknown,
-                                               .optionalVoltage = 3400,
-                                               .optionalTimeToEmpty = 72,
-                                               .optionalTimeToFull = {}}};
+                row << BatteryResult{HKBattery{10, HKBattery::BatteryAvailable, HKBattery::MicrophoneUnknown, 3400, 72, {}}};
                 break;
             default:
-                row << BatteryResult{
-                    HKBattery{.level = 42, .status = HKBattery::BatteryAvailable, .optionalVoltage = {}, .optionalTimeToEmpty = {}, .optionalTimeToFull = {}}};
+                row << BatteryResult{HKBattery{42, HKBattery::BatteryAvailable, {}, {}, {}}};
                 break;
             }
 
@@ -183,7 +140,7 @@ private Q_SLOTS:
             if (i == 1) {
                 row << ChatMixResult{hidError(HKHeadset::ChatMixStatusCapability, u"Test error condition"_s)};
             } else {
-                row << ChatMixResult{HKChatMix{.level = 64, .gameVolumePercent = 50, .chatVolumePercent = 50}};
+                row << ChatMixResult{HKChatMix{64, 50, 50}};
             }
         }
     }
