@@ -267,11 +267,7 @@ Kirigami.OverlayDrawer {
 
         Accessible.name: Kirigami.MnemonicData.plainTextLabel
         Accessible.role: Accessible.PageTab
-        Accessible.description: QQC2.ToolTip.text
-
-        QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
-        QQC2.ToolTip.visible: hovered
-        QQC2.ToolTip.text: {
+        Accessible.description: {
             let text = delegate.headsetName + `<ul><li>${KI18n.i18nc("@item:intext headset ID", "ID: %1", String(delegate.headsetId))}</li>`;
             if (delegate.headsetCapabilities & HKHeadset.BatteryStatusCapability) {
                 if (delegate.headsetBattery.status <= 0) {
@@ -286,6 +282,15 @@ Kirigami.OverlayDrawer {
                 text += `<li>${KI18n.i18nc("@item:intext", "ChatMix: %1", delegate.headsetChatMix.level)}</li>`;
             }
             return text + '</ul>';
+        }
+
+        QQC2.ToolTip {
+            id: tooltip
+
+            delay: Kirigami.Units.toolTipDelay
+            parent: delegate
+            text: delegate.Accessible.description
+            visible: delegate.hovered
         }
 
         contentItem: RowLayout {
