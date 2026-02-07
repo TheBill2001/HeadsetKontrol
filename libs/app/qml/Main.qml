@@ -22,8 +22,6 @@ StatefulApp.StatefulWindow {
     application: HKApplication {
         id: hkApp
 
-        window: root
-
         configurationView: Settings.ConfigurationView {
             window: root
 
@@ -106,8 +104,6 @@ StatefulApp.StatefulWindow {
     }
 
     pageStack.initialPage: welcomePageComponent.createObject(null)
-
-    Component.onCompleted: HKHeadsetControl.start()
 
     Component {
         id: headsetPageComponent

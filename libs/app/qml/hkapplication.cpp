@@ -3,23 +3,14 @@
 
 #include "hkapplication.hpp"
 
-#include "hk_logging_p.hpp"
 #include "hkconfig.hpp"
-#include "hkdbusactivationevent.hpp"
 #include "hkheadsetcontrol.hpp"
 
 #include <QDesktopServices>
-#include <QQmlApplicationEngine>
-#include <QQuickItem>
-#include <QQuickWindow>
-#include <QTimer>
 
 #include <KAboutData>
 #include <KAuthorized>
 #include <KLocalizedString>
-#include <KNotification>
-#include <KStatusNotifierItem>
-#include <KWindowSystem>
 
 using namespace Qt::StringLiterals;
 
@@ -30,14 +21,6 @@ HKApplication::HKApplication(QObject *parent)
     m_headsetControlActionCollection->setComponentDisplayName(u"HeadsetControl"_s);
 
     HKApplication::setupActions();
-
-    QCoreApplication::instance()->installEventFilter(this);
-
-    connect(this, &HKApplication::windowChanged, this, &HKApplication::onWindowChanged);
-
-    QObject::connect(HKConfig::self(), &HKConfig::useTrayIconChanged, this, &HKApplication::setupStatusNotifierItem);
-
-    QTimer::singleShot(0, this, &HKApplication::setupStatusNotifierItem);
 }
 
 HKApplication::~HKApplication()
@@ -90,66 +73,9 @@ QAction *HKApplication::reportBugAction()
     return action(KStandardActions::name(KStandardActions::ReportBug));
 }
 
-QBindable<QQuickWindow *> HKApplication::bindableWindow()
-{
-    return &m_window;
-}
-
-QQuickWindow *HKApplication::window() const
-{
-    return m_window.value();
-}
-
-void HKApplication::setWindow(QQuickWindow *window)
-{
-    m_window = window;
-}
-
 QList<KirigamiActionCollection *> HKApplication::actionCollections() const
 {
     return AbstractKirigamiApplication::actionCollections() << m_headsetControlActionCollection;
-}
-
-bool HKApplication::eventFilter(QObject *watched, QEvent *event)
-{
-    if (watched == QCoreApplication::instance()) {
-        if (event->type() == HKDBusActivateEvent::eventId) {
-            if (auto *activateEvent = dynamic_cast<HKDBusActivateEvent *>(event)) {
-                activateEvent->accept();
-
-                if (auto *window = m_window.value()) {
-                    window->show();
-                    KWindowSystem::updateStartupId(window);
-                    window->raise();
-                    KWindowSystem::activateWindow(window);
-                }
-            } else {
-                Q_UNLIKELY_BRANCH;
-                qCDebug(HK_LOGGING, "Invalid HKDBusActivateEvent object.");
-            }
-            return true;
-        }
-        return false;
-    }
-    if (watched == m_window) {
-        if (event->type() == QEvent::Close) {
-            if (HKConfig::runInBackground() && !HKConfig::useTrayIcon()) {
-                auto *notification = new KNotification(u"runInBackgroundWithoutTrayIcon"_s);
-                notification->setText(i18nc("notification text", "HeadsetKontrol is running in background without tray icon."));
-
-                auto *action = notification->addAction(i18nc("@action notification", "Enable tray icon"));
-                connect(action, &KNotificationAction::activated, HKConfig::self(), [] {
-                    HKConfig::setUseTrayIcon(true);
-                });
-
-                notification->sendEvent();
-            } else if (!HKConfig::runInBackground() && HKConfig::useTrayIcon()) {
-                QCoreApplication::quit();
-            }
-        }
-        return false;
-    }
-    return AbstractKirigamiApplication::eventFilter(watched, event);
 }
 
 void HKApplication::setupActions()
@@ -204,49 +130,4 @@ void HKApplication::setupActions()
     }
 
     readSettings();
-}
-
-void HKApplication::onWindowChanged()
-{
-    if (m_previousWindow != nullptr) {
-        m_previousWindow->removeEventFilter(this);
-    }
-    auto *const window = m_window.value();
-    if (window != nullptr) {
-        window->installEventFilter(this);
-    }
-    if (m_statusNotifierItem != nullptr) {
-        m_statusNotifierItem->setAssociatedWindow(window);
-    }
-    m_previousWindow = window;
-}
-
-void HKApplication::setupStatusNotifierItem()
-{
-    delete m_statusNotifierItem;
-    m_statusNotifierItem = nullptr;
-    if (HKConfig::useTrayIcon()) {
-        m_statusNotifierItem = new KStatusNotifierItem(this);
-        m_statusNotifierItem->setAssociatedWindow(window());
-        m_statusNotifierItem->setStandardActionsEnabled(false);
-        m_statusNotifierItem->setStatus(KStatusNotifierItem::Active);
-        m_statusNotifierItem->setIconByName(u"headsetkontrol"_s);
-
-        auto *const menu = m_statusNotifierItem->contextMenu();
-        menu->addSection(i18nc("@title:menu", "Help"));
-        menu->addAction(aboutAppAction());
-        menu->addAction(reportBugAction());
-
-        menu->addSection(i18nc("@title:menu", "Control"));
-        menu->addAction(startAction());
-        menu->addAction(stopAction());
-        menu->addAction(refreshAction());
-
-        menu->addSection(i18nc("@title:menu", "Settings"));
-        menu->addAction(keyBindingsAction());
-        menu->addAction(configureAction());
-
-        menu->addSeparator();
-        menu->addAction(quitAction());
-    }
 }

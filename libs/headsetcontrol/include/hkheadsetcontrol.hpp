@@ -24,6 +24,8 @@ class HKHC_EXPORT HKHeadsetControl : public QObject
         bool testDeviceEnabled READ testDeviceEnabled WRITE setTestDeviceEnabled NOTIFY testDeviceEnabledChanged BINDABLE bindableTestDeviceEnabled FINAL)
     Q_PROPERTY(int testProfile READ testProfile WRITE setTestProfile NOTIFY testProfileChanged BINDABLE bindableTestProfile FINAL)
     Q_PROPERTY(bool discoverAll READ discoverAll WRITE setDiscoverAll NOTIFY discoverAllChanged BINDABLE bindableDiscoverAll FINAL)
+    Q_PROPERTY(
+        bool stopOnRefreshError READ stopOnRefreshError WRITE setStopOnRefreshError NOTIFY stopOnRefreshErrorChanged BINDABLE bindableStopOnRefreshError FINAL)
     Q_PROPERTY(bool isRunning READ isRunning NOTIFY runningChanged BINDABLE bindableRunning FINAL)
     Q_PROPERTY(QList<HKHeadset *> headsets READ headsets NOTIFY headsetsChanged BINDABLE bindableHeadsets)
 
@@ -61,6 +63,10 @@ public:
     [[nodiscard]] static bool discoverAll();
     static void setDiscoverAll(bool value);
 
+    [[nodiscard]] static QBindable<bool> bindableStopOnRefreshError();
+    [[nodiscard]] static bool stopOnRefreshError();
+    static void setStopOnRefreshError(bool value);
+
     [[nodiscard]] static QBindable<bool> bindableRunning();
     [[nodiscard]] static bool isRunning();
 
@@ -80,6 +86,7 @@ Q_SIGNALS:
     void testDeviceEnabledChanged(bool, QPrivateSignal);
     void testProfileChanged(int, QPrivateSignal);
     void discoverAllChanged(bool, QPrivateSignal);
+    void stopOnRefreshErrorChanged(bool, QPrivateSignal);
     void runningChanged(bool, QPrivateSignal);
     void headsetsChanged(const QList<HKHeadset *> &, QPrivateSignal);
     void headsetsAdded(const QList<HKHeadset *> &, QPrivateSignal);

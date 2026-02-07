@@ -61,30 +61,30 @@ install(TARGETS HKHeadsetControl ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ### QML plugin
 
-# ecm_add_qml_module(HKHeadsetControlPlugin
-#     URI "${HK_APP_ID}.headsetcontrol"
-#     VERSION "${PROJECT_VERSION}"
-#     CLASS_NAME HKHeadsetControlPlugin
-#     PLUGIN_TARGET HKHeadsetControlPlugin
-#     GENERATE_PLUGIN_SOURCE
-# )
+ecm_add_qml_module(HKHeadsetControlPlugin
+    URI "${HK_APP_ID}.headsetcontrol"
+    VERSION "${PROJECT_VERSION}"
+    CLASS_NAME HKHeadsetControlPlugin
+    PLUGIN_TARGET HKHeadsetControlPlugin
+    GENERATE_PLUGIN_SOURCE
+)
 
-# add_library(HK::HKHeadsetControlQmlPlugin ALIAS HKHeadsetControlPlugin)
+add_library(HK::HeadsetControlPlugin ALIAS HKHeadsetControlPlugin)
 
-# target_sources(HKHeadsetControlPlugin PRIVATE
-#     qml/hkheadsetcontrolextension.cpp
-#     qml/hkheadsetcontrolextension.hpp
-#     qml/types.cpp
-#     qml/types.hpp
-# )
+target_sources(HKHeadsetControlPlugin PRIVATE
+    qml/hkheadsetcontrolextension.cpp
+    qml/hkheadsetcontrolextension.hpp
+    qml/types.cpp
+    qml/types.hpp
+)
 
-# target_include_directories(HKHeadsetControlPlugin
-#     PRIVATE
-#         "${CMAKE_CURRENT_SOURCE_DIR}/qml"
-# )
+target_include_directories(HKHeadsetControlPlugin
+    PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/qml"
+)
 
-# target_link_libraries(HKHeadsetControlPlugin PRIVATE
-#     HK::HeadsetControl
-# )
+target_link_libraries(HKHeadsetControlPlugin PRIVATE
+    HK::HeadsetControl
+)
 
-# ecm_finalize_qml_module(HKHeadsetControlPlugin DESTINATION "${KDE_INSTALL_QMLDIR}")
+ecm_finalize_qml_module(HKHeadsetControlPlugin DESTINATION "${KDE_INSTALL_QMLDIR}")

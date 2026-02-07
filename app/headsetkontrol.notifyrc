@@ -1,0 +1,18 @@
+[Global]
+IconName=headsetkontrol
+Name=HeadsetKontrol
+Comment=Control your headsets with HeadsetControl.
+DesktopEntry=com.thebill2001.headsetkontrol
+
+[Event/runInBackground]
+Name=Running In Background
+Comment=HeadsetKontrol is running in background.
+Action=Popup
+Urgency=Normal
+
+[Event/headsetError]
+Name=An Headset Error Occurred
+Comment=An error has occurred while communicating with a headset.
+Action=Popup|Sound
+Sound=dialog-error
+Urgency=Critical

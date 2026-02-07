@@ -20,7 +20,7 @@ if(USE_VENDORED_LIB)
 
     include(FetchContent)
 
-    set(HEADSETCONTROL_HASH "6611933e46bed1aec1b44ecba904e8efb9cb02cc"
+    set(HEADSETCONTROL_HASH "b627b4b3ea950dd861673d6ebf0ff186e00521f7"
         CACHE STRING "HeadsetControl commit hash for vendored lib."
     )
 
@@ -130,12 +130,6 @@ endif()
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-unset(HEADSETKONTROL_DESKTOP_ARGS)
-configure_file("${HK_APP_ID}.desktop.in" "${HK_APP_ID}.desktop.template" @ONLY)
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${HK_APP_ID}.desktop" DESTINATION "${KDE_INSTALL_APPDIR}")
-
-install(FILES "${HK_APP_ID}.xml" DESTINATION "${KDE_INSTALL_METAINFODIR}")
-
 file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES
     lib/*.cpp
     lib/*.hpp
@@ -153,5 +147,3 @@ ecm_qt_install_logging_categories(
 
 file(GLOB_RECURSE ICON_FILES icons/*.svg)
 ecm_install_icons(ICONS ${ICON_FILES} DESTINATION "${KDE_INSTALL_ICONDIR}")
-
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/headsetkontrol.notifyrc"  DESTINATION "${KDE_INSTALL_KNOTIFYRCDIR}")

@@ -37,6 +37,8 @@ public:
 
     HK_PRIVATE_BINDABLE_TRIVIAL_PROPERTY(HKHeadsetControl, bool, discoverAll) // NOLINT(clazy-incorrect-emit)
 
+    HK_PRIVATE_BINDABLE_TRIVIAL_PROPERTY(HKHeadsetControl, bool, stopOnRefreshError) // NOLINT(clazy-incorrect-emit)
+
     HK_PRIVATE_BINDABLE_TRIVIAL_PROPERTY(HKHeadsetControl, bool, running) // NOLINT(clazy-incorrect-emit)
 
     HK_PRIVATE_BINDABLE_PROPERTY(HKHeadsetControl, QList<HKHeadset *>, headsets) // NOLINT(clazy-incorrect-emit)

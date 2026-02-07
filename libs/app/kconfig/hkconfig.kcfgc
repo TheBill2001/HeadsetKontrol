@@ -1,9 +1,9 @@
 File=hkconfig.kcfg
 HeaderExtension=hpp
 ClassName=HKConfig
-Visibility=HKCONFIG_EXPORT
+Visibility=HKAPP_EXPORT
 Singleton=true
-IncludeFiles=\"hkconfig_export.hpp\"
+IncludeFiles=\"hkapp_export.hpp\"
 Mutators=true
 DefaultValueGetters=true
 GenerateProperties=true

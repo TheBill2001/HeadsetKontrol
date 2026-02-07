@@ -21,7 +21,10 @@ FormCard.FormCardPage {
             description: KI18n.i18nc("@info:usagetip", "Start the application automatically after logging in your desktop environment.")
             text: KI18n.i18nc("@option:check", "Auto-start")
 
-            onCheckedChanged: Qt.callLater(() => HKConfig.autoStart = checked)
+            onCheckedChanged: Qt.callLater(() => {
+                HKConfig.autoStart = checked;
+                HKConfig.save();
+            })
         }
 
         FormCard.FormSwitchDelegate {
@@ -31,7 +34,10 @@ FormCard.FormCardPage {
             description: KI18n.i18nc("@info:usagetip", "Start the application minimized.")
             text: KI18n.i18nc("@option:check", "Start minimized")
 
-            onCheckedChanged: Qt.callLater(() => HKConfig.startMinimized = checked)
+            onCheckedChanged: Qt.callLater(() => {
+                HKConfig.startMinimized = checked;
+                HKConfig.save();
+            })
         }
     }
 
@@ -47,7 +53,10 @@ FormCard.FormCardPage {
             description: KI18n.i18nc("@info:usagetip", "Display an application icon in system tray if possible. This option does not control whether the application will run in the background.")
             text: KI18n.i18nc("@option:check", "Use tray icon")
 
-            onCheckedChanged: Qt.callLater(() => HKConfig.useTrayIcon = checked)
+            onCheckedChanged: Qt.callLater(() => {
+                HKConfig.useTrayIcon = checked;
+                HKConfig.save();
+            })
         }
 
         FormCard.FormSwitchDelegate {
@@ -57,7 +66,10 @@ FormCard.FormCardPage {
             description: KI18n.i18nc("@info:usagetip", "Keeping the application running in the background after closing the main window. It is recommended to enable tray icon along with this option.")
             text: KI18n.i18nc("@option:check", "Run in background")
 
-            onCheckedChanged: Qt.callLater(() => HKConfig.runInBackground = checked)
+            onCheckedChanged: Qt.callLater(() => {
+                HKConfig.runInBackground = checked;
+                HKConfig.save();
+            })
         }
     }
 }

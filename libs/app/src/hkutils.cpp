@@ -6,8 +6,10 @@
 #include <QCollator>
 #include <QLocale>
 #include <QMetaEnum>
+#include <QWindow>
 
 #include <KLazyLocalizedString>
+#include <KWindowSystem>
 
 using namespace Qt::StringLiterals;
 
@@ -25,24 +27,19 @@ constexpr auto outOfBoundsErrorString = kli18nc("headset error string", "Out of 
 constexpr auto unknownErrorString = kli18nc("headset error string", "Unknown error");
 }
 
-qint32 HKUtils::localeStringToMilliseconds(const QString &text, const QLocale &locale)
+namespace HKUtils
 {
-    const auto _text =
-        QString(text).replace(i18nc("@item:valuesuffix", "seconds"), QString{}).replace(i18nc("@item:valuesuffix", "second"), QString{}).trimmed();
-    bool check = false;
-    const auto value = locale.toInt(_text, &check);
-    if (check) {
-        return value;
+void raiseWindow(QWindow *window)
+{
+    if (window != nullptr) {
+        window->show();
+        KWindowSystem::updateStartupId(window);
+        window->raise();
+        KWindowSystem::activateWindow(window);
     }
-    return 0;
 }
 
-QString HKUtils::millisecondsToLocaleString(int value)
-{
-    return i18ncp("@item:valuesuffix", "%1 millisecond", "%1 milliseconds", value);
-}
-
-QString HKUtils::batteryIconName(const HKBattery &battery, bool styled, const QString &fallback)
+QString batteryIconName(const HKBattery &battery, bool styled, const QString &fallback)
 {
     if (battery.status() > HKBattery::BatteryUnavailable) {
         const auto level = 10 * ((battery.level() + 5) / 10);
@@ -58,7 +55,7 @@ QString HKUtils::batteryIconName(const HKBattery &battery, bool styled, const QS
     return fallback;
 }
 
-QString HKUtils::batteryStatusToLocaleString(HKBattery::BatteryStatus status)
+QString batteryStatusToLocaleString(HKBattery::BatteryStatus status)
 {
     switch (status) {
     case HKBattery::BatteryHidError:
@@ -75,7 +72,7 @@ QString HKUtils::batteryStatusToLocaleString(HKBattery::BatteryStatus status)
     return i18nc("@item:intext battery status", "Unavailable");
 }
 
-QString HKUtils::capabilityToLocaleString(HKHeadset::Capability capability)
+QString capabilityToLocaleString(HKHeadset::Capability capability)
 {
     switch (capability) {
     case HKHeadset::SidetoneCapability:
@@ -116,7 +113,7 @@ QString HKUtils::capabilityToLocaleString(HKHeadset::Capability capability)
     return i18nc("@item:intext headset capability", "Unkown capability");
 }
 
-QStringList HKUtils::capabilitiesToLocaleStrings(HKHeadset::Capabilities capabilities)
+QStringList capabilitiesToLocaleStrings(HKHeadset::Capabilities capabilities)
 {
     QStringList stringList;
     const auto metaEnum = QMetaEnum::fromType<HKHeadset::Capabilities>();
@@ -143,7 +140,7 @@ QStringList HKUtils::capabilitiesToLocaleStrings(HKHeadset::Capabilities capabil
     return stringList;
 }
 
-QString HKUtils::headsetErrorLocaleErrorString(const HKHeadsetError &error)
+QString headsetErrorLocaleErrorString(const HKHeadsetError &error)
 {
     if (error.errorString() == QAnyStringView(timeErrorString.untranslatedText())) {
         return timeErrorString.toString();
@@ -178,7 +175,7 @@ QString HKUtils::headsetErrorLocaleErrorString(const HKHeadsetError &error)
     return error.errorString();
 }
 
-QString HKUtils::headsetErrorToLocaleString(HKHeadsetError::Error error)
+QString headsetErrorToLocaleString(HKHeadsetError::Error error)
 {
     switch (error) {
     case HKHeadsetError::Timeout:
@@ -204,3 +201,4 @@ QString HKUtils::headsetErrorToLocaleString(HKHeadsetError::Error error)
     }
     return unknownErrorString.toString();
 }
+} // namespace HKUtils

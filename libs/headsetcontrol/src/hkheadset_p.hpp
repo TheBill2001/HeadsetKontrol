@@ -80,7 +80,7 @@ public:
     [[nodiscard]] HKBattery getBattery(QList<HKHeadsetError> &errors) const;
     [[nodiscard]] HKChatMix getChatMix(QList<HKHeadsetError> &errors) const;
 
-    void refresh(bool block = false);
+    [[maybe_unused]] bool refresh(bool block = false);
 };
 
 #endif // HKHEADSET_P_HPP

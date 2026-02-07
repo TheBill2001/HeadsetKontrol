@@ -3,4 +3,4 @@
 
 add_subdirectory(common)
 add_subdirectory(headsetcontrol)
-add_subdirectory(config)
+add_subdirectory(app)

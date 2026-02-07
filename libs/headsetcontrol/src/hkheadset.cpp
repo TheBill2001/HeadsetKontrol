@@ -190,7 +190,7 @@ HKChatMix HKHeadsetPrivate::getChatMix(QList<HKHeadsetError> &errors) const
     });
 }
 
-void HKHeadsetPrivate::refresh(bool block)
+bool HKHeadsetPrivate::refresh(bool block)
 {
     QList<HKHeadsetError> errors;
     Data data{.capabilities = getCapabilities(), .battery = getBattery(errors), .chatMix = getChatMix(errors)};
@@ -200,7 +200,9 @@ void HKHeadsetPrivate::refresh(bool block)
         connectionType = block ? Qt::BlockingQueuedConnection : Qt::AutoConnection;
     }
 
-    q_ptr->metaObject()->invokeMethod(
+    bool errored = !errors.isEmpty();
+
+    QMetaObject::invokeMethod(
         q_ptr,
         [this, data, errors = std::move(errors)]() mutable {
             capabilities = std::move(data).capabilities;
@@ -215,6 +217,8 @@ void HKHeadsetPrivate::refresh(bool block)
             Q_EMIT q_func()->refreshDone(HKHeadset::QPrivateSignal{});
         },
         connectionType);
+
+    return errored;
 }
 
 HKHeadset::HKHeadset(InitData &&initData)

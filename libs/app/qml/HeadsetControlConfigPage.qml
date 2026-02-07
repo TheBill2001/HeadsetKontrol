@@ -63,7 +63,7 @@ FormCard.FormCardPage {
             id: updateRateDelegate
 
             label: KI18n.i18nc("@label:spinbox", "Update rate")
-            statusMessage: value === 0 ? KI18n.i18nc("@info:status when update rate is 0", "Auto update is disabled.") : ""
+            statusMessage: value === 0 ? KI18n.i18nc("@info:status when update rate is 0", "Auto-update is disabled.") : ""
 
             from: 0
             to: 2 ** 31 - 1
@@ -73,13 +73,17 @@ FormCard.FormCardPage {
             textFromValue: value => HKUtils.millisecondsToLocaleString(value)
             valueFromText: (text, locale) => HKUtils.localeStringToMilliseconds(text, locale)
 
-            onValueChanged: Qt.callLater(() => HKConfig.updateRate = value)
+            onValueChanged: Qt.callLater(() => {
+                HKConfig.updateRate = value;
+                HKConfig.save();
+            })
         }
 
         FormCard.FormSpinBoxDelegate {
             id: timeoutDelegate
 
             label: KI18n.i18nc("@label:spinbox", "Timeout")
+            statusMessage: value === 0 ? KI18n.i18nc("@info:status when timeout is 0", "Operations will not time out.") : ""
 
             from: 0
             stepSize: 100
@@ -89,7 +93,36 @@ FormCard.FormCardPage {
             textFromValue: value => HKUtils.millisecondsToLocaleString(value)
             valueFromText: (text, locale) => HKUtils.localeStringToMilliseconds(text, locale)
 
-            onValueChanged: Qt.callLater(() => HKConfig.timeout = value)
+            onValueChanged: Qt.callLater(() => {
+                HKConfig.timeout = value;
+                HKConfig.save();
+            })
+        }
+
+        FormCard.FormSwitchDelegate {
+            id: discoverAllDelegate
+
+            checked: HKConfig.discoverAll
+            description: KI18n.i18nc("@info:usagetip", "Reports all matching USB devices even if multiple devices of the same model are connected.")
+            text: KI18n.i18nc("@option:check", "Discover all devices")
+
+            onCheckedChanged: Qt.callLater(() => {
+                HKConfig.discoverAll = checked;
+                HKConfig.save();
+            })
+        }
+
+        FormCard.FormSwitchDelegate {
+            id: stopOnRefreshErrorDelegate
+
+            checked: HKConfig.stopOnRefreshError
+            description: KI18n.i18nc("@info:usagetip", "Stops automatic update when an error occurred during a refresh.")
+            text: KI18n.i18nc("@option:check", "Stop on refresh error")
+
+            onCheckedChanged: Qt.callLater(() => {
+                HKConfig.stopOnRefreshError = checked;
+                HKConfig.save();
+            })
         }
     }
 
@@ -105,7 +138,10 @@ FormCard.FormCardPage {
             description: KI18n.i18nc("@info:usagetip", "Developer option: Report test (fake) device.")
             text: KI18n.i18nc("@option:check", "Report test device")
 
-            onCheckedChanged: Qt.callLater(() => HKConfig.testDeviceEnabled = checked)
+            onCheckedChanged: Qt.callLater(() => {
+                HKConfig.testDeviceEnabled = checked;
+                HKConfig.save();
+            })
         }
 
         FormCard.FormSpinBoxDelegate {
@@ -118,7 +154,10 @@ FormCard.FormCardPage {
             to: 10
             value: HKConfig.testProfile
 
-            onValueChanged: Qt.callLater(() => HKConfig.testProfile = value)
+            onValueChanged: Qt.callLater(() => {
+                HKConfig.testProfile = value;
+                HKConfig.save();
+            })
         }
     }
 }

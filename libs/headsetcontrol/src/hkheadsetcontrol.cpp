@@ -33,6 +33,8 @@ HKHeadsetControlPrivate::HKHeadsetControlPrivate(HKHeadsetControl *const q_ptr)
     , deviceTimeout{500}
     , testDeviceEnabled{false}
     , testProfile{0}
+    , discoverAll{false}
+    , stopOnRefreshError{true}
     , running{false}
 {
     QObject::connect(q_ptr, &HKHeadsetControl::updateRateChanged, q_ptr, [this](int value) {
@@ -111,6 +113,8 @@ void HKHeadsetControlPrivate::refresh()
         QList<HKHeadset *> toUpdate;
         QList<HKHeadset *> toAdded;
 
+        bool errored = false;
+
         for (auto oldHeadsetIter = oldHeadsets.begin(); oldHeadsetIter != oldHeadsets.end();) {
             const auto discoveredHeadsetIter = std::ranges::find_if(discoveredHeadsets, [&oldHeadsetIter](const headsetcontrol::Headset &internalHeadset) {
                 return HKHeadsetId{internalHeadset.vendorId(), internalHeadset.productId()} == (*oldHeadsetIter)->id();
@@ -132,7 +136,7 @@ void HKHeadsetControlPrivate::refresh()
             auto *newHeadset = new HKHeadset(HKHeadset::InitData{.internalMutex = internalMutex, .internalHeadset = std::move(discoveredHeadset)});
             newHeadset->moveToThread(q_ptr->thread());
             newHeadset->setParent(q_ptr);
-            newHeadset->d_ptr->refresh(true);
+            errored = errored || newHeadset->d_ptr->refresh(true);
             toAdded << newHeadset;
             qCInfo(HKHC_LOGGING, "Headset added: %s (%s).", qPrintable(newHeadset->name()), qPrintable(newHeadset->id()));
         }
@@ -140,10 +144,10 @@ void HKHeadsetControlPrivate::refresh()
 
         for (auto *headset : std::as_const(toUpdate)) {
             qCDebug(HKHC_LOGGING, "Headset updating: %s (%s).", qPrintable(headset->name()), qPrintable(headset->id()));
-            headset->d_ptr->refresh(true);
+            errored = errored || headset->d_ptr->refresh(true);
         }
 
-        q_ptr->metaObject()->invokeMethod(q_ptr, [this, toUpdate = std::move(toUpdate), toAdded = std::move(toAdded), toDelete = std::move(toDelete)] {
+        QMetaObject::invokeMethod(q_ptr, [this, errored, toUpdate = std::move(toUpdate), toAdded = std::move(toAdded), toDelete = std::move(toDelete)] {
             headsets = toUpdate + toAdded;
 
             Q_Q(HKHeadsetControl);
@@ -159,6 +163,9 @@ void HKHeadsetControlPrivate::refresh()
             }
 
             updating = false;
+            if (errored && stopOnRefreshError.value()) {
+                timer.stop();
+            }
             if (!timer.isActive()) {
                 running = false;
             }
@@ -296,6 +303,24 @@ void HKHeadsetControl::setDiscoverAll(bool value)
     d->discoverAll = value;
 }
 
+QBindable<bool> HKHeadsetControl::bindableStopOnRefreshError()
+{
+    Q_D_SINGLETON(HKHeadsetControl);
+    return &d->stopOnRefreshError;
+}
+
+bool HKHeadsetControl::stopOnRefreshError()
+{
+    Q_D_SINGLETON(const HKHeadsetControl);
+    return d->stopOnRefreshError.value();
+}
+
+void HKHeadsetControl::setStopOnRefreshError(bool value)
+{
+    Q_D_SINGLETON(HKHeadsetControl);
+    d->stopOnRefreshError = value;
+}
+
 QBindable<bool> HKHeadsetControl::bindableRunning()
 {
     Q_D_SINGLETON(HKHeadsetControl);
@@ -328,7 +353,7 @@ QList<HKHeadset *> HKHeadsetControl::headsets()
 
 void HKHeadsetControl::start()
 {
-    HKHeadsetControl::staticMetaObject.invokeMethod(instance(), []() {
+    QMetaObject::invokeMethod(instance(), []() {
         Q_D_SINGLETON(HKHeadsetControl);
         d->running = true;
         d->timer.start();
@@ -338,7 +363,7 @@ void HKHeadsetControl::start()
 
 void HKHeadsetControl::stop()
 {
-    HKHeadsetControl::staticMetaObject.invokeMethod(instance(), []() {
+    QMetaObject::invokeMethod(instance(), []() {
         Q_D_SINGLETON(HKHeadsetControl);
         d->timer.stop();
         d->running = false;
@@ -347,7 +372,7 @@ void HKHeadsetControl::stop()
 
 void HKHeadsetControl::refresh()
 {
-    HKHeadsetControl::staticMetaObject.invokeMethod(instance(), []() {
+    QMetaObject::invokeMethod(instance(), []() {
         Q_D_SINGLETON(HKHeadsetControl);
         if (d->running.value()) {
             d->timer.start();

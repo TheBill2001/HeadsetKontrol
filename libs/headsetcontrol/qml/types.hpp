@@ -6,25 +6,12 @@
 
 #include "hkbattery.hpp"
 #include "hkchatmix.hpp"
-#include "hkconfig.hpp"
 #include "hkheadset.hpp"
 #include "hkheadsetcontrolextension.hpp"
 #include "hkheadseterror.hpp"
 #include "hkheadsetid.hpp"
 
 #include <QQmlEngine>
-
-struct HKConfigForeign {
-    Q_GADGET
-    QML_NAMED_ELEMENT(HKConfig)
-    QML_FOREIGN(HKConfig)
-    QML_SINGLETON
-private:
-    HKConfigForeign() = default;
-
-public:
-    [[nodiscard]] static HKConfig *create(QQmlEngine *engine, QJSEngine * /*unused*/);
-};
 
 struct HKBatteryForeign {
     Q_GADGET

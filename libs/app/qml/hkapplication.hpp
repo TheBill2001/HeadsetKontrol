@@ -25,7 +25,6 @@ class HKApplication : public AbstractKirigamiApplication
     Q_PROPERTY(QObject *keyBindingsAction READ keyBindingsAction CONSTANT FINAL)
     Q_PROPERTY(QObject *configureAction READ configureAction CONSTANT FINAL)
     Q_PROPERTY(QObject *reportBugAction READ reportBugAction CONSTANT FINAL)
-    Q_PROPERTY(QQuickWindow *window READ window WRITE setWindow BINDABLE bindableWindow NOTIFY windowChanged FINAL)
 public:
     explicit HKApplication(QObject *parent = nullptr);
     ~HKApplication() override;
@@ -40,31 +39,13 @@ public:
     [[nodiscard]] QAction *configureAction();
     [[nodiscard]] QAction *reportBugAction();
 
-    [[nodiscard]] QBindable<QQuickWindow *> bindableWindow();
-    [[nodiscard]] QQuickWindow *window() const;
-    void setWindow(QQuickWindow *window);
-
-    QList<KirigamiActionCollection *> actionCollections() const override;
-
-    bool eventFilter(QObject *watched, QEvent *event) override;
-
-Q_SIGNALS:
-    void windowChanged(QQuickWindow *);
+    [[nodiscard]] QList<KirigamiActionCollection *> actionCollections() const override;
 
 protected:
     void setupActions() override;
 
 private:
     KirigamiActionCollection *m_headsetControlActionCollection = nullptr;
-
-    QQuickWindow *m_previousWindow = nullptr;
-    Q_OBJECT_BINDABLE_PROPERTY(HKApplication, QQuickWindow *, m_window, &HKApplication::windowChanged)
-
-    KStatusNotifierItem *m_statusNotifierItem = nullptr;
-
-    void onWindowChanged();
-    void showWindow();
-    void setupStatusNotifierItem();
 };
 
 Q_MOC_INCLUDE(<QQuickWindow>)
