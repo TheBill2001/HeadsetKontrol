@@ -116,9 +116,7 @@ add_definitions(
     -DTRANSLATION_DOMAIN="headsetkontrol"
 )
 
-add_subdirectory(libs)
-add_subdirectory(app)
-add_subdirectory(po)
+add_subdirectory(src)
 
 if(USE_KCONFIG_UPDATE)
     add_subdirectory(kconfig_update)
@@ -131,13 +129,15 @@ endif()
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
 file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES
-    lib/*.cpp
-    lib/*.hpp
     app/*.cpp
     app/*.hpp
+    kconfig_update/*.cpp
+    kconfig_update/*.hpp
 )
 kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
+
+ki18n_install(po)
 
 ecm_qt_install_logging_categories(
     EXPORT HeadsetKontrolLog
@@ -147,3 +147,9 @@ ecm_qt_install_logging_categories(
 
 file(GLOB_RECURSE ICON_FILES icons/*.svg)
 ecm_install_icons(ICONS ${ICON_FILES} DESTINATION "${KDE_INSTALL_ICONDIR}")
+
+unset(HEADSETKONTROL_DESKTOP_ARGS)
+configure_file("${HK_APP_ID}.desktop.in" "${HK_APP_ID}.desktop" @ONLY)
+install(FILES "${HK_APP_ID}.desktop" DESTINATION "${KDE_INSTALL_APPDIR}")
+install(FILES "${HK_APP_ID}.xml" DESTINATION "${KDE_INSTALL_METAINFODIR}")
+install(FILES "headsetkontrol.notifyrc"  DESTINATION "${KDE_INSTALL_KNOTIFYRCDIR}")

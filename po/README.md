@@ -3,8 +3,8 @@
 ## Status
 |  Locale  |  Lines  | % Done|
 |----------|---------|-------|
-| Template | 56 | |
-| vi | 56/56 | 100% |
+| Template |     117 |       |
+| vi       |  53/117 |   45% |
 
 ## New translations
 

@@ -3,7 +3,7 @@
 
 install(FILES headsetkontrol.upd DESTINATION "${KDE_INSTALL_KCONFUPDATEDIR}")
 
-add_library(HKConfigUpdateCommon STATIC)
+add_library(HKConfigUpdateCommon OBJECT)
 
 add_library(HK::ConfigUpdateCommon ALIAS HKConfigUpdateCommon)
 

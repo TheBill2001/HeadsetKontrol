@@ -11,7 +11,7 @@ add_test(NAME test-device COMMAND test-device)
 
 target_link_libraries(test-device PRIVATE
     Qt6::Test
-    HK::HeadsetControl
+    HKHeadsetControl
 )
 
 ### Log storage
@@ -26,5 +26,5 @@ target_compile_definitions(log-storage PRIVATE
 
 target_link_libraries(log-storage PRIVATE
     Qt6::Test
-    HK::Application
+    HKLogStorage
 )

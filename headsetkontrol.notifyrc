@@ -1,0 +1,21 @@
+[Global]
+IconName=headsetkontrol
+Name[vi]=HeadsetKontrol
+Name=HeadsetKontrol
+Comment[vi]=Điều khiển tai nghe của bạn bằng HeadsetControl.
+Comment=Control your headsets with HeadsetControl.
+DesktopEntry=com.thebill2001.headsetkontrol
+
+[Event/runInBackground]
+Name[vi]=Đang chạy ngầm
+Name=Running In Background
+Comment=HeadsetKontrol is running in background.
+Action=Popup
+Urgency=Normal
+
+[Event/headsetError]
+Name=An Headset Error Occurred
+Comment=An error has occurred while communicating with a headset.
+Action=Popup|Sound
+Sound=dialog-error
+Urgency=Critical

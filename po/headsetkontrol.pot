@@ -1,14 +1,14 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Trần Nam Tuấn
+# Translation of HeadsetKontrol in LANGUAGE.
+# Copyright (C) 2026 Trần Nam Tuấn
 # This file is distributed under the same license as the headsetkontrol package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: headsetkontrol 2.1.0\n"
+"Project-Id-Version: headsetkontrol \n"
 "Report-Msgid-Bugs-To: tuantran1632001@gmail.com\n"
-"POT-Creation-Date: 2026-01-26 21:17+0700\n"
+"POT-Creation-Date: 2026-02-10 06:10+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,227 +18,275 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: app/main.cpp:78
-#, kde-format
-msgctxt "application name"
+#: app/com.thebill2001.headsetkontrol.desktop.in app/headsetkontrol.notifyrc
 msgid "HeadsetKontrol"
 msgstr ""
 
-#: app/main.cpp:80
-#, kde-format
-msgctxt "@item:intext application description"
+#: app/com.thebill2001.headsetkontrol.desktop.in app/headsetkontrol.notifyrc
 msgid "Control your headsets with HeadsetControl."
 msgstr ""
 
-#: app/main.cpp:87
-#, kde-format
-msgctxt "name of maintainers"
-msgid "Trần Nam Tuấn"
+#: app/com.thebill2001.headsetkontrol.desktop.in
+msgid "headsetkontrol;headsetcontrol;headset"
 msgstr ""
 
-#: app/main.cpp:88
-#, kde-format
-msgctxt "@info:credit"
-msgid "Maintainer"
+#: app/headsetkontrol.notifyrc
+msgid "Running In Background"
 msgstr ""
 
-#: app/main.cpp:94
-#, kde-format
-msgctxt "NAME OF TRANSLATORS"
-msgid "Your names"
+#: app/headsetkontrol.notifyrc
+msgid "HeadsetKontrol is running in background."
 msgstr ""
 
-#: app/main.cpp:94
-#, kde-format
-msgctxt "EMAIL OF TRANSLATORS"
-msgid "Your emails"
+#: app/headsetkontrol.notifyrc
+msgid "An Headset Error Occurred"
 msgstr ""
 
-#: app/main.cpp:97
-#, kde-format
-msgctxt "additional component name"
-msgid "HeadsetControl"
+#: app/headsetkontrol.notifyrc
+msgid "An error has occurred while communicating with a headset."
 msgstr ""
 
-#: app/main.cpp:99
-#, kde-format
-msgctxt "HeadsetControl description"
-msgid ""
-"Sidetone and Battery status for Logitech G930, G533, G633, G933 SteelSeries "
-"Arctis 7/PRO 2019 and Corsair VOID (Pro) in Linux and MacOSX."
-msgstr ""
-
-#: app/main.cpp:104
-#, kde-format
-msgctxt "name of HeadsetControl author"
-msgid "Denis Arnst"
-msgstr ""
-
-#: app/main.cpp:105
-#, kde-format
-msgctxt "HeadsetControl author task"
-msgid "HeadsetControl author and maintainer"
-msgstr ""
-
-#: app/main.cpp:119
-#, kde-format
-msgctxt "@info:shell"
-msgid "Start application minimized."
-msgstr ""
-
-#: app/qml/hkapplication.cpp:138
-#, kde-format
-msgctxt "notification text"
-msgid "HeadsetKontrol is running in background without tray icon."
-msgstr ""
-
-#: app/qml/hkapplication.cpp:140
-#, kde-format
-msgctxt "@action notification"
-msgid "Enable tray icon"
-msgstr ""
-
-#: app/qml/hkapplication.cpp:173
-#, kde-format
-msgctxt "@action start update headsetcontrol"
-msgid "&Start"
-msgstr ""
-
-#: app/qml/hkapplication.cpp:186
-#, kde-format
-msgctxt "@action stop update headsetcontrol"
-msgid "Sto&p"
-msgstr ""
-
-#: app/qml/hkapplication.cpp:199
-#, kde-format
-msgctxt "@action refresh headsetcontrol"
-msgid "&Refresh"
-msgstr ""
-
-#: app/qml/hkapplication.cpp:236
+#: app/main.cpp
 #, kde-format
 msgctxt "@title:menu"
 msgid "Help"
 msgstr ""
 
-#: app/qml/hkapplication.cpp:240
+#: app/main.cpp
 #, kde-format
 msgctxt "@title:menu"
 msgid "Control"
 msgstr ""
 
-#: app/qml/hkapplication.cpp:245
+#: app/main.cpp
 #, kde-format
 msgctxt "@title:menu"
 msgid "Settings"
 msgstr ""
 
-#: app/qml/hkqmlutils.cpp:15
+#: app/main.cpp
 #, kde-format
-msgctxt "@item:valuesuffix"
-msgid "seconds"
+msgctxt "@title"
+msgid "Running In Background"
 msgstr ""
 
-#: app/qml/hkqmlutils.cpp:15
+#: app/main.cpp
 #, kde-format
-msgctxt "@item:valuesuffix"
-msgid "second"
+msgctxt "notification text"
+msgid "HeadsetKontrol is running in background without tray icon."
 msgstr ""
 
-#: app/qml/hkqmlutils.cpp:26
+#: app/main.cpp
 #, kde-format
-msgctxt "@item:valuesuffix"
-msgid "%1 millisecond"
-msgid_plural "%1 milliseconds"
-msgstr[0] ""
-msgstr[1] ""
+msgctxt "@action notification"
+msgid "Enable tray icon"
+msgstr ""
 
-#: app/qml/ui/AppDrawer.qml:46
+#: app/main.cpp
+#, kde-format
+msgctxt "notification text"
+msgid "HeadsetKontrol is running in background."
+msgstr ""
+
+#: app/main.cpp
+#, kde-format
+msgctxt "application name"
+msgid "HeadsetKontrol"
+msgstr ""
+
+#: app/main.cpp
+#, kde-format
+msgctxt "@item:intext application description"
+msgid "Control your headsets with HeadsetControl."
+msgstr ""
+
+#: app/main.cpp
+#, kde-format
+msgctxt "name of maintainers"
+msgid "Trần Nam Tuấn"
+msgstr ""
+
+#: app/main.cpp
+#, kde-format
+msgctxt "@info:credit"
+msgid "Maintainer"
+msgstr ""
+
+#: app/main.cpp
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr ""
+
+#: app/main.cpp
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr ""
+
+#: app/main.cpp
+#, kde-format
+msgctxt "additional component name"
+msgid "HeadsetControl"
+msgstr ""
+
+#: app/main.cpp
+#, kde-format
+msgctxt "HeadsetControl description"
+msgid "Sidetone and Battery status for Logitech G930, G533, G633, G933 SteelSeries Arctis 7/PRO 2019 and Corsair VOID (Pro) in Linux and MacOSX."
+msgstr ""
+
+#: app/main.cpp
+#, kde-format
+msgctxt "name of HeadsetControl author"
+msgid "Denis Arnst"
+msgstr ""
+
+#: app/main.cpp
+#, kde-format
+msgctxt "HeadsetControl author task"
+msgid "HeadsetControl author and maintainer"
+msgstr ""
+
+#: app/main.cpp
+#, kde-format
+msgctxt "@info:shell"
+msgid "Start application minimized."
+msgstr ""
+
+#: app/main.cpp
+#, kde-format
+msgctxt "@info:shell"
+msgid "Start application with the auto-refresh paused."
+msgstr ""
+
+#: libs/app/qml/AppDrawer.qml
 #, kde-format
 msgctxt "@title"
 msgid "Headsets"
 msgstr ""
 
-#: app/qml/ui/GeneralConfigPage.qml:13
+#: libs/app/qml/AppDrawer.qml
+#, kde-format
+msgctxt "@info:placeholder"
+msgid "No headset found."
+msgstr ""
+
+#: libs/app/qml/AppDrawer.qml
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Set as primary device"
+msgstr ""
+
+#: libs/app/qml/AppDrawer.qml
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Apply device settings"
+msgstr ""
+
+#: libs/app/qml/AppDrawer.qml
+#, kde-format
+msgctxt "@item:intext headset ID"
+msgid "ID: %1"
+msgstr ""
+
+#: libs/app/qml/AppDrawer.qml
+#, kde-format
+msgctxt "@item:intext"
+msgid "Battery: %1"
+msgstr ""
+
+#: libs/app/qml/AppDrawer.qml
+#, kde-format
+msgctxt "@item:intext"
+msgid "Battery: %1% (%2)"
+msgstr ""
+
+#: libs/app/qml/AppDrawer.qml
+#, kde-format
+msgctxt "@item:intext"
+msgid "Battery: %1%"
+msgstr ""
+
+#: libs/app/qml/AppDrawer.qml
+#, kde-format
+msgctxt "@item:intext"
+msgid "ChatMix: %1"
+msgstr ""
+
+#: libs/app/qml/GeneralConfigPage.qml
 #, kde-format
 msgctxt "@title:group"
 msgid "Startup"
 msgstr ""
 
-#: app/qml/ui/GeneralConfigPage.qml:21
+#: libs/app/qml/GeneralConfigPage.qml
 #, kde-format
 msgctxt "@info:usagetip"
-msgid ""
-"Start the application automatically after logging in your desktop "
-"environment."
+msgid "Start the application automatically after logging in your desktop environment."
 msgstr ""
 
-#: app/qml/ui/GeneralConfigPage.qml:22
+#: libs/app/qml/GeneralConfigPage.qml
 #, kde-format
 msgctxt "@option:check"
 msgid "Auto-start"
 msgstr ""
 
-#: app/qml/ui/GeneralConfigPage.qml:31
+#: libs/app/qml/GeneralConfigPage.qml
 #, kde-format
 msgctxt "@info:usagetip"
 msgid "Start the application minimized."
 msgstr ""
 
-#: app/qml/ui/GeneralConfigPage.qml:32
+#: libs/app/qml/GeneralConfigPage.qml
 #, kde-format
 msgctxt "@option:check"
 msgid "Start minimized"
 msgstr ""
 
-#: app/qml/ui/GeneralConfigPage.qml:39
+#: libs/app/qml/GeneralConfigPage.qml
 #, kde-format
 msgctxt "@title:group"
 msgid "Behaviour"
 msgstr ""
 
-#: app/qml/ui/GeneralConfigPage.qml:47
+#: libs/app/qml/GeneralConfigPage.qml
 #, kde-format
 msgctxt "@info:usagetip"
-msgid ""
-"Display an application icon in system tray if possible. This option does not "
-"control whether the application will run in the background."
+msgid "Display an application icon in system tray if possible. This option does not control whether the application will run in the background."
 msgstr ""
 
-#: app/qml/ui/GeneralConfigPage.qml:48
+#: libs/app/qml/GeneralConfigPage.qml
 #, kde-format
 msgctxt "@option:check"
 msgid "Use tray icon"
 msgstr ""
 
-#: app/qml/ui/GeneralConfigPage.qml:57
+#: libs/app/qml/GeneralConfigPage.qml
 #, kde-format
 msgctxt "@info:usagetip"
-msgid ""
-"Keeping the application running in the background after closing the main "
-"window. It is recommended to enable tray icon along with this option."
+msgid "Keeping the application running in the background after closing the main window. It is recommended to enable tray icon along with this option."
 msgstr ""
 
-#: app/qml/ui/GeneralConfigPage.qml:58
+#: libs/app/qml/GeneralConfigPage.qml
 #, kde-format
 msgctxt "@option:check"
 msgid "Run in background"
 msgstr ""
 
-#: app/qml/ui/HeadsetControlConfigPage.qml:14
+#: libs/app/qml/HeadsetControlConfigPage.qml libs/app/qml/HeadsetPage.qml
 #, kde-format
 msgctxt "@title:group"
 msgid "Information"
 msgstr ""
 
-#: app/qml/ui/HeadsetControlConfigPage.qml:20
+#: libs/app/qml/HeadsetControlConfigPage.qml
 #, kde-format
 msgctxt "@label:textbox"
 msgid "HeadsetControl version"
 msgstr ""
 
-#: app/qml/ui/HeadsetControlConfigPage.qml:24
+#: libs/app/qml/HeadsetControlConfigPage.qml
 #, kde-format
 msgctxt "@action:button"
 msgid "Found %1 supported device"
@@ -246,126 +294,428 @@ msgid_plural "Found %1 supported devices"
 msgstr[0] ""
 msgstr[1] ""
 
-#: app/qml/ui/HeadsetControlConfigPage.qml:32
+#: libs/app/qml/HeadsetControlConfigPage.qml
 #, kde-format
 msgctxt "@title:window"
 msgid "Supported devices"
 msgstr ""
 
-#: app/qml/ui/HeadsetControlConfigPage.qml:58
+#: libs/app/qml/HeadsetControlConfigPage.qml
 #, kde-format
 msgctxt "@title:group"
 msgid "Options"
 msgstr ""
 
-#: app/qml/ui/HeadsetControlConfigPage.qml:65
+#: libs/app/qml/HeadsetControlConfigPage.qml
 #, kde-format
 msgctxt "@label:spinbox"
 msgid "Update rate"
 msgstr ""
 
-#: app/qml/ui/HeadsetControlConfigPage.qml:66
+#: libs/app/qml/HeadsetControlConfigPage.qml
 #, kde-format
 msgctxt "@info:status when update rate is 0"
-msgid "Auto update is disabled."
+msgid "Auto-update is disabled."
 msgstr ""
 
-#: app/qml/ui/HeadsetControlConfigPage.qml:82
+#: libs/app/qml/HeadsetControlConfigPage.qml
 #, kde-format
 msgctxt "@label:spinbox"
 msgid "Timeout"
 msgstr ""
 
-#: app/qml/ui/HeadsetControlConfigPage.qml:97
+#: libs/app/qml/HeadsetControlConfigPage.qml
+#, kde-format
+msgctxt "@info:status when timeout is 0"
+msgid "Operations will not time out."
+msgstr ""
+
+#: libs/app/qml/HeadsetControlConfigPage.qml
+#, kde-format
+msgctxt "@info:usagetip"
+msgid "Reports all matching USB devices even if multiple devices of the same model are connected."
+msgstr ""
+
+#: libs/app/qml/HeadsetControlConfigPage.qml
+#, kde-format
+msgctxt "@option:check"
+msgid "Discover all devices"
+msgstr ""
+
+#: libs/app/qml/HeadsetControlConfigPage.qml
+#, kde-format
+msgctxt "@info:usagetip"
+msgid "Stops automatic update when an error occurred during a refresh."
+msgstr ""
+
+#: libs/app/qml/HeadsetControlConfigPage.qml
+#, kde-format
+msgctxt "@option:check"
+msgid "Stop on refresh error"
+msgstr ""
+
+#: libs/app/qml/HeadsetControlConfigPage.qml
 #, kde-format
 msgctxt "@title:group"
 msgid "Test Device"
 msgstr ""
 
-#: app/qml/ui/HeadsetControlConfigPage.qml:105
+#: libs/app/qml/HeadsetControlConfigPage.qml
 #, kde-format
 msgctxt "@info:usagetip"
 msgid "Developer option: Report test (fake) device."
 msgstr ""
 
-#: app/qml/ui/HeadsetControlConfigPage.qml:106
+#: libs/app/qml/HeadsetControlConfigPage.qml
 #, kde-format
 msgctxt "@option:check"
 msgid "Report test device"
 msgstr ""
 
-#: app/qml/ui/HeadsetControlConfigPage.qml:114
+#: libs/app/qml/HeadsetControlConfigPage.qml
 #, kde-format
 msgctxt "@option:check"
 msgid "Test device profile"
 msgstr ""
 
-#: app/qml/ui/Main.qml:15
+#: libs/app/qml/HeadsetPage.qml
+#, kde-format
+msgctxt "@label:textbox"
+msgid "Headset name"
+msgstr ""
+
+#: libs/app/qml/HeadsetPage.qml
+#, kde-format
+msgctxt "@label:textbox"
+msgid "Headset ID"
+msgstr ""
+
+#: libs/app/qml/HeadsetPage.qml
+#, kde-format
+msgctxt "@lable:textbox"
+msgid "%1 capability"
+msgid_plural "%1 capabilities"
+msgstr[0] ""
+msgstr[1] ""
+
+#: libs/app/qml/HeadsetPage.qml
+#, kde-format
+msgctxt "@action:button"
+msgid "View capabilities"
+msgstr ""
+
+#: libs/app/qml/HeadsetPage.qml
+#, kde-format
+msgctxt "@title:window"
+msgid "Capabilities"
+msgstr ""
+
+#: libs/app/qml/HeadsetPage.qml
+#, kde-format
+msgctxt "@title:group"
+msgid "Battery"
+msgstr ""
+
+#: libs/app/qml/HeadsetPage.qml
+#, kde-format
+msgctxt "@label"
+msgid "Battery level"
+msgstr ""
+
+#: libs/app/qml/HeadsetPage.qml
+#, kde-format
+msgctxt "@title:group"
+msgid "ChatMix"
+msgstr ""
+
+#: libs/app/qml/HeadsetPage.qml
+#, kde-format
+msgctxt "@label"
+msgid "ChatMix level"
+msgstr ""
+
+#: libs/app/qml/HeadsetPage.qml
+#, kde-format
+msgctxt "@label"
+msgid "Game volume"
+msgstr ""
+
+#: libs/app/qml/HeadsetPage.qml
+#, kde-format
+msgctxt "@label"
+msgid "Chat volume"
+msgstr ""
+
+#: libs/app/qml/hkapplication.cpp
+#, kde-format
+msgctxt "@action start update headsetcontrol"
+msgid "&Start"
+msgstr ""
+
+#: libs/app/qml/hkapplication.cpp
+#, kde-format
+msgctxt "@action stop update headsetcontrol"
+msgid "Sto&p"
+msgstr ""
+
+#: libs/app/qml/hkapplication.cpp
+#, kde-format
+msgctxt "@action refresh headsetcontrol"
+msgid "&Refresh"
+msgstr ""
+
+#: libs/app/qml/hkutils_qml.cpp
+#, kde-format
+msgctxt "@item:valuesuffix"
+msgid "seconds"
+msgstr ""
+
+#: libs/app/qml/hkutils_qml.cpp
+#, kde-format
+msgctxt "@item:valuesuffix"
+msgid "second"
+msgstr ""
+
+#: libs/app/qml/hkutils_qml.cpp
+#, kde-format
+msgctxt "@item:valuesuffix"
+msgid "%1 millisecond"
+msgid_plural "%1 milliseconds"
+msgstr[0] ""
+msgstr[1] ""
+
+#: libs/app/qml/Main.qml
 #, kde-format
 msgctxt "@title:window"
 msgid "Control Your Headsets"
 msgstr ""
 
-#: app/qml/ui/Main.qml:40
+#: libs/app/qml/Main.qml
 #, kde-format
 msgctxt "@title:tab"
 msgid "General"
 msgstr ""
 
-#: app/qml/ui/Main.qml:51
+#: libs/app/qml/Main.qml
 #, kde-format
 msgctxt "@title:tab"
 msgid "User Interface"
 msgstr ""
 
-#: app/qml/ui/Main.qml:62
+#: libs/app/qml/Main.qml
 #, kde-format
 msgctxt "@title:tab"
 msgid "Control"
 msgstr ""
 
-#: app/qml/ui/Main.qml:107
+#: libs/app/qml/Main.qml
 #, kde-format
 msgctxt "@title"
-msgid "No Headset Selected"
+msgid "HeadsetKontrol"
 msgstr ""
 
-#: app/qml/ui/UserInterfaceConfigPage.qml:13
+#: libs/app/qml/Main.qml
+#, kde-format
+msgctxt "@info:placeholder"
+msgid "No headset selected."
+msgstr ""
+
+#: libs/app/qml/UserInterfaceConfigPage.qml
 #, kde-format
 msgctxt "@title:group"
 msgid "User Interface"
 msgstr ""
 
-#: app/qml/ui/UserInterfaceConfigPage.qml:21
+#: libs/app/qml/UserInterfaceConfigPage.qml
 #, kde-format
 msgctxt "@info:usagetip"
-msgid ""
-"Show the countdown timer until the next refresh. This option can cause high "
-"CPU usage."
+msgid "Show the countdown timer until the next refresh. This option can cause high CPU usage."
 msgstr ""
 
-#: app/qml/ui/UserInterfaceConfigPage.qml:22
+#: libs/app/qml/UserInterfaceConfigPage.qml
 #, kde-format
 msgctxt "@option:check"
 msgid "Show refresh timer"
 msgstr ""
 
-#: com.thebill2001.headsetkontrol.desktop.in:4 headsetkontrol.notifyrc:3
-msgid "HeadsetKontrol"
+#: libs/app/src/hkutils.cpp
+msgctxt "headset error string"
+msgid "Operation timed out"
 msgstr ""
 
-#: com.thebill2001.headsetkontrol.desktop.in:5 headsetkontrol.notifyrc:4
-msgid "Control your headsets with HeadsetControl."
+#: libs/app/src/hkutils.cpp
+msgctxt "headset error string"
+msgid "Device is offline or not responding"
 msgstr ""
 
-#: com.thebill2001.headsetkontrol.desktop.in:6
-msgid "headsetkontrol;headsetcontrol;headset"
+#: libs/app/src/hkutils.cpp
+msgctxt "headset error string"
+msgid "Protocol error"
 msgstr ""
 
-#: headsetkontrol.notifyrc:8
-msgid "Running In Background"
+#: libs/app/src/hkutils.cpp
+msgctxt "headset error string"
+msgid "Invalid parameter"
 msgstr ""
 
-#: headsetkontrol.notifyrc:9
-msgid "HeadsetKontrol is running in background without tray icon."
+#: libs/app/src/hkutils.cpp
+msgctxt "headset error string"
+msgid "Feature not supported by this device"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+msgctxt "headset error string"
+msgid "Permission denied"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+msgctxt "headset error string"
+msgid "USB communication error"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+msgctxt "headset error string"
+msgid "HID communication error"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+msgctxt "headset error string"
+msgid "Out of bounds"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+msgctxt "headset error string"
+msgid "Unknown error"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext battery status"
+msgid "HID error"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext battery status"
+msgid "Timed out"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext battery status"
+msgid "Charging"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext battery status"
+msgid "Available"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext battery status"
+msgid "Unavailable"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Sidetone"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Battery"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Notification sounds"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Lights"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Inactive time"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "ChatMix"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Voice prompts"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Rotate to mute"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Equalizer presets"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Equalizer"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Parametric equalizer"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Microphone mute led brightness"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Microphone volume"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Volume limiter"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Bluetooth when powered on"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Bluetooth call volume"
+msgstr ""
+
+#: libs/app/src/hkutils.cpp
+#, kde-format
+msgctxt "@item:intext headset capability"
+msgid "Unkown capability"
 msgstr ""

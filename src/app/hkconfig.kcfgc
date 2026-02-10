@@ -1,0 +1,8 @@
+File=hkconfig.kcfg
+HeaderExtension=hpp
+ClassName=HKConfig
+Singleton=true
+Mutators=true
+DefaultValueGetters=true
+GenerateProperties=true
+QmlRegistration=true
