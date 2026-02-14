@@ -20,6 +20,7 @@ FormCard.FormCardPage {
             checked: HKConfig.autoStart
             description: KI18n.i18nc("@info:usagetip", "Start the application automatically after logging in your desktop environment.")
             text: KI18n.i18nc("@option:check", "Auto-start")
+            enabled: !HKConfig.isAutoStartImmutable
 
             onCheckedChanged: Qt.callLater(() => {
                 HKConfig.autoStart = checked;
@@ -33,6 +34,7 @@ FormCard.FormCardPage {
             checked: HKConfig.startMinimized
             description: KI18n.i18nc("@info:usagetip", "Start the application minimized.")
             text: KI18n.i18nc("@option:check", "Start minimized")
+            enabled: !HKConfig.isStartMinimizedImmutable
 
             onCheckedChanged: Qt.callLater(() => {
                 HKConfig.startMinimized = checked;
@@ -52,6 +54,7 @@ FormCard.FormCardPage {
             checked: HKConfig.useTrayIcon
             description: KI18n.i18nc("@info:usagetip", "Display an application icon in system tray if possible. This option does not control whether the application will run in the background.")
             text: KI18n.i18nc("@option:check", "Use tray icon")
+            enabled: !HKConfig.isUseTrayIconImmutable
 
             onCheckedChanged: Qt.callLater(() => {
                 HKConfig.useTrayIcon = checked;
@@ -65,6 +68,7 @@ FormCard.FormCardPage {
             checked: HKConfig.runInBackground
             description: KI18n.i18nc("@info:usagetip", "Keeping the application running in the background after closing the main window. It is recommended to enable tray icon along with this option.")
             text: KI18n.i18nc("@option:check", "Run in background")
+            enabled: !HKConfig.isRunInBackgroundImmutable
 
             onCheckedChanged: Qt.callLater(() => {
                 HKConfig.runInBackground = checked;

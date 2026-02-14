@@ -20,6 +20,7 @@ FormCard.FormCardPage {
             checked: HKConfig.showRefreshTimer
             description: KI18n.i18nc("@info:usagetip", "Show the countdown timer until the next refresh. This option can cause high CPU usage.")
             text: KI18n.i18nc("@option:check", "Show refresh timer")
+            enabled: !HKConfig.isShowRefreshTimerImmutable
 
             onCheckedChanged: Qt.callLater(() => {
                 HKConfig.showRefreshTimer = checked;

@@ -69,6 +69,7 @@ FormCard.FormCardPage {
             to: 2 ** 31 - 1
             stepSize: 100
             value: HKConfig.updateRate
+            enabled: !HKConfig.isUpdateRateImmutable
 
             textFromValue: value => HKUtils.millisecondsToLocaleString(value)
             valueFromText: (text, locale) => HKUtils.localeStringToMilliseconds(text, locale)
@@ -89,6 +90,7 @@ FormCard.FormCardPage {
             stepSize: 100
             to: 2 ** 31 - 1
             value: HKConfig.timeout
+            enabled: !HKConfig.isTimeoutImmutable
 
             textFromValue: value => HKUtils.millisecondsToLocaleString(value)
             valueFromText: (text, locale) => HKUtils.localeStringToMilliseconds(text, locale)
@@ -105,6 +107,7 @@ FormCard.FormCardPage {
             checked: HKConfig.discoverAll
             description: KI18n.i18nc("@info:usagetip", "Reports all matching USB devices even if multiple devices of the same model are connected.")
             text: KI18n.i18nc("@option:check", "Discover all devices")
+            enabled: !HKConfig.isDiscoverAllImmutable
 
             onCheckedChanged: Qt.callLater(() => {
                 HKConfig.discoverAll = checked;
@@ -118,6 +121,7 @@ FormCard.FormCardPage {
             checked: HKConfig.stopOnRefreshError
             description: KI18n.i18nc("@info:usagetip", "Stops automatic update when an error occurred during a refresh.")
             text: KI18n.i18nc("@option:check", "Stop on refresh error")
+            enabled: !HKConfig.isStopOnRefreshErrorImmutable
 
             onCheckedChanged: Qt.callLater(() => {
                 HKConfig.stopOnRefreshError = checked;
@@ -137,6 +141,7 @@ FormCard.FormCardPage {
             checked: HKConfig.testDeviceEnabled
             description: KI18n.i18nc("@info:usagetip", "Developer option: Report test (fake) device.")
             text: KI18n.i18nc("@option:check", "Report test device")
+            enabled: !HKConfig.isTestDeviceEnabledImmutable
 
             onCheckedChanged: Qt.callLater(() => {
                 HKConfig.testDeviceEnabled = checked;
@@ -148,7 +153,7 @@ FormCard.FormCardPage {
             id: testProfileDelegate
 
             label: KI18n.i18nc("@option:check", "Test device profile")
-            enabled: testDeviceEnabledDelegate.checked
+            enabled: testDeviceEnabledDelegate.checked && testDeviceEnabledDelegate.enabled
             from: 0
             stepSize: 1
             to: 10
